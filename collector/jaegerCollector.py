@@ -5,7 +5,7 @@ from time import time
 import pandas as pd
 import re
 from utils import get_trace_deployment_table
-
+pd.options.mode.chained_assignment = None
 
 
 class JaegerCollector:
@@ -28,10 +28,10 @@ class JaegerCollector:
         self.traces = json.loads(response.content)["data"]
 
         task_type = task_type.replace("/", "")
-        with open(f"./trace_{task_type}_{end_time}_{duration}.json", "w") as f:
+        with open(f"./data//trace_{task_type}_{end_time}_{duration}.json", "w") as f:
             json.dump(self.traces, f)
 
-        print(f"{task_type} Collected!")
+        # print(f"{task_type} Collected!")
         return self.traces
     
     def calculate_duration_difference(self, row, grouped_children):
