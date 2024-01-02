@@ -8,22 +8,22 @@ from utils import get_trace_deployment_table
 from jaegerCollector import JaegerCollector
 
 if __name__=="__main__":
-    # task = "/wrk2-api/user-timeline/read"
-    # task = "/wrk2-api/post/compose"
-    task = "/wrk2-api/home-timeline/read"
-    duration = 60*3
-    limit = 5000
+    # # task = "/wrk2-api/user-timeline/read"
+    # # task = "/wrk2-api/post/compose"
+    # task = "/wrk2-api/home-timeline/read"
+    # duration = 60*3
+    # limit = 5000
 
-    # Step1. Collect and process data
-    end_time = time()
-    collector = JaegerCollector("http://10.19.127.115:16686/api/traces")
-    raw_traces = collector.collect(end_time=end_time, duration=duration, limit=limit, service="nginx-web-server", task_type=task)
-    merged_traces = collector.process_trace_data()
-    trace_deployment_table = get_trace_deployment_table(merged_df=merged_traces)
+    # # Step1. Collect and process data
+    # end_time = time()
+    # collector = JaegerCollector("http://10.19.127.115:16686/api/traces")
+    # raw_traces = collector.collect(end_time=end_time, duration=duration, limit=limit, service="nginx-web-server", task_type=task)
+    # merged_traces = collector.process_trace_data()
+    # trace_deployment_table = get_trace_deployment_table(merged_df=merged_traces)
 
-    # Step2. Store data
-    task = task.replace("/", "")
-    trace_deployment_table.to_csv(f'{task}_{end_time}_{duration}.csv', index=False)
+    # # Step2. Store data
+    # task = task.replace("/", "")
+    # trace_deployment_table.to_csv(f'{task}_{end_time}_{duration}.csv', index=False)
 
     # Step3. Read data and calculate average
     data_path = 'wrk2-apihome-timelineread_1703851104.0243788_180.csv'

@@ -28,10 +28,9 @@ class JaegerCollector:
         self.traces = json.loads(response.content)["data"]
 
         task_type = task_type.replace("/", "")
-        with open(f"./data//trace_{task_type}_{end_time}_{duration}.json", "w") as f:
-            json.dump(self.traces, f)
+        # with open(f"./data//trace_{task_type}_{end_time}_{duration}.json", "w") as f:
+        #     json.dump(self.traces, f)
 
-        # print(f"{task_type} Collected!")
         return self.traces
     
     def calculate_duration_difference(self, row, grouped_children):
