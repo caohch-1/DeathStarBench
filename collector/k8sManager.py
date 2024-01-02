@@ -19,6 +19,7 @@ class K8sManager:
         self.deployment_list = self.api_client_appsv1.list_namespaced_deployment(
             namespace=self.namespace)
 
+
     # Update the list of pods, services, and deployments
     def update(self):
         self.pod_list = self.api_client_corev1.list_namespaced_pod(
@@ -53,21 +54,56 @@ class K8sManager:
                     break
             print(
                 f"[K8sManager Scale] Scale {deployment_name} to {replica_num} pods.")
-            sleep(1)
+            sleep(2)
         else:
             print(
                 f"[K8sManager Scale] Keep {deployment_name} have {replica_num} pods.")
+
+
+    def set_limit(self, deployment_name, cpu_limit, mem_limit):
+        deployment = self.api_client_appsv1.read_namespaced_deployment(
+            deployment_name, self.namespace)
+        if deployment.spec.template.spec.containers[0].resources.limits:
+            old_cpu_limit = deployment.spec.template.spec.containers[0].resources.limits["cpu"]
+            deployment.spec.template.spec.containers[0].resources.limits["cpu"] = f"{cpu_limit}m"
+            old_memory_limit = deployment.spec.template.spec.containers[0].resources.limits["memory"]
+            deployment.spec.template.spec.containers[0].resources.limits["memory"] = f"{mem_limit}Mi"
+            self.api_client_appsv1.patch_namespaced_deployment(
+                name=deployment_name, namespace=self.namespace, body=deployment)
+            print(
+                f"[K8sManager Limit] Set {deployment_name} limit cpu from {old_cpu_limit} to {cpu_limit}m.")
+            print(
+                f"[K8sManager Limit] Set {deployment_name} limit memory from {old_memory_limit} to {mem_limit}Mi.")
+        else:
+            deployment.spec.template.spec.containers[0].resources.limits = {"cpu": f"{cpu_limit}m", "memory": f"{mem_limit}Mi"}
+            self.api_client_appsv1.patch_namespaced_deployment(
+                name=deployment_name, namespace=self.namespace, body=deployment)
+            print(
+                f"[K8sManager Limit] Set {deployment_name} limit cpu from Unlimited to {cpu_limit}m.")
+            print(
+                f"[K8sManager Limit] Set {deployment_name} limit memory from Unlimited to {mem_limit}Mi.")
+        sleep(2)
+
+
 
     # Set the limit cpu of a deployment
     def set_limit_cpu(self, deployment_name, cpu_limit):
         deployment = self.api_client_appsv1.read_namespaced_deployment(
             deployment_name, self.namespace)
-        old_cpu_limit = deployment.spec.template.spec.containers[0].resources.limits["cpu"]
-        deployment.spec.template.spec.containers[0].resources.limits["cpu"] = cpu_limit
-        self.api_client_appsv1.patch_namespaced_deployment(
-            name=deployment_name, namespace=self.namespace, body=deployment)
-        print(
-            f"[K8sManager Limit] Set {deployment_name} limit cpu from {old_cpu_limit} to {cpu_limit}.")
+        if deployment.spec.template.spec.containers[0].resources.limits:
+            old_cpu_limit = deployment.spec.template.spec.containers[0].resources.limits["cpu"]
+            deployment.spec.template.spec.containers[0].resources.limits["cpu"] = cpu_limit
+            self.api_client_appsv1.patch_namespaced_deployment(
+                name=deployment_name, namespace=self.namespace, body=deployment)
+            print(
+                f"[K8sManager Limit] Set {deployment_name} limit cpu from {old_cpu_limit} to {cpu_limit}.")
+        else:
+            deployment.spec.template.spec.containers[0].resources = client.V1ResourceRequirements(limits={'cpu':cpu_limit})
+            self.api_client_appsv1.patch_namespaced_deployment(
+                name=deployment_name, namespace=self.namespace, body=deployment)
+            print(
+                f"[K8sManager Limit] Set {deployment_name} limit cpu from Unlimited to {cpu_limit}.")
+        sleep(1)
 
     # Set the request cpu of a deployment
 
@@ -85,12 +121,20 @@ class K8sManager:
     def set_limit_memory(self, deployment_name, memory_limit):
         deployment = self.api_client_appsv1.read_namespaced_deployment(
             deployment_name, self.namespace)
-        old_memory_limit = deployment.spec.template.spec.containers[0].resources.limits["memory"]
-        deployment.spec.template.spec.containers[0].resources.limits["memory"] = memory_limit
-        self.api_client_appsv1.patch_namespaced_deployment(
-            name=deployment_name, namespace=self.namespace, body=deployment)
-        print(
-            f"[K8sManager Limit] Set {deployment_name} limit memory from {old_memory_limit} to {memory_limit}.")
+        if 'memory' in deployment.spec.template.spec.containers[0].resources.limits.keys():
+            old_memory_limit = deployment.spec.template.spec.containers[0].resources.limits["memory"]
+            deployment.spec.template.spec.containers[0].resources.limits["memory"] = memory_limit
+            self.api_client_appsv1.patch_namespaced_deployment(
+                name=deployment_name, namespace=self.namespace, body=deployment)
+            print(
+                f"[K8sManager Limit] Set {deployment_name} limit memory from {old_memory_limit} to {memory_limit}.")
+        else:
+            deployment.spec.template.spec.containers[0].resources = client.V1ResourceRequirements(limits={'memory':memory_limit})
+            self.api_client_appsv1.patch_namespaced_deployment(
+                name=deployment_name, namespace=self.namespace, body=deployment)
+            print(
+                f"[K8sManager Limit] Set {deployment_name} limit memory from Unlimited to {memory_limit}.")
+        sleep(2)
 
     # Set the request memory of a deployment
 

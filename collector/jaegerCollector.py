@@ -5,7 +5,10 @@ from time import time
 import pandas as pd
 import re
 from utils import get_trace_deployment_table
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
 pd.options.mode.chained_assignment = None
+
 
 
 class JaegerCollector:
@@ -195,7 +198,33 @@ class JaegerCollector:
         ]
         return merged_df
 
-    
+    def calculate_average_latency(self):
+        trace_durations = []
+        for trace in self.traces:
+            trace_duration = max([int(span["duration"]) for span in trace["spans"]])
+            trace_durations.append(trace_duration)
+        if len(trace_durations) > 0:
+            trace_durations = np.array(trace_durations)
+            trace_durations.sort()
+            average_latency = sum(trace_durations) / len(trace_durations) if len(trace_durations) != 0 else 0
+            
+            filtered_trace_durations = trace_durations[:int(len(trace_durations)*0.9)]
+            average_normal_latency = sum(filtered_trace_durations) / len(filtered_trace_durations) if len(filtered_trace_durations) != 0 else 0
+
+            # sla_violation_trace_durations = [x for x in trace_durations if x >= sla]
+            # sla_violations_latency = sum(sla_violation_trace_durations) / len(sla_violation_trace_durations) if len(sla_violation_trace_durations) != 0 else 0
+            
+            tail_trace_durations = trace_durations[int(len(trace_durations)*0.9):]
+            tail_latency = sum(tail_trace_durations) / len(tail_trace_durations)
+
+            print(f"[Jaeger] {len(trace_durations)} Average latency is {average_latency} ns.")
+            print(f"[Jaeger] {len(filtered_trace_durations)} Normal<90\% latency is {average_normal_latency} ns.")
+            # print(f"[Jaeger] {len(sla_violation_trace_durations)}({len(sla_violation_trace_durations)/len(trace_durations)*100:.2f}%) traces violate SLA with an average latency of {sla_violations_latency/1000} ms.")
+            print(f"[Jaeger] {len(tail_trace_durations)} Tail>90\% latency is {tail_latency} ns.")
+            return average_latency, average_normal_latency, tail_latency
+        else:
+            print("[Jaeger] No traces found.")
+            return 0, 0, 0
 
 
 

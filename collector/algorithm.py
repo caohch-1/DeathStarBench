@@ -24,5 +24,5 @@ def prop_schedule(queues_estimation, total_capacity):
     for node in queues_estimation:
         pod_on_node[node] = total_capacity*queue_per_node[node]/total_queue_in_system if total_queue_in_system > 0 else 0.0
         pod_on_node[node] = int(pod_on_node[node])
-    
+
     return pod_on_node
