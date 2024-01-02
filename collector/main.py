@@ -63,8 +63,7 @@ if __name__=="__main__":
 
         # Step5. Adjust
         for deployment_name, pod_num in pod_on_node.items():
-            if pod_num == 0:
-                pod_num = 1
+            pod_num += 1
             k8sManager.scale_deployment(deployment_name+"-hotel-hotelres", pod_num)
 
         print("="*20+f"{counter} Finish:"+str(time())+"="*20, end="\n\n")
