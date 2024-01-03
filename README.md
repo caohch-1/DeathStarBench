@@ -49,7 +49,7 @@ python plot.py # Under construction, you can check raw result data in ./data/res
 ```
 
 ### 3. Note
-I have deployed everything on `10.19.127.115`, `frontend` is on port`42435` and `jaeger` is on port`37697`. You can SSH to the server and run the codes in `/home/caohch1/Desktop/DeathStarBench/collector`.
+I have deployed everything on `10.19.127.115`. You can SSH to the server and run the codes in `/home/caohch1/Desktop/DeathStarBench/collector`.
 
 ## Problems:
 1. Zero pod problem
