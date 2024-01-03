@@ -1,5 +1,6 @@
 import pandas as pd
 from k8sManager import K8sManager
+import json
 
 def get_trace_deployment_table(merged_df):
     unique_rows_df = merged_df.drop_duplicates(subset=["traceId", "parentId"])
@@ -49,4 +50,9 @@ def init_env(manager: K8sManager, cpu: int=200, mem: int=500):
             manager.set_limit(deployment.metadata.name, cpu, mem)
             if "mongodb" not in deployment.metadata.name and "memcached" not in deployment.metadata.name:
                 manager.scale_deployment(deployment.metadata.name, 1+2)
+
+def save_dict_to_json(data: dict, path):
+    with open(path, "w") as json_file:
+        json.dump(data, json_file, indent=4)
+
 
