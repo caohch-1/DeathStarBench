@@ -89,10 +89,10 @@ def plot_distribution(path: str=""):
     plt.show()
     
  
-# plot_queue("_old_algorithm")
-# plot_latency("_old_algorithm")
-# plot_pod_num("_old_algorithm")
-# plot_distribution("_old_algorithm")
+# plot_queue("_old")
+# plot_latency("_old)
+# plot_pod_num("_old")
+# plot_distribution("_old")
     
 # plot_queue("_sla_55")
 # plot_latency("_sla_55")
@@ -108,4 +108,9 @@ def plot_distribution(path: str=""):
 # plot_latency("_sla_37")
 # plot_pod_num("_sla_37")
 # plot_distribution("_sla_37")
+    
+# plot_queue()
+# plot_latency()
+# plot_pod_num()
+# plot_distribution()
         

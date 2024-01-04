@@ -29,7 +29,7 @@ if __name__=="__main__":
     collector = JaegerCollector("http://127.0.0.1:39335/api/traces")
     counter = 0
     result = {task:{"average":[], "normal":[], "tail":[]} for task in tasks}
-    weight= [0.3, 0.7]
+    weight= [0.5, 0.5]
     while(counter < epcho):
         sleep(120) # Time window
         print("="*20+f"{counter} Start:"+str(time())+"="*20)

@@ -12,7 +12,7 @@ def get_trace_deployment_table(merged_df):
     for trace_id, group in sum_duration_difference_parent.groupby("traceId"):
         trace_dict = {"traceID": trace_id}
         
-        for index, row in group.iterrows():
+        for _, row in group.iterrows():
             trace_dict[row["parentMS"]] = row["durationDifference"]
         
         result_list.append(trace_dict)
