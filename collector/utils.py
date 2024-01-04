@@ -70,6 +70,7 @@ def calculate_tail_latency_vio(tail_latency: pd.DataFrame):
     sla = pd.read_csv("./data/tail_sla.csv", index_col=0)
     tail_latency_numeric = tail_latency.apply(pd.to_numeric, errors="coerce")
     sla_numeric = sla.apply(pd.to_numeric, errors="coerce")
+
     return tail_latency_numeric-sla_numeric
 
 def calculate_tail(trace_deployment:pd.DataFrame):

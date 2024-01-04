@@ -65,7 +65,7 @@ def plot_distribution(path: str=""):
         # sns.histplot(data2[task], bins="auto", kde=True, color="green", label="2")
         plt.title(f"Distribution for {task}")
         plt.xlabel("Latency (ns)")
-        plt.ylabel("Frequency")
+        plt.ylabel("Number of requests")
         plt.legend(loc="upper right")
         plt.grid(True)
         plt.ticklabel_format(style='plain', axis='y')
@@ -81,7 +81,7 @@ def plot_distribution(path: str=""):
     sns.histplot(all_data1, bins="auto", kde=True, color="red", label="1")
     plt.title(f"Distribution for all tasks")
     plt.xlabel("Latency (ns)")
-    plt.ylabel("Frequency")
+    plt.ylabel("Number of requests")
     plt.legend(loc="upper right")
     plt.grid(True)
     plt.ticklabel_format(style='plain', axis='y')
@@ -109,8 +109,13 @@ def plot_distribution(path: str=""):
 # plot_pod_num("_sla37")
 # plot_distribution("_sla37")
     
+# plot_queue("_sla333")
+# plot_latency("_sla333")
+# plot_pod_num("_sla333")
+# plot_distribution("_sla333")
+    
 # plot_queue()
-# plot_latency()
+plot_latency()
 # plot_pod_num()
-# plot_distribution()
+plot_distribution()
         
