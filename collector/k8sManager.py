@@ -53,7 +53,7 @@ class K8sManager:
                     break
             print(
                 f"[K8sManager Scale] Scale {deployment_name} to {replica_num} pods.")
-            sleep(2)
+            sleep(2.5)
         else:
             print(
                 f"[K8sManager Scale] Keep {deployment_name} have {replica_num} pods.")
