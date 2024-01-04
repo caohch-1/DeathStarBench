@@ -8,8 +8,4 @@ build
 wrk2/obj/
 wrk2/wrk
 /wrk2/deps/
-./collector/data/
-*.csv
-*.csv
-*.csv
 *.png

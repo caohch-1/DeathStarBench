@@ -1,6 +1,7 @@
 import pandas as pd
 from k8sManager import K8sManager
 import json
+from time import sleep
 
 def get_trace_deployment_table(merged_df):
     unique_rows_df = merged_df.drop_duplicates(subset=["traceId", "parentId"])
@@ -40,7 +41,7 @@ def init_env(manager: K8sManager, cpu: int=300, mem: int=500):
     for deployment in manager.deployment_list.items:
         if deployment.metadata.name == "frontend-hotel-hotelres":
             manager.set_limit(deployment.metadata.name, 300, 500)
-            manager.scale_deployment(deployment.metadata.name, 1+6)
+            manager.scale_deployment(deployment.metadata.name, 1+2)
         elif deployment.metadata.name == "consul-hotel-hotelres":
             manager.set_limit(deployment.metadata.name, 500, 500)
             manager.scale_deployment(deployment.metadata.name, 1)
@@ -48,11 +49,18 @@ def init_env(manager: K8sManager, cpu: int=300, mem: int=500):
             continue
         else:
             manager.set_limit(deployment.metadata.name, cpu, mem)
+            sleep(2)
             if "mongodb" not in deployment.metadata.name and "memcached" not in deployment.metadata.name:
                 manager.scale_deployment(deployment.metadata.name, 1+2)
 
 def save_dict_to_json(data: dict, path):
     with open(path, "w") as json_file:
         json.dump(data, json_file, indent=4)
+
+def calculate_ave_latency_vio(ave_latency: pd.DataFrame):
+    sla = pd.read_csv("./data/ave_sla.csv", index_col=0)
+    ave_latency_numeric = ave_latency.apply(pd.to_numeric, errors="coerce")
+    sla_numeric = sla.apply(pd.to_numeric, errors="coerce")
+    return ave_latency_numeric-sla_numeric
 
 

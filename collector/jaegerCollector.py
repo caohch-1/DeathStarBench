@@ -225,6 +225,13 @@ class JaegerCollector:
         else:
             print("[Jaeger] No traces found.")
             return 0, 0, 0
+    
+    def get_all_latency(self):
+        trace_durations = []
+        for trace in self.traces:
+            trace_duration = max([int(span["duration"]) for span in trace["spans"]])
+            trace_durations.append(trace_duration)
+        return trace_durations
 
 
 
