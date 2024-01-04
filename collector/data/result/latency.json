@@ -1,0 +1,46 @@
+{
+    "HTTP GET /hotels": {
+        "average": [
+            354485.1766
+        ],
+        "normal": [
+            237966.65955555555
+        ],
+        "tail": [
+            1403151.83
+        ]
+    },
+    "HTTP GET /recommendations": {
+        "average": [
+            16359.6233
+        ],
+        "normal": [
+            7284.699888888889
+        ],
+        "tail": [
+            98033.934
+        ]
+    },
+    "HTTP POST /reservation": {
+        "average": [
+            62660.1438
+        ],
+        "normal": [
+            28960.554666666667
+        ],
+        "tail": [
+            365956.446
+        ]
+    },
+    "HTTP POST /user": {
+        "average": [
+            7665.9894
+        ],
+        "normal": [
+            1183.276
+        ],
+        "tail": [
+            66010.41
+        ]
+    }
+}

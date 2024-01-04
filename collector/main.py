@@ -1,10 +1,11 @@
 from jaegerCollector import JaegerCollector
 import subprocess
 from time import time, sleep
-from utils import get_trace_deployment_table, transform_queue_estimation, init_env, save_dict_to_json, calculate_ave_latency_vio
-from algorithm import prop_schedule, prop_schedule_sla
+from utils import get_trace_deployment_table, transform_queue_estimation, init_env, save_dict_to_json, calculate_ave_latency_vio, calculate_tail,calculate_tail_latency_vio
+from algorithm import prop_schedule, prop_schedule_sla, prop_schedule_sla2
 from k8sManager import K8sManager
 import pandas as pd
+import datetime
 
 if __name__=="__main__":
     k8sManager = K8sManager("hotel")
@@ -29,13 +30,14 @@ if __name__=="__main__":
     collector = JaegerCollector("http://127.0.0.1:39335/api/traces")
     counter = 0
     result = {task:{"average":[], "normal":[], "tail":[]} for task in tasks}
-    weight= [0.5, 0.5]
+    weight= [0.34, 0.33, 0.33]
     while(counter < epcho):
         sleep(120) # Time window
-        print("="*20+f"{counter} Start:"+str(time())+"="*20)
+        print("="*20+f"{counter} Start:"+str(datetime.datetime.now())+"="*20)
 
         queues_estimation = dict()
         all_trace_latency = dict()
+        tail_estimation = dict()
         for task in tasks:
             # Step1. Collect and process data
             end_time = time()
@@ -49,9 +51,9 @@ if __name__=="__main__":
             # trace_deployment_table.to_csv(f'./data/{task}_{end_time}_{duration}.csv', index=False)
 
             # Step3. Calculate and record result
-            average_per_parentMS = trace_deployment_table.mean(axis=0, numeric_only=True)
-            queues_estimation[task] = average_per_parentMS.to_dict()
+            queues_estimation[task] = trace_deployment_table.mean(axis=0, numeric_only=True).to_dict()
             all_trace_latency[task] = collector.get_all_latency()
+            tail_estimation[task] = calculate_tail(trace_deployment_table)
             print(f"[Jaeger Collector] {task}:")
             avg_lat, normal_lat, tail_lat = collector.calculate_average_latency()
             result[task]["average"].append(avg_lat)
@@ -63,13 +65,17 @@ if __name__=="__main__":
         
         queues_estimation = transform_queue_estimation(queues_estimation)
         ave_delay_vio_estimation = transform_queue_estimation(calculate_ave_latency_vio(pd.DataFrame(queues_estimation).T.fillna("/")))
+        tail_delay_vio_estimation = transform_queue_estimation(calculate_tail_latency_vio(pd.DataFrame(tail_estimation).T.fillna("/")))
+
         print("[Algorithm Input]\nqueues_estimation:\n", pd.DataFrame(queues_estimation).T.fillna("/"))
         print("ave_delay_vio_estimation\n", pd.DataFrame(ave_delay_vio_estimation).T.fillna("/"))
+        print("tail_delay_vio_estimation\n", pd.DataFrame(tail_delay_vio_estimation).T.fillna("/"))
         pd.DataFrame(queues_estimation).T.fillna("/").to_csv(f"./data/result/epcho{counter}-queue.csv", index=True) # Save
         
         # Step4. Algorithm
         # pod_on_node = prop_schedule(queues_estimation, total_capacity)
-        pod_on_node = prop_schedule_sla(queues_estimation, ave_delay_vio_estimation, weight, total_capacity)
+        # pod_on_node = prop_schedule_sla(queues_estimation, ave_delay_vio_estimation, weight, total_capacity)
+        pod_on_node = prop_schedule_sla2(queues_estimation, ave_delay_vio_estimation, tail_delay_vio_estimation, weight, total_capacity)
         print("[Algorithm Output]\n", pd.DataFrame(list(pod_on_node.items()), columns=['Deployment', 'number']))
         pd.DataFrame(list(pod_on_node.items()), columns=['Deployment', 'number']).to_csv(f"./data/result/epcho{counter}-pod.csv", index=False) # Save
 
@@ -78,7 +84,7 @@ if __name__=="__main__":
             pod_num += 1
             k8sManager.scale_deployment(deployment_name+"-hotel-hotelres", pod_num)
 
-        print("="*20+f"{counter} Finish:"+str(time())+"="*20, end="\n\n")
+        print("="*20+f"{counter} Finish:"+str(datetime.datetime.now())+"="*20, end="\n\n")
         counter += 1
     
     output, error = workload_process.communicate()

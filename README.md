@@ -53,5 +53,5 @@ I have deployed everything on `10.19.127.115`. You can SSH to the server and run
 
 ## Problems:
 1. Zero pod problem
-2. Different request has different SLA. Some requests are naturally longer than others. Current algorithm doesn't care about SLA.
-3. Algorithm won't use all resources. 
+2. Algorithm won't use all resources. 
+3. SLA is for per task, now is per task-node.

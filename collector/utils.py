@@ -42,16 +42,19 @@ def init_env(manager: K8sManager, cpu: int=300, mem: int=500):
         if deployment.metadata.name == "frontend-hotel-hotelres":
             manager.set_limit(deployment.metadata.name, 300, 500)
             manager.scale_deployment(deployment.metadata.name, 1+2)
+            manager.set_restart(deployment.metadata.name)
         elif deployment.metadata.name == "consul-hotel-hotelres":
             manager.set_limit(deployment.metadata.name, 500, 500)
             manager.scale_deployment(deployment.metadata.name, 1)
+            manager.set_restart(deployment.metadata.name)
         elif deployment.metadata.name == "jaeger-hotel-hotelres":
             continue
         else:
-            manager.set_limit(deployment.metadata.name, cpu, mem)
             sleep(2)
             if "mongodb" not in deployment.metadata.name and "memcached" not in deployment.metadata.name:
+                manager.set_limit(deployment.metadata.name, cpu, mem)
                 manager.scale_deployment(deployment.metadata.name, 1+2)
+                manager.set_restart(deployment.metadata.name)
 
 def save_dict_to_json(data: dict, path):
     with open(path, "w") as json_file:
@@ -63,4 +66,13 @@ def calculate_ave_latency_vio(ave_latency: pd.DataFrame):
     sla_numeric = sla.apply(pd.to_numeric, errors="coerce")
     return ave_latency_numeric-sla_numeric
 
+def calculate_tail_latency_vio(tail_latency: pd.DataFrame):
+    sla = pd.read_csv("./data/tail_sla.csv", index_col=0)
+    tail_latency_numeric = tail_latency.apply(pd.to_numeric, errors="coerce")
+    sla_numeric = sla.apply(pd.to_numeric, errors="coerce")
+    return tail_latency_numeric-sla_numeric
 
+def calculate_tail(trace_deployment:pd.DataFrame):
+    tail_lower_bound = trace_deployment.iloc[:, 1:].quantile(0.9)
+    tail_latency = trace_deployment.iloc[:, 1:][trace_deployment.iloc[:, 1:]>tail_lower_bound]
+    return tail_latency.mean()

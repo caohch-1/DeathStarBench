@@ -114,7 +114,7 @@ def prop_schedule_sla2(queues_estimation, ave_delay_vio_estimation, tail_delay_v
     for node in queues_estimation:
         blocking_per_node[node] = weight[0] * queue_per_node[node]/total_queue_in_system if total_queue_in_system > 0 else 0.0
         blocking_per_node[node] += weight[1] * ave_delay_vio_per_node[node]/total_ave_delay_vio if total_ave_delay_vio > 0 else 0.0
-        blocking_per_node[node] += weight[2] * total_tail_delay_vio[node]/total_tail_delay_vio if total_tail_delay_vio > 0 else 0.0
+        blocking_per_node[node] += weight[2] * tail_delay_vio_per_node[node]/total_tail_delay_vio if total_tail_delay_vio > 0 else 0.0
         total_blocking += blocking_per_node[node]
 
     pod_on_node = {}
