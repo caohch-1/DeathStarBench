@@ -4,6 +4,7 @@ from time import time, sleep
 from utils import get_trace_deployment_table, transform_queue_estimation, init_env, save_dict_to_json, calculate_ave_latency_vio, calculate_tail,calculate_tail_latency_vio
 from algorithm import prop_schedule, prop_schedule_sla, prop_schedule_sla2
 from k8sManager import K8sManager
+from workloadGenerator import WorkloadGenerator
 import pandas as pd
 import datetime
 
@@ -13,21 +14,18 @@ if __name__=="__main__":
     # exit()
 
     # Workload generation
-    # command = "cd ../socialNetwork && ../wrk2/wrk -t 10 -c 30 -d 7m -L -s ./wrk2/scripts/social-network/mixed-workload.lua http://10.19.127.115:8080 -R 1000"
-    # command = "cd ../socialNetwork && ../wrk2/wrk -t 10 -c 30 -d 7m -L -s ./wrk2/scripts/social-network/mixed-workload.lua http://127.0.0.1:8080 -R 1000"
-    command = "cd ../hotelReservation && ../wrk2/wrk -t 15 -c 45 -d 10m -L -s ./wrk2/scripts/hotel-reservation/mixed-workload_type_1.lua http://127.0.0.1:37851 -R 1000"
-    workload_process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    print(datetime.datetime.now(), "[Workload] Generating..")
+    workloadGenerator = WorkloadGenerator(endpoint="44639", rate=1000)
+    workloadGenerator.generate_stationary()
 
     # Tracing and Adjusting
-    epcho = 2
+    epcho = 15
     duration = 120*1 # Look backward
     limit = 10000 # Trace number limit
     total_capacity = 8*3 - 8
-    weight= [0.8, 0.1, 0.1]
+    weight= [0.5, 0.3, 0.2]
     # tasks = ["/wrk2-api/user-timeline/read", "/wrk2-api/post/compose", "/wrk2-api/home-timeline/read"]
     tasks = ["HTTP GET /hotels", "HTTP GET /recommendations", "HTTP POST /reservation", "HTTP POST /user"]
-    collector = JaegerCollector("http://127.0.0.1:44841/api/traces")
+    collector = JaegerCollector(endpoint="33955")
     counter = 0
     result = {task:{"average":[], "normal":[], "tail":[]} for task in tasks}
     while(counter < epcho):
@@ -88,12 +86,8 @@ if __name__=="__main__":
 
         print("="*20+f"{counter} Finish:"+str(datetime.datetime.now())+"="*20, end="\n\n")
         counter += 1
-    
-    workload_process.terminate()
-    output, error = workload_process.communicate()
-    if error.decode():
-        print(datetime.datetime.now(), "[Workload] Error:", error.decode())
-    else:
-        print(datetime.datetime.now(), "[Workload] Done:", output.decode())
-    
+
     init_env(k8sManager)
+    workloadGenerator.terminate()
+    
+    

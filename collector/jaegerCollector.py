@@ -13,8 +13,8 @@ pd.options.mode.chained_assignment = None
 
 
 class JaegerCollector:
-    def __init__(self, endpoint):
-        self.endpoint = endpoint
+    def __init__(self, endpoint: str="16686"):
+        self.endpoint = f"http://127.0.0.1:{endpoint}/api/traces"
         self.traces = None
 
     # Collect traces from Jaeger

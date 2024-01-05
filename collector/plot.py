@@ -27,9 +27,9 @@ def plot_queue(path: str=""):
     plt.grid(True)
     plt.show()
 
-def plot_pod_num(path: str=""):
+def plot_pod_num(path: str="", epcho: int=2):
     pod_nums = []
-    for i in range(1):
+    for i in range(epcho-1):
         pod_nums.append(pd.read_csv(f"./data/result{path}/epcho{i}-pod.csv", index_col=0))
 
     for deployment_name in pod_nums[0].index:
@@ -56,16 +56,17 @@ def plot_latency(path: str=""):
         plt.ticklabel_format(style='plain', axis='y')
         plt.show()
 
-def plot_distribution(path: str=""):
-    with open(f"./data/result{path}/epcho0-distribution.json", "r") as json_file:
-        data0 = json.loads(json_file.read())
-    with open(f"./data/result{path}/epcho1-distribution.json", "r") as json_file:
-        data1 = json.loads(json_file.read())
+def plot_distribution(path: str="", epcho: int=2):
+    datas = []
+    for i in range(epcho):
+        with open(f"./data/result{path}/epcho{i}-distribution.json", "r") as json_file:
+            datas.append(json.loads(json_file.read()))
 
-    for task, _ in data0.items():
-        sns.histplot(data0[task], bins="auto", kde=True, color="green", label="Average", stat="probability", log_scale=LOG_SCALE)
-        sns.histplot(data1[task], bins="auto", kde=True, color="red", label="Algorithm", stat="probability", log_scale=LOG_SCALE)
-        # sns.histplot(data2[task], bins="auto", kde=True, color="green", label="2")
+    for task, _ in datas[0].items():
+        counter = 0
+        for data in datas:
+            sns.histplot(data[task], bins="auto", kde=True, label=f"Epcho{counter}", stat="probability", log_scale=LOG_SCALE)
+            counter += 1
         plt.title(f"Distribution for {task}")
         plt.xlabel("Latency (ns)")
         plt.ylabel("Probability")
@@ -75,13 +76,13 @@ def plot_distribution(path: str=""):
         # plt.ticklabel_format(style='plain', axis='x')
         plt.show()
     
-    all_data0 = list()
-    all_data1 = list()
-    for task, _ in data0.items():
-        all_data0 += data0[task]
-        all_data1 += data1[task]
-    sns.histplot(all_data0, bins="auto", kde=True, color="green", label="Average", stat="probability", log_scale=LOG_SCALE)
-    sns.histplot(all_data1, bins="auto", kde=True, color="red", label="Algorithm", stat="probability", log_scale=LOG_SCALE)
+    counter = 0
+    for data in datas:
+        all_data = []
+        for task, _ in data.items():
+            all_data += data[task]
+        sns.histplot(all_data, bins="auto", kde=True, label=f"Epcho{counter}", stat="probability", log_scale=LOG_SCALE)
+        counter += 1
     plt.title(f"Distribution for all tasks")
     plt.xlabel("Latency (ns)")
     plt.ylabel("Probability")
@@ -132,13 +133,13 @@ def plot_distribution(path: str=""):
 # plot_pod_num("_sla532_2")
 # plot_distribution("_sla532_2") # Normal
 
-plot_queue("_sla811")
+# plot_queue("_sla811")
 # plot_latency("_sla811")
 # plot_pod_num("_sla811")
 # plot_distribution("_sla811") # Bad
     
 # plot_queue()
 # plot_latency()
-# plot_pod_num()
-# plot_distribution()
+# plot_pod_num(epcho=5)
+plot_distribution(epcho=5)
         

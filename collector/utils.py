@@ -39,12 +39,8 @@ def transform_queue_estimation(input_dict: dict):
 
 def init_env(manager: K8sManager, cpu: int=300, mem: int=500):
     for deployment in manager.deployment_list.items:
-        if deployment.metadata.name == "frontend-hotel-hotelres":
-            manager.set_limit(deployment.metadata.name, 300, 500)
-            manager.scale_deployment(deployment.metadata.name, 1+2)
-            manager.set_restart(deployment.metadata.name)
-        elif deployment.metadata.name == "consul-hotel-hotelres":
-            manager.set_limit(deployment.metadata.name, 1000, 1000)
+        if deployment.metadata.name == "consul-hotel-hotelres":
+            manager.set_limit(deployment.metadata.name, 1500, 1000)
             manager.scale_deployment(deployment.metadata.name, 1)
             manager.set_restart(deployment.metadata.name)
         elif deployment.metadata.name == "jaeger-hotel-hotelres":

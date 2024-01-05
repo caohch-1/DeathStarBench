@@ -90,5 +90,5 @@ class K8sManager:
         self.api_client_appsv1.patch_namespaced_deployment(
                 name=deployment_name, namespace=self.namespace, body=deployment)
         print(datetime.datetime.now(),
-                f"[K8sManager Restart Policy] Set {deployment_name} restart policy to True.")
+                f"[K8sManager Restart Policyclas] Set {deployment_name} restart policy to True.")
         sleep(2)
