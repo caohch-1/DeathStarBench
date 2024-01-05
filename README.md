@@ -41,11 +41,11 @@ command = "cd ../hotelReservation && ../wrk2/wrk -t 10 -c 30 -d 90m -L -s ./wrk2
 collector = JaegerCollector("http://127.0.0.1:37697/api/traces")
 ```
 ```bash
-#Run
+# Run
 cd ~/Desktop/DeathStarBench/collector
 python main.py
-#Plot
-python plot.py # Under construction, you can check raw result data in ./data/result
+# Plot
+python plot.py
 ```
 
 ### 3. Note

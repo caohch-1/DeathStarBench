@@ -2,6 +2,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import json
 import seaborn as sns
+import numpy as np
+
+LOG_SCALE = 2
 
 def plot_queue(path: str=""):
     queues = list()
@@ -60,16 +63,16 @@ def plot_distribution(path: str=""):
         data1 = json.loads(json_file.read())
 
     for task, _ in data0.items():
-        sns.histplot(data0[task], bins="auto", kde=True, color="green", label="Average")
-        sns.histplot(data1[task], bins="auto", kde=True, color="red", label="Algorithm")
+        sns.histplot(data0[task], bins="auto", kde=True, color="green", label="Average", stat="probability", log_scale=LOG_SCALE)
+        sns.histplot(data1[task], bins="auto", kde=True, color="red", label="Algorithm", stat="probability", log_scale=LOG_SCALE)
         # sns.histplot(data2[task], bins="auto", kde=True, color="green", label="2")
         plt.title(f"Distribution for {task}")
         plt.xlabel("Latency (ns)")
-        plt.ylabel("Number of requests")
+        plt.ylabel("Probability")
         plt.legend(loc="upper right")
         plt.grid(True)
         plt.ticklabel_format(style='plain', axis='y')
-        plt.ticklabel_format(style='plain', axis='x')
+        # plt.ticklabel_format(style='plain', axis='x')
         plt.show()
     
     all_data0 = list()
@@ -77,45 +80,45 @@ def plot_distribution(path: str=""):
     for task, _ in data0.items():
         all_data0 += data0[task]
         all_data1 += data1[task]
-    sns.histplot(all_data0, bins="auto", kde=True, color="green", label="0")
-    sns.histplot(all_data1, bins="auto", kde=True, color="red", label="1")
+    sns.histplot(all_data0, bins="auto", kde=True, color="green", label="Average", stat="probability", log_scale=LOG_SCALE)
+    sns.histplot(all_data1, bins="auto", kde=True, color="red", label="Algorithm", stat="probability", log_scale=LOG_SCALE)
     plt.title(f"Distribution for all tasks")
     plt.xlabel("Latency (ns)")
-    plt.ylabel("Number of requests")
+    plt.ylabel("Probability")
     plt.legend(loc="upper right")
     plt.grid(True)
     plt.ticklabel_format(style='plain', axis='y')
-    plt.ticklabel_format(style='plain', axis='x')
+    # plt.ticklabel_format(style='plain', axis='x')
     plt.show()
     
- 
+
 # plot_queue("_old")
-# plot_latency("_old)
+# plot_latency("_old")
 # plot_pod_num("_old")
-# plot_distribution("_old")
+# plot_distribution("_old") # Bad
     
 # plot_queue("_sla55")
 # plot_latency("_sla55")
 # plot_pod_num("_sla55")
-# plot_distribution("_sla55")
+# plot_distribution("_sla55") # Good
     
 # plot_queue("_sla73")
 # plot_latency("_sla73")
 # plot_pod_num("_sla73")
-# plot_distribution("_sla73")
+# plot_distribution("_sla73") # Good
     
 # plot_queue("_sla37")
 # plot_latency("_sla37")
 # plot_pod_num("_sla37")
-# plot_distribution("_sla37")
+# plot_distribution("_sla37") # Bad
     
 # plot_queue("_sla333")
 # plot_latency("_sla333")
 # plot_pod_num("_sla333")
-# plot_distribution("_sla333")
+# plot_distribution("_sla333") # Bad
     
 # plot_queue()
-plot_latency()
+# plot_latency()
 # plot_pod_num()
-plot_distribution()
+# plot_distribution()
         
