@@ -126,9 +126,19 @@ def plot_distribution(path: str=""):
 # plot_latency("_sla532")
 # plot_pod_num("_sla532")
 # plot_distribution("_sla532") # Normal
+
+# plot_queue("_sla532_2")
+# plot_latency("_sla532_2")
+# plot_pod_num("_sla532_2")
+# plot_distribution("_sla532_2") # Normal
+
+plot_queue("_sla811")
+# plot_latency("_sla811")
+# plot_pod_num("_sla811")
+# plot_distribution("_sla811") # Bad
     
 # plot_queue()
-plot_latency()
-plot_pod_num()
-plot_distribution()
+# plot_latency()
+# plot_pod_num()
+# plot_distribution()
         
