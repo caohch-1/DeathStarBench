@@ -44,7 +44,7 @@ def init_env(manager: K8sManager, cpu: int=300, mem: int=500):
             manager.scale_deployment(deployment.metadata.name, 1+2)
             manager.set_restart(deployment.metadata.name)
         elif deployment.metadata.name == "consul-hotel-hotelres":
-            manager.set_limit(deployment.metadata.name, 500, 500)
+            manager.set_limit(deployment.metadata.name, 1000, 1000)
             manager.scale_deployment(deployment.metadata.name, 1)
             manager.set_restart(deployment.metadata.name)
         elif deployment.metadata.name == "jaeger-hotel-hotelres":
@@ -73,7 +73,7 @@ def calculate_tail_latency_vio(tail_latency: pd.DataFrame):
 
     return tail_latency_numeric-sla_numeric
 
-def calculate_tail(trace_deployment:pd.DataFrame):
-    tail_lower_bound = trace_deployment.iloc[:, 1:].quantile(0.9)
+def calculate_tail(trace_deployment:pd.DataFrame, quant: float = 0.9):
+    tail_lower_bound = trace_deployment.iloc[:, 1:].quantile(quant)
     tail_latency = trace_deployment.iloc[:, 1:][trace_deployment.iloc[:, 1:]>tail_lower_bound]
     return tail_latency.mean()

@@ -5,6 +5,7 @@ from time import time
 import pandas as pd
 import re
 from utils import get_trace_deployment_table
+import datetime
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 pd.options.mode.chained_assignment = None
@@ -217,13 +218,13 @@ class JaegerCollector:
             tail_trace_durations = trace_durations[int(len(trace_durations)*0.9):]
             tail_latency = sum(tail_trace_durations) / len(tail_trace_durations)
 
-            print(f"[Jaeger] {len(trace_durations)} Average latency is {average_latency} ns.")
-            print(f"[Jaeger] {len(filtered_trace_durations)} Normal<90\% latency is {average_normal_latency} ns.")
+            print(datetime.datetime.now(), f"[Jaeger] {len(trace_durations)} Average latency is {average_latency} ns.")
+            print(datetime.datetime.now(), f"[Jaeger] {len(filtered_trace_durations)} Normal<90\% latency is {average_normal_latency} ns.")
             # print(f"[Jaeger] {len(sla_violation_trace_durations)}({len(sla_violation_trace_durations)/len(trace_durations)*100:.2f}%) traces violate SLA with an average latency of {sla_violations_latency/1000} ms.")
-            print(f"[Jaeger] {len(tail_trace_durations)} Tail>90\% latency is {tail_latency} ns.")
+            print(datetime.datetime.now(), f"[Jaeger] {len(tail_trace_durations)} Tail>90\% latency is {tail_latency} ns.")
             return average_latency, average_normal_latency, tail_latency
         else:
-            print("[Jaeger] No traces found.")
+            print(datetime.datetime.now(), "[Jaeger] No traces found.")
             return 0, 0, 0
     
     def get_all_latency(self):

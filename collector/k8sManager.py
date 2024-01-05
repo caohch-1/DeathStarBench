@@ -1,5 +1,6 @@
 from kubernetes import client, config
 from time import sleep
+import datetime
 
 
 class K8sManager:
@@ -51,11 +52,11 @@ class K8sManager:
                     and deployment.status.updated_replicas == deployment.spec.replicas
                 ):
                     break
-            print(
+            print(datetime.datetime.now(),
                 f"[K8sManager Scale] Scale {deployment_name} to {replica_num} pods.")
             sleep(2.5)
         else:
-            print(
+            print(datetime.datetime.now(),
                 f"[K8sManager Scale] Keep {deployment_name} have {replica_num} pods.")
 
     def set_limit(self, deployment_name, cpu_limit, mem_limit):
@@ -68,17 +69,17 @@ class K8sManager:
             deployment.spec.template.spec.containers[0].resources.limits["memory"] = f"{mem_limit}Mi"
             self.api_client_appsv1.patch_namespaced_deployment(
                 name=deployment_name, namespace=self.namespace, body=deployment)
-            print(
+            print(datetime.datetime.now(),
                 f"[K8sManager Limit] Set {deployment_name} limit cpu from {old_cpu_limit} to {cpu_limit}m.")
-            print(
+            print(datetime.datetime.now(),
                 f"[K8sManager Limit] Set {deployment_name} limit memory from {old_memory_limit} to {mem_limit}Mi.")
         else:
             deployment.spec.template.spec.containers[0].resources.limits = {"cpu": f"{cpu_limit}m", "memory": f"{mem_limit}Mi"}
             self.api_client_appsv1.patch_namespaced_deployment(
                 name=deployment_name, namespace=self.namespace, body=deployment)
-            print(
+            print(datetime.datetime.now(),
                 f"[K8sManager Limit] Set {deployment_name} limit cpu from Unlimited to {cpu_limit}m.")
-            print(
+            print(datetime.datetime.now(),
                 f"[K8sManager Limit] Set {deployment_name} limit memory from Unlimited to {mem_limit}Mi.")
         sleep(2)
 
@@ -88,6 +89,6 @@ class K8sManager:
         deployment.spec.template.spec.restart_policy = "Always"
         self.api_client_appsv1.patch_namespaced_deployment(
                 name=deployment_name, namespace=self.namespace, body=deployment)
-        print(
-                f"[K8sManager Restart] Set {deployment_name} restart policy to True.")
+        print(datetime.datetime.now(),
+                f"[K8sManager Restart Policy] Set {deployment_name} restart policy to True.")
         sleep(2)

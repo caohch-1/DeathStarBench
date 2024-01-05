@@ -55,3 +55,4 @@ I have deployed everything on `10.19.127.115`. You can SSH to the server and run
 1. Zero pod problem
 2. Algorithm won't use all resources. 
 3. SLA is for per task, now is per task-node.
+4. How to compare results. now is distribution

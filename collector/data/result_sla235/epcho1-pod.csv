@@ -1,9 +1,9 @@
 Deployment,number
-frontend,3
+frontend,0
 geo,0
 profile,0
-rate,0
-reservation,11
-search,0
+rate,7
+reservation,1
+search,8
 recommendation,0
 user,0

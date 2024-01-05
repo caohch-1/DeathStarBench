@@ -15,7 +15,7 @@ if __name__=="__main__":
     # Workload generation
     # command = "cd ../socialNetwork && ../wrk2/wrk -t 10 -c 30 -d 7m -L -s ./wrk2/scripts/social-network/mixed-workload.lua http://10.19.127.115:8080 -R 1000"
     # command = "cd ../socialNetwork && ../wrk2/wrk -t 10 -c 30 -d 7m -L -s ./wrk2/scripts/social-network/mixed-workload.lua http://127.0.0.1:8080 -R 1000"
-    command = "cd ../hotelReservation && ../wrk2/wrk -t 15 -c 45 -d 10m -L -s ./wrk2/scripts/hotel-reservation/mixed-workload_type_1.lua http://127.0.0.1:44011 -R 1000"
+    command = "cd ../hotelReservation && ../wrk2/wrk -t 15 -c 45 -d 10m -L -s ./wrk2/scripts/hotel-reservation/mixed-workload_type_1.lua http://127.0.0.1:37851 -R 1000"
     workload_process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     print(datetime.datetime.now(), "[Workload] Generating..")
 
@@ -24,14 +24,14 @@ if __name__=="__main__":
     duration = 120*1 # Look backward
     limit = 10000 # Trace number limit
     total_capacity = 8*3 - 8
-    weight= [0.2, 0.3, 0.5]
+    weight= [0.8, 0.1, 0.1]
     # tasks = ["/wrk2-api/user-timeline/read", "/wrk2-api/post/compose", "/wrk2-api/home-timeline/read"]
     tasks = ["HTTP GET /hotels", "HTTP GET /recommendations", "HTTP POST /reservation", "HTTP POST /user"]
-    collector = JaegerCollector("http://127.0.0.1:40973/api/traces")
+    collector = JaegerCollector("http://127.0.0.1:44841/api/traces")
     counter = 0
     result = {task:{"average":[], "normal":[], "tail":[]} for task in tasks}
     while(counter < epcho):
-        sleep(120) # Time window
+        sleep(duration) # Time window
         print("="*20+f"{counter} Start:"+str(datetime.datetime.now())+"="*20)
 
         queues_estimation = dict()
@@ -79,6 +79,9 @@ if __name__=="__main__":
         pd.DataFrame(list(pod_on_node.items()), columns=['Deployment', 'number']).to_csv(f"./data/result/epcho{counter}-pod.csv", index=False) # Save
 
         # Step5. Adjust
+        if counter == epcho - 1:
+            print("="*20+f"{counter} Finish:"+str(datetime.datetime.now())+"="*20, end="\n\n")
+            break
         for deployment_name, pod_num in pod_on_node.items():
             pod_num += 1
             k8sManager.scale_deployment(deployment_name+"-hotel-hotelres", pod_num)
@@ -86,11 +89,11 @@ if __name__=="__main__":
         print("="*20+f"{counter} Finish:"+str(datetime.datetime.now())+"="*20, end="\n\n")
         counter += 1
     
-    workload_process.kill()
+    workload_process.terminate()
     output, error = workload_process.communicate()
     if error.decode():
-        print(datetime.datetime.now(), "Command error:", error.decode())
+        print(datetime.datetime.now(), "[Workload] Error:", error.decode())
     else:
-        print(datetime.datetime.now(), "Command output:", output.decode())
+        print(datetime.datetime.now(), "[Workload] Done:", output.decode())
     
     init_env(k8sManager)
