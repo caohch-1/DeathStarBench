@@ -131,9 +131,9 @@ def plot_distribution(path: str="", epcho: int=2):
     # plt.ticklabel_format(style='plain', axis='x')
     plt.show()
 
-def plot_neigh_distribution(path: str="", epcho: int=2):
+def plot_neigh_distribution(path: str="", epcho: int=2, neighbour: int=2):
     datas = []
-    for i in range(epcho, epcho+2):
+    for i in range(epcho, epcho+neighbour):
         with open(f"./data/result{path}/epcho{i}-distribution.json", "r") as json_file:
             datas.append(json.loads(json_file.read()))
 
@@ -179,12 +179,12 @@ def plot_neigh_distribution(path: str="", epcho: int=2):
 # plot_distribution("_sla532") # Normal
 
 # plot_queue()
-plot_latency()
+# plot_latency()
 # plot_pod_num(epcho=15)
 # plot_distribution(epcho=15)
     
 
 
-
-# plot_neigh_distribution(epcho=0)
+# plot_neigh_distribution(epcho=0, neighbour=3)
+# plot_neigh_distribution(epcho=0, neighbour=1)
         

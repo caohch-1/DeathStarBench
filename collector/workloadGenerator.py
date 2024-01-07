@@ -33,7 +33,7 @@ class WorkloadGenerator:
             print(datetime.datetime.now(), "[Workload] Done:", output.decode())
 
 
-    def generate_nonstationary(self, durations_with_rate: list):
+    async def generate_nonstationary(self, durations_with_rate: list):
         for duration, rate in durations_with_rate:
             self.command = f"cd ../hotelReservation && \
             ../wrk2/wrk -t {self.threads} -c {self.connections} -d {duration} \

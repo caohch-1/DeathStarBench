@@ -7,8 +7,9 @@ from k8sManager import K8sManager
 from workloadGenerator import WorkloadGenerator
 import pandas as pd
 import datetime
+import asyncio
 
-if __name__=="__main__":
+def main():
     k8sManager = K8sManager("hotel")
     # init_env(k8sManager)
     # exit()
@@ -92,4 +93,6 @@ if __name__=="__main__":
     init_env(k8sManager)
     workloadGenerator.terminate()
     
-    
+
+if __name__=="__main__":
+    main()
