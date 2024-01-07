@@ -14,18 +14,18 @@ if __name__=="__main__":
     # exit()
 
     # Workload generation
-    workloadGenerator = WorkloadGenerator(endpoint="44639", rate=1000)
+    workloadGenerator = WorkloadGenerator(endpoint="33645", rate=500, duration="120m")
     workloadGenerator.generate_stationary()
 
     # Tracing and Adjusting
-    epcho = 15
+    epcho = 20
     duration = 120*1 # Look backward
-    limit = 10000 # Trace number limit
-    total_capacity = 8*3 - 8
-    weight= [0.5, 0.3, 0.2]
+    limit = 4000 # Trace number limit
+    total_capacity = 8*4 - 8
+    weight= [0.6, 0.3, 0.1]
     # tasks = ["/wrk2-api/user-timeline/read", "/wrk2-api/post/compose", "/wrk2-api/home-timeline/read"]
     tasks = ["HTTP GET /hotels", "HTTP GET /recommendations", "HTTP POST /reservation", "HTTP POST /user"]
-    collector = JaegerCollector(endpoint="33955")
+    collector = JaegerCollector(endpoint="39785")
     counter = 0
     result = {task:{"average":[], "normal":[], "tail":[]} for task in tasks}
     while(counter < epcho):
@@ -36,6 +36,7 @@ if __name__=="__main__":
         all_trace_latency = dict()
         tail_estimation = dict()
         for task in tasks:
+            collector.clear()
             # Step1. Collect and process data
             end_time = time()
             # raw_traces = collector.collect(end_time=end_time, duration=duration, limit=limit, service="nginx-web-server", task_type=task)

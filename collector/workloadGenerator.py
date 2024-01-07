@@ -2,10 +2,10 @@ import subprocess
 import datetime
 
 class WorkloadGenerator:
-    def __init__(self, endpoint: str="5000", rate: int=1000) -> None:
+    def __init__(self, endpoint: str="5000", rate: int=1000, duration: str="120m") -> None:
         self.threads = 15
         self.connections = 45
-        self.duration = "120m"
+        self.duration = duration
         self.script = "./wrk2/scripts/hotel-reservation/mixed-workload_type_1.lua"
         self.endpoint = f"http://127.0.0.1:{endpoint}"
         self.rate = rate
@@ -16,7 +16,14 @@ class WorkloadGenerator:
     def generate_stationary(self):
         self.workload_process = subprocess.Popen(self.command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         print(datetime.datetime.now(), f"[Workload] Generating with {self.rate} reqs/s for {self.duration}..")
-    
+        # self.workload_process.wait()
+        # output, error = self.workload_process.communicate()
+        # if error.decode():
+        #     print(datetime.datetime.now(), "[Workload] Error:", error.decode())
+        # else:
+        #     print(datetime.datetime.now(), "[Workload] Done")
+
+
     def terminate(self):
         self.workload_process.terminate()
         output, error = self.workload_process.communicate()

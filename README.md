@@ -50,9 +50,11 @@ python plot.py
 
 ### 3. Note
 I have deployed everything on `10.19.127.115`. You can SSH to the server and run the codes in `/home/caohch1/Desktop/DeathStarBench/collector`.
+We give limited resource to each pod so the pods are easily crash for heavy workload. Re-deploy the service before each importtant experiment for more accurate results.
 
-## Problems:
-1. Zero pod problem
-2. Algorithm won't use all resources. 
-3. SLA is for per task, now is per task-node.
+## Todo:
+1. Non-stationary
+2. Non-blocking profiling
+3. Average latency, P90 latency, SLA violation plot 
 4. How to compare results. now is distribution
+5. A flow with latency node1:10, node2: 10 and sla:15 won't be treated as violation?

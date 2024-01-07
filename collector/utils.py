@@ -37,7 +37,7 @@ def transform_queue_estimation(input_dict: dict):
             output_dict[node][func] += value
     return output_dict
 
-def init_env(manager: K8sManager, cpu: int=300, mem: int=500):
+def init_env(manager: K8sManager, cpu: int=400, mem: int=500):
     for deployment in manager.deployment_list.items:
         if deployment.metadata.name == "consul-hotel-hotelres":
             manager.set_limit(deployment.metadata.name, 1500, 1000)
@@ -49,7 +49,7 @@ def init_env(manager: K8sManager, cpu: int=300, mem: int=500):
             sleep(2)
             if "mongodb" not in deployment.metadata.name and "memcached" not in deployment.metadata.name:
                 manager.set_limit(deployment.metadata.name, cpu, mem)
-                manager.scale_deployment(deployment.metadata.name, 1+2)
+                manager.scale_deployment(deployment.metadata.name, 1+3)
                 manager.set_restart(deployment.metadata.name)
 
 def save_dict_to_json(data: dict, path):
