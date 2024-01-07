@@ -1,7 +1,7 @@
 from jaegerCollector import JaegerCollector
 import subprocess
 from time import time, sleep
-from utils import get_trace_deployment_table, transform_queue_estimation, init_env, save_dict_to_json, calculate_ave_latency_vio, calculate_tail,calculate_tail_latency_vio
+from utils import *
 from algorithm import prop_schedule, prop_schedule_sla, prop_schedule_sla2
 from k8sManager import K8sManager
 from workloadGenerator import WorkloadGenerator
@@ -14,18 +14,19 @@ if __name__=="__main__":
     # exit()
 
     # Workload generation
-    workloadGenerator = WorkloadGenerator(endpoint="33645", rate=500, duration="120m")
+    workloadGenerator = WorkloadGenerator(endpoint="37899", rate=500, duration="120m")
     workloadGenerator.generate_stationary()
+
 
     # Tracing and Adjusting
     epcho = 20
     duration = 120*1 # Look backward
     limit = 4000 # Trace number limit
-    total_capacity = 8*4 - 8
+    total_capacity = 8*3 - 8
     weight= [0.6, 0.3, 0.1]
     # tasks = ["/wrk2-api/user-timeline/read", "/wrk2-api/post/compose", "/wrk2-api/home-timeline/read"]
     tasks = ["HTTP GET /hotels", "HTTP GET /recommendations", "HTTP POST /reservation", "HTTP POST /user"]
-    collector = JaegerCollector(endpoint="39785")
+    collector = JaegerCollector(endpoint="41501")
     counter = 0
     result = {task:{"average":[], "normal":[], "tail":[]} for task in tasks}
     while(counter < epcho):

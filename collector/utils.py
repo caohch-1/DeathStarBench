@@ -2,6 +2,7 @@ import pandas as pd
 from k8sManager import K8sManager
 import json
 from time import sleep
+import csv
 
 def get_trace_deployment_table(merged_df):
     unique_rows_df = merged_df.drop_duplicates(subset=["traceId", "parentId"])
@@ -37,7 +38,7 @@ def transform_queue_estimation(input_dict: dict):
             output_dict[node][func] += value
     return output_dict
 
-def init_env(manager: K8sManager, cpu: int=400, mem: int=500):
+def init_env(manager: K8sManager, cpu: int=500, mem: int=500):
     for deployment in manager.deployment_list.items:
         if deployment.metadata.name == "consul-hotel-hotelres":
             manager.set_limit(deployment.metadata.name, 1500, 1000)
@@ -49,7 +50,7 @@ def init_env(manager: K8sManager, cpu: int=400, mem: int=500):
             sleep(2)
             if "mongodb" not in deployment.metadata.name and "memcached" not in deployment.metadata.name:
                 manager.set_limit(deployment.metadata.name, cpu, mem)
-                manager.scale_deployment(deployment.metadata.name, 1+3)
+                manager.scale_deployment(deployment.metadata.name, 1+2)
                 manager.set_restart(deployment.metadata.name)
 
 def save_dict_to_json(data: dict, path):
@@ -73,3 +74,9 @@ def calculate_tail(trace_deployment:pd.DataFrame, quant: float = 0.9):
     tail_lower_bound = trace_deployment.iloc[:, 1:].quantile(quant)
     tail_latency = trace_deployment.iloc[:, 1:][trace_deployment.iloc[:, 1:]>tail_lower_bound]
     return tail_latency.mean()
+
+def prepare_dynamic_workload():
+    with open("./data/pattern.csv", "r") as f:
+        pattern = [("2m", int(int(row[1])/2)) for row in csv.reader(f) if row[1] != "job_name"]
+    return pattern
+        
