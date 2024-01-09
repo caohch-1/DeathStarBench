@@ -139,6 +139,11 @@ def prop_schedule_sla2(queues_estimation, ave_delay_vio_estimation, tail_delay_v
 """
    HAB algorithm
 """
+
+flag = 1
+lambda_base = 0
+phi_lambda_base = 0
+
 def CoeMeasurement(queues_estimation, flow_arrival, flow_route, service_time, pod_on_node, p):
   """
     CoeMeasurement is used to learn the coefficient phi_lambda_base calculating pod.
