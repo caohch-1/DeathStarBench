@@ -158,15 +158,15 @@ def CoeMeasurement(queues_estimation, flow_arrival, flow_route, service_time, po
         for node_name in queues_estimation:
             pod_on_node[node_name] = math.floor(total_capacity * pod_on_node[node_name] / sum(pod_on_node.values()))
             # We have calculated  pod here and should update network to get the total queue length, we denote it with Q_lambda_base.
-    if Q_lambda_base == 0:
-        return phi_lambda_base
-    
-    if Q_lambda_base > (Q_up + Q_low) / 2 + threshold:
-        phi_left = phi_lambda_base
-    elif Q_lambda_base < (Q_up + Q_low) / 2 - threshold:
-        phi_right = phi_lambda_base
-    else:
-        return phi_lambda_base
+        if Q_lambda_base == 0:
+            return phi_lambda_base
+        
+        if Q_lambda_base > (Q_up + Q_low) / 2 + threshold:
+            phi_left = phi_lambda_base
+        elif Q_lambda_base < (Q_up + Q_low) / 2 - threshold:
+            phi_right = phi_lambda_base
+        else:
+            return phi_lambda_base
 
 def vs_schedule(flag, queues_estimation, total_capacity, flow_arrival, flow_route, service_time, phi_lambda_base, pod_on_node, p):
     """
