@@ -157,7 +157,7 @@ def CoeMeasurement(queues_estimation, flow_arrival, flow_route, service_time, po
             pod_on_node[node_name] = math.floor(phi_lambda_base * p[node_name])
         for node_name in queues_estimation:
             pod_on_node[node_name] = math.floor(total_capacity * pod_on_node[node_name] / sum(pod_on_node.values()))
-            # We have calculated  pod here, and we should update network and get total queue length and we denote it with Q_lambda_base.
+            # We have calculated  pod here and should update network to get the total queue length, we denote it with Q_lambda_base.
     if Q_lambda_base == 0:
         return phi_lambda_base
     
