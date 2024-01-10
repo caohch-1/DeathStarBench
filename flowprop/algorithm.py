@@ -1,3 +1,5 @@
+import math
+
 def prop_schedule(queues_estimation, total_capacity):
     """
     prop_schedule is a function to schedule pods for nodes according to the estimated queue length on the nodes
@@ -144,10 +146,10 @@ flag = 1
 lambda_base = 0
 phi_lambda_base = 0
 
-def CoeMeasurement(queues_estimation, flow_arrival, flow_route, service_time, pod_on_node, p):
-  """
-    CoeMeasurement is used to learn the coefficient phi_lambda_base calculating pod.
-  """
+def CoeMeasurement(queues_estimation, total_capacity, flow_arrival, flow_route, service_time, pod_on_node, p):
+    """
+      CoeMeasurement is used to learn the coefficient phi_lambda_base calculating pod.
+    """
     Q_low = 4
     Q_up = 20
     threshold = 2
@@ -163,6 +165,8 @@ def CoeMeasurement(queues_estimation, flow_arrival, flow_route, service_time, po
         for node_name in queues_estimation:
             pod_on_node[node_name] = math.floor(total_capacity * pod_on_node[node_name] / sum(pod_on_node.values()))
             # We have calculated  pod here and should update network to get the total queue length, we denote it with Q_lambda_base.
+            Q_lambda_base = 0 # Todo: update network to get the total queue length
+
         if Q_lambda_base == 0:
             return phi_lambda_base
         
@@ -209,7 +213,7 @@ def vs_schedule(flag, queues_estimation, total_capacity, flow_arrival, flow_rout
                 p[node_name] += math.ceil(flow_arrival[flow] * service_time[node_name])
 
     if flag:
-        phi_lambda_base = CoeMeasurement(queues_estimation, flow_arrival, flow_route, service_time, pod_on_node, p)
+        phi_lambda_base = CoeMeasurement(queues_estimation, total_capacity, flow_arrival, flow_route, service_time, pod_on_node, p)
     else:
         if lambda_ == 0:
             return pod_on_node

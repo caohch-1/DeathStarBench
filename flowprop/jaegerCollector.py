@@ -31,7 +31,7 @@ class JaegerCollector:
         response = requests.get(self.endpoint, params=request_data)
         self.traces = json.loads(response.content)["data"]
 
-        task_type = task_type.replace("/", "")
+        # task_type = task_type.replace("/", "")
         # with open(f"./data//trace_{task_type}_{end_time}_{duration}.json", "w") as f:
         #     json.dump(self.traces, f)
 
