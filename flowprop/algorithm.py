@@ -27,8 +27,14 @@ def prop_schedule(queues_estimation, total_capacity):
         pod_on_node[node] = total_capacity*queue_per_node[node]/total_queue_in_system if total_queue_in_system > 0 else 0.0
         pod_on_node[node] = int(pod_on_node[node])
     
-        
-    return pod_on_node
+    if sum(pod_on_node.values()) < total_capacity:
+        max_pod = max(list(pod_on_node.values()))
+        for node_name in pod_on_node:
+            if pod_on_node[node_name] == max_pod:
+                pod_on_node[node_name] += total_capacity - sum(pod_on_node.values())
+                return pod_on_node
+    else:
+        return pod_on_node    
 
 import random
 def normalize_probabilities(probabilities):
@@ -222,5 +228,11 @@ def vs_schedule(flag, queues_estimation, total_capacity, flow_arrival, flow_rout
                 pod_on_node[node_name] = max(math.ceil(lambda_ * phi_lambda_base * p[node_name] / lambda_base),1)
         for node_name in queues_estimation:
             pod_on_node[node_name] = math.floor(total_capacity * pod_on_node[node_name] / sum(pod_on_node.values()))
+        if sum(pod_on_node.values()) < total_capacity:
+            max_pod = max(list(pod_on_node.values()))
+            for node_name in pod_on_node:
+                if pod_on_node[node_name] == max_pod:
+                    pod_on_node[node_name] += total_capacity - sum(pod_on_node.values())
+                    return pod_on_node
     flag = 0
     return pod_on_node
