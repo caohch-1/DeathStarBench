@@ -50,6 +50,7 @@ def init_env(manager: K8sManager, cpu: int=500, mem: int=500):
             sleep(2)
             if "mongodb" not in deployment.metadata.name and "memcached" not in deployment.metadata.name:
                 manager.set_limit(deployment.metadata.name, cpu, mem)
+                manager.set_request(deployment.metadata.name, cpu/5, mem/5)
                 manager.scale_deployment(deployment.metadata.name, 1+2)
                 manager.set_restart(deployment.metadata.name)
 

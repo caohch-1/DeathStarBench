@@ -1,0 +1,9 @@
+,HTTP GET /hotels,HTTP GET /recommendations,HTTP POST /reservation,HTTP POST /user
+frontend,4739.34975,4334.202,3859.69325,2121.312
+geo,244.376,/,/,/
+profile,199.4195,1282.526394796097,/,/
+rate,7308.360290435653,/,/,/
+reservation,11900.646896896897,/,7007.685092546273,/
+search,6323.005252626313,/,/,/
+recommendation,/,101.35375,/,/
+user,/,/,26.80320080020005,25.861511245893354

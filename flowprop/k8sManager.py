@@ -83,6 +83,30 @@ class K8sManager:
                 f"[K8sManager Limit] Set {deployment_name} limit memory from Unlimited to {mem_limit}Mi.")
         sleep(2)
 
+    def set_request(self, deployment_name, cpu_request, mem_request):
+        deployment = self.api_client_appsv1.read_namespaced_deployment(
+            deployment_name, self.namespace)
+        if deployment.spec.template.spec.containers[0].resources.requests:
+            old_cpu_request = deployment.spec.template.spec.containers[0].resources.requests["cpu"]
+            deployment.spec.template.spec.containers[0].resources.requests["cpu"] = f"{cpu_request}m"
+            old_memory_request = deployment.spec.template.spec.containers[0].resources.requests["memory"]
+            deployment.spec.template.spec.containers[0].resources.requests["memory"] = f"{mem_request}Mi"
+            self.api_client_appsv1.patch_namespaced_deployment(
+                name=deployment_name, namespace=self.namespace, body=deployment)
+            print(datetime.datetime.now(),
+                f"[K8sManager request] Set {deployment_name} request cpu from {old_cpu_request} to {cpu_request}m.")
+            print(datetime.datetime.now(),
+                f"[K8sManager request] Set {deployment_name} request memory from {old_memory_request} to {mem_request}Mi.")
+        else:
+            deployment.spec.template.spec.containers[0].resources.requests = {"cpu": f"{cpu_request}m", "memory": f"{mem_request}Mi"}
+            self.api_client_appsv1.patch_namespaced_deployment(
+                name=deployment_name, namespace=self.namespace, body=deployment)
+            print(datetime.datetime.now(),
+                f"[K8sManager Request] Set {deployment_name} request cpu from Unrequested to {cpu_request}m.")
+            print(datetime.datetime.now(),
+                f"[K8sManager Request] Set {deployment_name} request memory from Unrequested to {mem_request}Mi.")
+        sleep(2)
+
     def set_restart(self, deployment_name):
         deployment = self.api_client_appsv1.read_namespaced_deployment(
             deployment_name, self.namespace)
