@@ -236,3 +236,9 @@ def vs_schedule(flag, queues_estimation, total_capacity, flow_arrival, flow_rout
                     return pod_on_node
     flag = 0
     return pod_on_node
+
+
+# 1. stationary pod(cost, bar plot, delay CDF), baseline(hpa, average, autosclaer) 
+# average delay, P90 4 methods, SLA Vio with epchos
+# 2. non-stationary
+# sla, delay

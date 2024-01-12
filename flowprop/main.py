@@ -77,6 +77,7 @@ def main():
         # Step4. Algorithm
         # pod_on_node = prop_schedule(queues_estimation, total_capacity)
         # pod_on_node = prop_schedule_sla(queues_estimation, ave_delay_vio_estimation, weight, total_capacity)
+        # Todo: Violation sum minus slo
         pod_on_node = prop_schedule_sla2(queues_estimation, ave_delay_vio_estimation, tail_delay_vio_estimation, weight, total_capacity)
         print(datetime.datetime.now(), "[Algorithm Output]\n", pd.DataFrame(list(pod_on_node.items()), columns=['Deployment', 'number']))
         pd.DataFrame(list(pod_on_node.items()), columns=['Deployment', 'number']).to_csv(f"./data/result/epcho{counter}-pod.csv", index=False) # Save

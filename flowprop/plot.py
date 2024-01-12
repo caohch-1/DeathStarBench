@@ -179,7 +179,7 @@ def plot_neigh_distribution(path: str="", epcho: int=2, neighbour: int=2):
 # plot_distribution("_sla532") # Normal
 
 # plot_queue()
-# plot_latency()
+plot_latency(path="531-rateDynamic-limit500")
 # plot_pod_num(epcho=15)
 # plot_distribution(epcho=15)
     
