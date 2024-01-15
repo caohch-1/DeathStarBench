@@ -61,12 +61,21 @@ def save_dict_to_json(data: dict, path):
 def calculate_ave_latency_vio(ave_latency: pd.DataFrame):
     sla = pd.read_csv("./data/ave_sla.csv", index_col=0)
     ave_latency_numeric = ave_latency.apply(pd.to_numeric, errors="coerce")
+    col_sum = ave_latency_numeric.sum()
+    for col in ave_latency_numeric.columns:
+        for idx in ave_latency_numeric.index:
+            ave_latency_numeric.at[idx, col] = col_sum[col] if pd.notna(ave_latency_numeric.at[idx, col]) else ave_latency_numeric.at[idx, col]
     sla_numeric = sla.apply(pd.to_numeric, errors="coerce")
     return ave_latency_numeric-sla_numeric
 
 def calculate_tail_latency_vio(tail_latency: pd.DataFrame):
     sla = pd.read_csv("./data/tail_sla.csv", index_col=0)
     tail_latency_numeric = tail_latency.apply(pd.to_numeric, errors="coerce")
+    col_sum = tail_latency_numeric.sum()
+    for col in tail_latency_numeric.columns:
+        for idx in tail_latency_numeric.index:
+            tail_latency_numeric.at[idx, col] = col_sum[col] if pd.notna(tail_latency_numeric.at[idx, col]) else tail_latency_numeric.at[idx, col]
+    
     sla_numeric = sla.apply(pd.to_numeric, errors="coerce")
 
     return tail_latency_numeric-sla_numeric

@@ -15,21 +15,21 @@ def main():
     # exit()
 
     # # Workload generation
-    workloadGenerator = WorkloadGenerator(endpoint="42219", rate=500, duration="120m")
+    workloadGenerator = WorkloadGenerator(endpoint="35837", rate=500, duration="120m")
     workloadGenerator.generate_stationary()
     # workloadGenerator.generate_nonstationary(prepare_dynamic_workload())
     # exit()
 
 
     # Tracing and Adjusting
-    epcho = 100
+    epcho = 21
     duration = 120*1 # Look backward
     limit = 4000 # Trace number limit
     total_capacity = 8*3 - 8
     weight= [0.6, 0.3, 0.1]
     # tasks = ["/wrk2-api/user-timeline/read", "/wrk2-api/post/compose", "/wrk2-api/home-timeline/read"]
     tasks = ["HTTP GET /hotels", "HTTP GET /recommendations", "HTTP POST /reservation", "HTTP POST /user"]
-    collector = JaegerCollector(endpoint="44355")
+    collector = JaegerCollector(endpoint="39555")
     counter = 0
     result = {task:{"average":[], "normal":[], "tail":[]} for task in tasks}
     while(counter < epcho):

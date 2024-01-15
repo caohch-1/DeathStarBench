@@ -35,7 +35,7 @@ def plot_pod_num(path: str="", epcho: int=2):
     for deployment_name in pod_nums[0].index:
         plt.plot([3]+[df.loc[deployment_name, "number"]+1 for df in pod_nums], marker="o", linestyle="-", label=deployment_name)
 
-    plt.plot("Cost")
+    plt.title("Cost")
     plt.xlabel("Epchos")
     plt.ylabel("Pod Number")
     plt.legend(loc="upper right")
@@ -179,12 +179,12 @@ def plot_neigh_distribution(path: str="", epcho: int=2, neighbour: int=2):
 # plot_distribution("_sla532") # Normal
 
 # plot_queue()
-plot_latency(path="531-rateDynamic-limit500")
-# plot_pod_num(epcho=15)
+# plot_latency(path="531-rateDynamic-limit500")
+plot_pod_num(path="531-rateDynamic-limit500",epcho=20)
 # plot_distribution(epcho=15)
     
 
 
 # plot_neigh_distribution(epcho=0, neighbour=3)
 # plot_neigh_distribution(epcho=0, neighbour=1)
-        
+    
