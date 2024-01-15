@@ -147,7 +147,7 @@ def prop_schedule_sla2(queues_estimation, ave_delay_vio_estimation, tail_delay_v
 """
    HAB algorithm
 """
-def vs_schedule(service_time, total_capacity, lambda_):
+def vs_schedule(queues_estimation, service_time, total_capacity, lambda_):
   """
     :param service_time: a dict that denotes the processing time for load of each node, can be average time  {"Node1":0.0003, "Node2":0.0002,...}
     :param total_capacity: total number of pods we use
@@ -160,6 +160,7 @@ def vs_schedule(service_time, total_capacity, lambda_):
   phi_lambda_base = 0
   phi_left = lambda_base
   phi_right = lambda_base * 10
+  pod_on_node = {}
 
   while phi_left < phi_right:
     phi_lambda_base = (phi_left + phi_right)/2
