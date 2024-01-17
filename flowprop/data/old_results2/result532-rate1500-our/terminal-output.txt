@@ -1,0 +1,1386 @@
+2024-01-16 15:34:31.016086 [Workload] Generating with 1500 reqs/s for 120m..
+====================0 Start:2024-01-16 15:36:01.104995====================
+2024-01-16 15:36:12.826830 [Jaeger Collector] HTTP GET /hotels:
+2024-01-16 15:36:12.847413 [Jaeger] 4000 Average latency is 119151.8215 ns.
+2024-01-16 15:36:12.847463 [Jaeger] 3600 Normal<90\% latency is 58737.087222222224 ns.
+2024-01-16 15:36:12.847472 [Jaeger] 400 Tail>90\% latency is 662884.43 ns.
+2024-01-16 15:36:17.713831 [Jaeger Collector] HTTP GET /recommendations:
+2024-01-16 15:36:17.721191 [Jaeger] 4000 Average latency is 2844.0495 ns.
+2024-01-16 15:36:17.721229 [Jaeger] 3600 Normal<90\% latency is 2190.5783333333334 ns.
+2024-01-16 15:36:17.721239 [Jaeger] 400 Tail>90\% latency is 8725.29 ns.
+2024-01-16 15:36:22.227369 [Jaeger Collector] HTTP POST /reservation:
+2024-01-16 15:36:22.235224 [Jaeger] 4000 Average latency is 81122.27475 ns.
+2024-01-16 15:36:22.235266 [Jaeger] 3600 Normal<90\% latency is 53903.46194444445 ns.
+2024-01-16 15:36:22.235273 [Jaeger] 400 Tail>90\% latency is 326091.59 ns.
+2024-01-16 15:36:24.960894 [Jaeger Collector] HTTP POST /user:
+2024-01-16 15:36:24.968179 [Jaeger] 4000 Average latency is 946.793 ns.
+2024-01-16 15:36:24.968254 [Jaeger] 3600 Normal<90\% latency is 658.485 ns.
+2024-01-16 15:36:24.968264 [Jaeger] 400 Tail>90\% latency is 3541.565 ns.
+2024-01-16 15:36:25.004052 [Algorithm Input]
+queues_estimation:
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend              33842.769                2139.50125             31378.5355        926.6045
+geo                   107.99574                         /                      /               /
+profile               27.351508                  664.2008                      /               /
+rate                1258.584835                         /                      /               /
+reservation           81961.738                         /           49871.391675               /
+search              1958.775106                         /                      /               /
+recommendation                /                   40.5135                      /               /
+user                          /                         /              21.967242       20.223892
+ave_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend           69157.214189                -155.78445           31271.894417      -53.171608
+geo                69157.214189                         /                      /               /
+profile            69157.214189                -155.78445                      /               /
+rate               69157.214189                         /                      /               /
+reservation        69157.214189                         /           31271.894417               /
+search             69157.214189                         /                      /               /
+recommendation                /                -155.78445                      /               /
+user                          /                         /           31271.894417      -53.171608
+tail_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend          485561.984579              -4913.754676          130373.713872    -1427.150523
+geo               485561.984579                         /                      /               /
+profile           485561.984579              -4913.754676                      /               /
+rate              485561.984579                         /                      /               /
+recommendation                /              -4913.754676                      /               /
+reservation       485561.984579                         /          130373.713872               /
+search            485561.984579                         /                      /               /
+user                          /                         /          130373.713872    -1427.150523
+2024-01-16 15:36:25.022465 [Algorithm Output]
+        Deployment  number
+0        frontend       6
+1             geo       0
+2         profile       0
+3            rate       0
+4     reservation      10
+5          search       0
+6  recommendation       0
+7            user       0
+2024-01-16 15:36:27.085439 [K8sManager Scale] Scale frontend-hotel-hotelres to 7 pods.
+2024-01-16 15:36:29.674867 [K8sManager Scale] Scale mongodb-geo-hotel-hotelres to 1 pods.
+2024-01-16 15:36:32.331748 [K8sManager Scale] Scale geo-hotel-hotelres to 1 pods.
+2024-01-16 15:36:34.926617 [K8sManager Scale] Scale memcached-profile-1-hotel-hotelres to 1 pods.
+2024-01-16 15:36:37.520904 [K8sManager Scale] Scale mongodb-profile-hotel-hotelres to 1 pods.
+2024-01-16 15:36:40.119029 [K8sManager Scale] Scale profile-hotel-hotelres to 1 pods.
+2024-01-16 15:36:42.729844 [K8sManager Scale] Scale memcached-rate-1-hotel-hotelres to 1 pods.
+2024-01-16 15:36:45.331122 [K8sManager Scale] Scale mongodb-rate-hotel-hotelres to 1 pods.
+2024-01-16 15:36:47.967210 [K8sManager Scale] Scale rate-hotel-hotelres to 1 pods.
+2024-01-16 15:38:09.943497 [K8sManager Scale] Scale memcached-reserve-1-hotel-hotelres to 11 pods.
+2024-01-16 15:38:14.645298 [K8sManager Scale] Scale mongodb-reservation-hotel-hotelres to 11 pods.
+2024-01-16 15:38:20.778049 [K8sManager Scale] Scale reservation-hotel-hotelres to 11 pods.
+2024-01-16 15:38:23.592164 [K8sManager Scale] Scale search-hotel-hotelres to 1 pods.
+2024-01-16 15:38:26.227359 [K8sManager Scale] Scale mongodb-recommendation-hotel-hotelres to 1 pods.
+2024-01-16 15:38:28.911494 [K8sManager Scale] Scale recommendation-hotel-hotelres to 1 pods.
+2024-01-16 15:38:31.570594 [K8sManager Scale] Scale mongodb-user-hotel-hotelres to 1 pods.
+2024-01-16 15:38:34.239019 [K8sManager Scale] Scale user-hotel-hotelres to 1 pods.
+====================0 Finish:2024-01-16 15:38:36.740720====================
+
+====================1 Start:2024-01-16 15:40:06.828690====================
+2024-01-16 15:40:20.101435 [Jaeger Collector] HTTP GET /hotels:
+2024-01-16 15:40:20.128261 [Jaeger] 4000 Average latency is 102877.298 ns.
+2024-01-16 15:40:20.128325 [Jaeger] 3600 Normal<90\% latency is 85156.25972222222 ns.
+2024-01-16 15:40:20.128338 [Jaeger] 400 Tail>90\% latency is 262366.6425 ns.
+2024-01-16 15:40:26.159587 [Jaeger Collector] HTTP GET /recommendations:
+2024-01-16 15:40:26.168518 [Jaeger] 4000 Average latency is 4214.47 ns.
+2024-01-16 15:40:26.168571 [Jaeger] 3600 Normal<90\% latency is 3163.9705555555556 ns.
+2024-01-16 15:40:26.168581 [Jaeger] 400 Tail>90\% latency is 13668.965 ns.
+2024-01-16 15:40:33.535033 [Jaeger Collector] HTTP POST /reservation:
+2024-01-16 15:40:33.547908 [Jaeger] 4000 Average latency is 15571.0745 ns.
+2024-01-16 15:40:33.547965 [Jaeger] 3600 Normal<90\% latency is 9540.771666666667 ns.
+2024-01-16 15:40:33.547979 [Jaeger] 400 Tail>90\% latency is 69843.8 ns.
+2024-01-16 15:40:37.171729 [Jaeger Collector] HTTP POST /user:
+2024-01-16 15:40:37.178001 [Jaeger] 4000 Average latency is 1740.81625 ns.
+2024-01-16 15:40:37.178042 [Jaeger] 3600 Normal<90\% latency is 1099.5861111111112 ns.
+2024-01-16 15:40:37.178050 [Jaeger] 400 Tail>90\% latency is 7511.8875 ns.
+2024-01-16 15:40:37.213100 [Algorithm Input]
+queues_estimation:
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend             7768.06575                3085.50125               4043.088      1716.66925
+geo                  151.186596                         /                      /               /
+profile              172.810384                1087.90469                      /               /
+rate               29987.352299                         /                      /               /
+reservation         8028.589569                         /           11524.875251               /
+search             58005.206984                         /                      /               /
+recommendation                /                  44.59975                      /               /
+user                          /                         /                26.2003       24.274441
+ave_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend           54113.211581                1218.00569          -34405.836449      740.943691
+geo                54113.211581                         /                      /               /
+profile            54113.211581                1218.00569                      /               /
+rate               54113.211581                         /                      /               /
+reservation        54113.211581                         /          -34405.836449               /
+search             54113.211581                         /                      /               /
+recommendation                /                1218.00569                      /               /
+user                          /                         /          -34405.836449      740.943691
+tail_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend          113475.851581                1199.02757          -171690.77672     2618.074224
+geo               113475.851581                         /                      /               /
+profile           113475.851581                1199.02757                      /               /
+rate              113475.851581                         /                      /               /
+recommendation                /                1199.02757                      /               /
+reservation       113475.851581                         /          -171690.77672               /
+search            113475.851581                         /                      /               /
+user                          /                         /          -171690.77672     2618.074224
+2024-01-16 15:40:37.243735 [Algorithm Output]
+        Deployment  number
+0        frontend       2
+1             geo       0
+2         profile       0
+3            rate       3
+4     reservation       2
+5          search       9
+6  recommendation       0
+7            user       0
+2024-01-16 15:40:37.475449 [K8sManager Scale] Scale frontend-hotel-hotelres to 3 pods.
+2024-01-16 15:40:40.001914 [K8sManager Scale] Keep mongodb-geo-hotel-hotelres have 1 pods.
+2024-01-16 15:40:40.016614 [K8sManager Scale] Keep geo-hotel-hotelres have 1 pods.
+2024-01-16 15:40:40.034089 [K8sManager Scale] Keep memcached-profile-1-hotel-hotelres have 1 pods.
+2024-01-16 15:40:40.044507 [K8sManager Scale] Keep mongodb-profile-hotel-hotelres have 1 pods.
+2024-01-16 15:40:40.055892 [K8sManager Scale] Keep profile-hotel-hotelres have 1 pods.
+2024-01-16 15:40:42.415054 [K8sManager Scale] Scale memcached-rate-1-hotel-hotelres to 4 pods.
+2024-01-16 15:40:46.875927 [K8sManager Scale] Scale mongodb-rate-hotel-hotelres to 4 pods.
+2024-01-16 15:40:51.682014 [K8sManager Scale] Scale rate-hotel-hotelres to 4 pods.
+2024-01-16 15:40:54.369983 [K8sManager Scale] Scale memcached-reserve-1-hotel-hotelres to 3 pods.
+2024-01-16 15:40:56.985777 [K8sManager Scale] Scale mongodb-reservation-hotel-hotelres to 3 pods.
+2024-01-16 15:40:59.571900 [K8sManager Scale] Scale reservation-hotel-hotelres to 3 pods.
+2024-01-16 15:41:03.924554 [K8sManager Scale] Scale search-hotel-hotelres to 10 pods.
+2024-01-16 15:41:06.431509 [K8sManager Scale] Keep mongodb-recommendation-hotel-hotelres have 1 pods.
+2024-01-16 15:41:06.436345 [K8sManager Scale] Keep recommendation-hotel-hotelres have 1 pods.
+2024-01-16 15:41:06.443577 [K8sManager Scale] Keep mongodb-user-hotel-hotelres have 1 pods.
+2024-01-16 15:41:06.448082 [K8sManager Scale] Keep user-hotel-hotelres have 1 pods.
+====================1 Finish:2024-01-16 15:41:06.448142====================
+
+====================2 Start:2024-01-16 15:42:36.538139====================
+2024-01-16 15:42:47.911570 [Jaeger Collector] HTTP GET /hotels:
+2024-01-16 15:42:47.927335 [Jaeger] 4000 Average latency is 128993.96875 ns.
+2024-01-16 15:42:47.927396 [Jaeger] 3600 Normal<90\% latency is 69469.21194444444 ns.
+2024-01-16 15:42:47.927408 [Jaeger] 400 Tail>90\% latency is 664716.78 ns.
+2024-01-16 15:42:53.325875 [Jaeger Collector] HTTP GET /recommendations:
+2024-01-16 15:42:53.335997 [Jaeger] 4000 Average latency is 3661.47925 ns.
+2024-01-16 15:42:53.336037 [Jaeger] 3600 Normal<90\% latency is 2762.758333333333 ns.
+2024-01-16 15:42:53.336045 [Jaeger] 400 Tail>90\% latency is 11749.9675 ns.
+2024-01-16 15:42:58.304403 [Jaeger Collector] HTTP POST /reservation:
+2024-01-16 15:42:58.312396 [Jaeger] 4000 Average latency is 86335.8905 ns.
+2024-01-16 15:42:58.312438 [Jaeger] 3600 Normal<90\% latency is 58401.183333333334 ns.
+2024-01-16 15:42:58.312444 [Jaeger] 400 Tail>90\% latency is 337748.255 ns.
+2024-01-16 15:43:01.321662 [Jaeger Collector] HTTP POST /user:
+2024-01-16 15:43:01.328348 [Jaeger] 4000 Average latency is 897.57925 ns.
+2024-01-16 15:43:01.328395 [Jaeger] 3600 Normal<90\% latency is 613.8469444444445 ns.
+2024-01-16 15:43:01.328403 [Jaeger] 400 Tail>90\% latency is 3451.17 ns.
+2024-01-16 15:43:01.347005 [Algorithm Input]
+queues_estimation:
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend               34284.88                 2762.4535            29369.77375        881.2405
+geo                   106.18175                         /                      /               /
+profile                  40.943                850.476703                      /               /
+rate                1523.656914                         /                      /               /
+reservation        90875.776026                         /           57034.615924               /
+search              2254.369592                         /                      /               /
+recommendation                /                 50.287716                      /               /
+user                          /                         /               17.06982       16.371493
+ave_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend           79085.807283                663.217919           36421.459494     -102.388007
+geo                79085.807283                         /                      /               /
+profile            79085.807283                663.217919                      /               /
+rate               79085.807283                         /                      /               /
+reservation        79085.807283                         /           36421.459494               /
+search             79085.807283                         /                      /               /
+recommendation                /                663.217919                      /               /
+user                          /                         /           36421.459494     -102.388007
+tail_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend          490045.001861              -1232.138669          146311.602796    -1513.334918
+geo               490045.001861                         /                      /               /
+profile           490045.001861              -1232.138669                      /               /
+rate              490045.001861                         /                      /               /
+recommendation                /              -1232.138669                      /               /
+reservation       490045.001861                         /          146311.602796               /
+search            490045.001861                         /                      /               /
+user                          /                         /          146311.602796    -1513.334918
+2024-01-16 15:43:01.373580 [Algorithm Output]
+        Deployment  number
+0        frontend       5
+1             geo       0
+2         profile       0
+3            rate       0
+4     reservation      11
+5          search       0
+6  recommendation       0
+7            user       0
+2024-01-16 15:43:03.266874 [K8sManager Scale] Scale frontend-hotel-hotelres to 6 pods.
+2024-01-16 15:43:05.792210 [K8sManager Scale] Keep mongodb-geo-hotel-hotelres have 1 pods.
+2024-01-16 15:43:05.803645 [K8sManager Scale] Keep geo-hotel-hotelres have 1 pods.
+2024-01-16 15:43:05.809596 [K8sManager Scale] Keep memcached-profile-1-hotel-hotelres have 1 pods.
+2024-01-16 15:43:05.815330 [K8sManager Scale] Keep mongodb-profile-hotel-hotelres have 1 pods.
+2024-01-16 15:43:05.822832 [K8sManager Scale] Keep profile-hotel-hotelres have 1 pods.
+2024-01-16 15:43:05.958776 [K8sManager Scale] Scale memcached-rate-1-hotel-hotelres to 1 pods.
+2024-01-16 15:43:08.565900 [K8sManager Scale] Scale mongodb-rate-hotel-hotelres to 1 pods.
+2024-01-16 15:43:11.177682 [K8sManager Scale] Scale rate-hotel-hotelres to 1 pods.
+2024-01-16 15:43:15.945545 [K8sManager Scale] Scale memcached-reserve-1-hotel-hotelres to 12 pods.
+2024-01-16 15:43:20.818277 [K8sManager Scale] Scale mongodb-reservation-hotel-hotelres to 12 pods.
+2024-01-16 15:43:43.750929 [K8sManager Scale] Scale reservation-hotel-hotelres to 12 pods.
+2024-01-16 15:43:46.493427 [K8sManager Scale] Scale search-hotel-hotelres to 1 pods.
+2024-01-16 15:43:49.017413 [K8sManager Scale] Keep mongodb-recommendation-hotel-hotelres have 1 pods.
+2024-01-16 15:43:49.037562 [K8sManager Scale] Keep recommendation-hotel-hotelres have 1 pods.
+2024-01-16 15:43:49.060296 [K8sManager Scale] Keep mongodb-user-hotel-hotelres have 1 pods.
+2024-01-16 15:43:49.071069 [K8sManager Scale] Keep user-hotel-hotelres have 1 pods.
+====================2 Finish:2024-01-16 15:43:49.071249====================
+
+====================3 Start:2024-01-16 15:45:19.161006====================
+2024-01-16 15:45:33.460030 [Jaeger Collector] HTTP GET /hotels:
+2024-01-16 15:45:33.475360 [Jaeger] 4000 Average latency is 119580.223 ns.
+2024-01-16 15:45:33.475418 [Jaeger] 3600 Normal<90\% latency is 97524.56166666666 ns.
+2024-01-16 15:45:33.475429 [Jaeger] 400 Tail>90\% latency is 318081.175 ns.
+2024-01-16 15:45:40.181989 [Jaeger Collector] HTTP GET /recommendations:
+2024-01-16 15:45:40.198493 [Jaeger] 4000 Average latency is 4113.207 ns.
+2024-01-16 15:45:40.198559 [Jaeger] 3600 Normal<90\% latency is 3107.097777777778 ns.
+2024-01-16 15:45:40.198572 [Jaeger] 400 Tail>90\% latency is 13168.19 ns.
+2024-01-16 15:45:46.086233 [Jaeger Collector] HTTP POST /reservation:
+2024-01-16 15:45:46.101643 [Jaeger] 4000 Average latency is 20829.0945 ns.
+2024-01-16 15:45:46.101727 [Jaeger] 3600 Normal<90\% latency is 9890.073888888888 ns.
+2024-01-16 15:45:46.101744 [Jaeger] 400 Tail>90\% latency is 119280.28 ns.
+2024-01-16 15:45:53.130694 [Jaeger Collector] HTTP POST /user:
+2024-01-16 15:45:53.139637 [Jaeger] 4000 Average latency is 1731.73125 ns.
+2024-01-16 15:45:53.139706 [Jaeger] 3600 Normal<90\% latency is 1113.1561111111112 ns.
+2024-01-16 15:45:53.139719 [Jaeger] 400 Tail>90\% latency is 7298.9075 ns.
+2024-01-16 15:45:53.163308 [Algorithm Input]
+queues_estimation:
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend             6498.36625                 2950.2385             3664.14575      1709.98225
+geo                   176.12475                         /                      /               /
+profile              173.416185               1124.598297                      /               /
+rate                 40563.6145                         /                      /               /
+reservation         9302.302886                         /           17189.157222               /
+search              62902.46825                         /                      /               /
+recommendation                /                  40.33825                      /               /
+user                          /                         /                27.4001       21.781673
+ave_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend           69616.292821               1115.175047          -29119.296928      731.763923
+geo                69616.292821                         /                      /               /
+profile            69616.292821               1115.175047                      /               /
+rate               69616.292821                         /                      /               /
+reservation        69616.292821                         /          -29119.296928               /
+search             69616.292821                         /                      /               /
+recommendation                /               1115.175047                      /               /
+user                          /                         /          -29119.296928      731.763923
+tail_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend          184094.388979                641.951363         -122452.845932     2363.080783
+geo               184094.388979                         /                      /               /
+profile           184094.388979                641.951363                      /               /
+rate              184094.388979                         /                      /               /
+recommendation                /                641.951363                      /               /
+reservation       184094.388979                         /         -122452.845932               /
+search            184094.388979                         /                      /               /
+user                          /                         /         -122452.845932     2363.080783
+2024-01-16 15:45:53.181802 [Algorithm Output]
+        Deployment  number
+0        frontend       1
+1             geo       0
+2         profile       0
+3            rate       4
+4     reservation       3
+5          search       8
+6  recommendation       0
+7            user       0
+2024-01-16 15:45:53.440688 [K8sManager Scale] Scale frontend-hotel-hotelres to 2 pods.
+2024-01-16 15:45:55.958592 [K8sManager Scale] Keep mongodb-geo-hotel-hotelres have 1 pods.
+2024-01-16 15:45:55.965246 [K8sManager Scale] Keep geo-hotel-hotelres have 1 pods.
+2024-01-16 15:45:55.973334 [K8sManager Scale] Keep memcached-profile-1-hotel-hotelres have 1 pods.
+2024-01-16 15:45:55.987717 [K8sManager Scale] Keep mongodb-profile-hotel-hotelres have 1 pods.
+2024-01-16 15:45:55.998710 [K8sManager Scale] Keep profile-hotel-hotelres have 1 pods.
+2024-01-16 15:45:58.228060 [K8sManager Scale] Scale memcached-rate-1-hotel-hotelres to 5 pods.
+2024-01-16 15:46:03.476816 [K8sManager Scale] Scale mongodb-rate-hotel-hotelres to 5 pods.
+2024-01-16 15:46:09.604861 [K8sManager Scale] Scale rate-hotel-hotelres to 5 pods.
+2024-01-16 15:46:12.454840 [K8sManager Scale] Scale memcached-reserve-1-hotel-hotelres to 4 pods.
+2024-01-16 15:46:15.104452 [K8sManager Scale] Scale mongodb-reservation-hotel-hotelres to 4 pods.
+2024-01-16 15:46:29.042352 [K8sManager Scale] Scale reservation-hotel-hotelres to 4 pods.
+2024-01-16 15:46:34.154380 [K8sManager Scale] Scale search-hotel-hotelres to 9 pods.
+2024-01-16 15:46:36.665233 [K8sManager Scale] Keep mongodb-recommendation-hotel-hotelres have 1 pods.
+2024-01-16 15:46:36.674044 [K8sManager Scale] Keep recommendation-hotel-hotelres have 1 pods.
+2024-01-16 15:46:36.706934 [K8sManager Scale] Keep mongodb-user-hotel-hotelres have 1 pods.
+2024-01-16 15:46:36.717448 [K8sManager Scale] Keep user-hotel-hotelres have 1 pods.
+====================3 Finish:2024-01-16 15:46:36.717611====================
+
+====================4 Start:2024-01-16 15:48:06.804753====================
+2024-01-16 15:48:20.861885 [Jaeger Collector] HTTP GET /hotels:
+2024-01-16 15:48:20.888788 [Jaeger] 4000 Average latency is 65633.76875 ns.
+2024-01-16 15:48:20.888895 [Jaeger] 3600 Normal<90\% latency is 40872.853055555555 ns.
+2024-01-16 15:48:20.888912 [Jaeger] 400 Tail>90\% latency is 288482.01 ns.
+2024-01-16 15:48:27.251301 [Jaeger Collector] HTTP GET /recommendations:
+2024-01-16 15:48:27.268232 [Jaeger] 4000 Average latency is 3799.57275 ns.
+2024-01-16 15:48:27.268284 [Jaeger] 3600 Normal<90\% latency is 2812.5461111111113 ns.
+2024-01-16 15:48:27.268294 [Jaeger] 400 Tail>90\% latency is 12682.8125 ns.
+2024-01-16 15:48:33.380174 [Jaeger Collector] HTTP POST /reservation:
+2024-01-16 15:48:33.394069 [Jaeger] 4000 Average latency is 71109.342 ns.
+2024-01-16 15:48:33.394135 [Jaeger] 3600 Normal<90\% latency is 45429.645 ns.
+2024-01-16 15:48:33.394149 [Jaeger] 400 Tail>90\% latency is 302226.615 ns.
+2024-01-16 15:48:37.434961 [Jaeger Collector] HTTP POST /user:
+2024-01-16 15:48:37.443838 [Jaeger] 4000 Average latency is 1197.666 ns.
+2024-01-16 15:48:37.443959 [Jaeger] 3600 Normal<90\% latency is 734.8738888888889 ns.
+2024-01-16 15:48:37.443980 [Jaeger] 400 Tail>90\% latency is 5362.795 ns.
+2024-01-16 15:48:37.484575 [Algorithm Input]
+queues_estimation:
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend              24495.812                2979.49825            20724.40075        1180.285
+geo                  100.826595                         /                      /               /
+profile               37.972878                771.295283                      /               /
+rate                1232.866919                         /                      /               /
+reservation        37396.594819                         /           50750.861713               /
+search              2646.400304                         /                      /               /
+recommendation                /                 51.933165                      /               /
+user                          /                         /              15.029847       17.762902
+ave_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend           15910.473515                802.726699            21490.29231      198.047902
+geo                15910.473515                         /                      /               /
+profile            15910.473515                802.726699                      /               /
+rate               15910.473515                         /                      /               /
+reservation        15910.473515                         /            21490.29231               /
+search             15910.473515                         /                      /               /
+recommendation                /                802.726699                      /               /
+user                          /                         /            21490.29231      198.047902
+tail_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend           91995.091707               -332.541945           93403.924363      411.636247
+geo                91995.091707                         /                      /               /
+profile            91995.091707               -332.541945                      /               /
+rate               91995.091707                         /                      /               /
+recommendation                /               -332.541945                      /               /
+reservation        91995.091707                         /           93403.924363               /
+search             91995.091707                         /                      /               /
+user                          /                         /           93403.924363      411.636247
+2024-01-16 15:48:37.505555 [Algorithm Output]
+        Deployment  number
+0        frontend       6
+1             geo       0
+2         profile       0
+3            rate       0
+4     reservation      10
+5          search       0
+6  recommendation       0
+7            user       0
+2024-01-16 15:48:40.230355 [K8sManager Scale] Scale frontend-hotel-hotelres to 7 pods.
+2024-01-16 15:48:42.748771 [K8sManager Scale] Keep mongodb-geo-hotel-hotelres have 1 pods.
+2024-01-16 15:48:42.760024 [K8sManager Scale] Keep geo-hotel-hotelres have 1 pods.
+2024-01-16 15:48:42.772195 [K8sManager Scale] Keep memcached-profile-1-hotel-hotelres have 1 pods.
+2024-01-16 15:48:42.787844 [K8sManager Scale] Keep mongodb-profile-hotel-hotelres have 1 pods.
+2024-01-16 15:48:42.802022 [K8sManager Scale] Keep profile-hotel-hotelres have 1 pods.
+2024-01-16 15:48:42.984763 [K8sManager Scale] Scale memcached-rate-1-hotel-hotelres to 1 pods.
+2024-01-16 15:48:45.659765 [K8sManager Scale] Scale mongodb-rate-hotel-hotelres to 1 pods.
+2024-01-16 15:48:48.558463 [K8sManager Scale] Scale rate-hotel-hotelres to 1 pods.
+2024-01-16 15:48:53.419789 [K8sManager Scale] Scale memcached-reserve-1-hotel-hotelres to 11 pods.
+2024-01-16 15:48:58.115290 [K8sManager Scale] Scale mongodb-reservation-hotel-hotelres to 11 pods.
+2024-01-16 15:50:19.971700 [K8sManager Scale] Scale reservation-hotel-hotelres to 11 pods.
+2024-01-16 15:50:23.076997 [K8sManager Scale] Scale search-hotel-hotelres to 1 pods.
+2024-01-16 15:50:25.611009 [K8sManager Scale] Keep mongodb-recommendation-hotel-hotelres have 1 pods.
+2024-01-16 15:50:25.633933 [K8sManager Scale] Keep recommendation-hotel-hotelres have 1 pods.
+2024-01-16 15:50:25.655883 [K8sManager Scale] Keep mongodb-user-hotel-hotelres have 1 pods.
+2024-01-16 15:50:25.665848 [K8sManager Scale] Keep user-hotel-hotelres have 1 pods.
+====================4 Finish:2024-01-16 15:50:25.665964====================
+
+====================5 Start:2024-01-16 15:51:55.752638====================
+2024-01-16 15:52:12.753972 [Jaeger Collector] HTTP GET /hotels:
+2024-01-16 15:52:12.776169 [Jaeger] 4000 Average latency is 93013.16675 ns.
+2024-01-16 15:52:12.776228 [Jaeger] 3600 Normal<90\% latency is 77798.32 ns.
+2024-01-16 15:52:12.776238 [Jaeger] 400 Tail>90\% latency is 229946.7875 ns.
+2024-01-16 15:52:19.730714 [Jaeger Collector] HTTP GET /recommendations:
+2024-01-16 15:52:19.746178 [Jaeger] 4000 Average latency is 5768.01475 ns.
+2024-01-16 15:52:19.746245 [Jaeger] 3600 Normal<90\% latency is 3996.5036111111112 ns.
+2024-01-16 15:52:19.746259 [Jaeger] 400 Tail>90\% latency is 21711.615 ns.
+2024-01-16 15:52:26.096714 [Jaeger Collector] HTTP POST /reservation:
+2024-01-16 15:52:26.114075 [Jaeger] 4000 Average latency is 29653.46925 ns.
+2024-01-16 15:52:26.114142 [Jaeger] 3600 Normal<90\% latency is 13536.734166666667 ns.
+2024-01-16 15:52:26.114160 [Jaeger] 400 Tail>90\% latency is 174704.085 ns.
+2024-01-16 15:52:30.616795 [Jaeger Collector] HTTP POST /user:
+2024-01-16 15:52:30.627850 [Jaeger] 4000 Average latency is 2358.808 ns.
+2024-01-16 15:52:30.627920 [Jaeger] 3600 Normal<90\% latency is 1322.1377777777777 ns.
+2024-01-16 15:52:30.627937 [Jaeger] 400 Tail>90\% latency is 11688.84 ns.
+2024-01-16 15:52:30.651991 [Algorithm Input]
+queues_estimation:
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend              8438.0285                4494.00225              5943.6545      2339.38925
+geo                  143.967937                         /                      /               /
+profile               154.96025               1220.140105                      /               /
+rate               25487.387863                         /                      /               /
+reservation         8026.585525                         /           23770.253136               /
+search                 51064.42                         /                      /               /
+recommendation                /                  55.46697                      /               /
+user                          /                         /              22.785982       19.609947
+ave_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend           43315.350076               2769.609325          -20263.306382     1358.999197
+geo                43315.350076                         /                      /               /
+profile            43315.350076               2769.609325                      /               /
+rate               43315.350076                         /                      /               /
+reservation        43315.350076                         /          -20263.306382               /
+search             43315.350076                         /                      /               /
+recommendation                /               2769.609325                      /               /
+user                          /                         /          -20263.306382     1358.999197
+tail_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend           77860.439324              10164.105313          -58097.303558     6769.296264
+geo                77860.439324                         /                      /               /
+profile            77860.439324              10164.105313                      /               /
+rate               77860.439324                         /                      /               /
+recommendation                /              10164.105313                      /               /
+reservation        77860.439324                         /          -58097.303558               /
+search             77860.439324                         /                      /               /
+user                          /                         /          -58097.303558     6769.296264
+2024-01-16 15:52:30.669040 [Algorithm Output]
+        Deployment  number
+0        frontend       2
+1             geo       0
+2         profile       0
+3            rate       3
+4     reservation       5
+5          search       6
+6  recommendation       0
+7            user       0
+2024-01-16 15:52:30.966592 [K8sManager Scale] Scale frontend-hotel-hotelres to 3 pods.
+2024-01-16 15:52:33.479384 [K8sManager Scale] Keep mongodb-geo-hotel-hotelres have 1 pods.
+2024-01-16 15:52:33.487167 [K8sManager Scale] Keep geo-hotel-hotelres have 1 pods.
+2024-01-16 15:52:33.497126 [K8sManager Scale] Keep memcached-profile-1-hotel-hotelres have 1 pods.
+2024-01-16 15:52:33.527993 [K8sManager Scale] Keep mongodb-profile-hotel-hotelres have 1 pods.
+2024-01-16 15:52:33.552632 [K8sManager Scale] Keep profile-hotel-hotelres have 1 pods.
+2024-01-16 15:52:35.872306 [K8sManager Scale] Scale memcached-rate-1-hotel-hotelres to 4 pods.
+2024-01-16 15:52:40.391023 [K8sManager Scale] Scale mongodb-rate-hotel-hotelres to 4 pods.
+2024-01-16 15:52:45.349377 [K8sManager Scale] Scale rate-hotel-hotelres to 4 pods.
+2024-01-16 15:52:48.148887 [K8sManager Scale] Scale memcached-reserve-1-hotel-hotelres to 6 pods.
+2024-01-16 15:52:50.870158 [K8sManager Scale] Scale mongodb-reservation-hotel-hotelres to 6 pods.
+2024-01-16 15:53:17.779113 [K8sManager Scale] Scale reservation-hotel-hotelres to 6 pods.
+2024-01-16 15:53:23.051037 [K8sManager Scale] Scale search-hotel-hotelres to 7 pods.
+2024-01-16 15:53:25.563141 [K8sManager Scale] Keep mongodb-recommendation-hotel-hotelres have 1 pods.
+2024-01-16 15:53:25.573222 [K8sManager Scale] Keep recommendation-hotel-hotelres have 1 pods.
+2024-01-16 15:53:25.604772 [K8sManager Scale] Keep mongodb-user-hotel-hotelres have 1 pods.
+2024-01-16 15:53:25.619071 [K8sManager Scale] Keep user-hotel-hotelres have 1 pods.
+====================5 Finish:2024-01-16 15:53:25.619235====================
+
+====================6 Start:2024-01-16 15:54:55.709280====================
+2024-01-16 15:55:11.723647 [Jaeger Collector] HTTP GET /hotels:
+2024-01-16 15:55:11.744124 [Jaeger] 4000 Average latency is 52661.4285 ns.
+2024-01-16 15:55:11.744172 [Jaeger] 3600 Normal<90\% latency is 38411.9975 ns.
+2024-01-16 15:55:11.744180 [Jaeger] 400 Tail>90\% latency is 180906.3075 ns.
+2024-01-16 15:55:19.620776 [Jaeger Collector] HTTP GET /recommendations:
+2024-01-16 15:55:19.638647 [Jaeger] 4000 Average latency is 10819.016 ns.
+2024-01-16 15:55:19.638725 [Jaeger] 3600 Normal<90\% latency is 6114.796111111111 ns.
+2024-01-16 15:55:19.638740 [Jaeger] 400 Tail>90\% latency is 53156.995 ns.
+2024-01-16 15:55:27.048292 [Jaeger Collector] HTTP POST /reservation:
+2024-01-16 15:55:27.056387 [Jaeger] 4000 Average latency is 42244.25125 ns.
+2024-01-16 15:55:27.056428 [Jaeger] 3600 Normal<90\% latency is 30864.81777777778 ns.
+2024-01-16 15:55:27.056439 [Jaeger] 400 Tail>90\% latency is 144659.1525 ns.
+2024-01-16 15:55:32.275207 [Jaeger Collector] HTTP POST /user:
+2024-01-16 15:55:32.287801 [Jaeger] 4000 Average latency is 3732.55775 ns.
+2024-01-16 15:55:32.287878 [Jaeger] 3600 Normal<90\% latency is 1386.0469444444445 ns.
+2024-01-16 15:55:32.287892 [Jaeger] 400 Tail>90\% latency is 24851.155 ns.
+2024-01-16 15:55:32.327985 [Algorithm Input]
+queues_estimation:
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend            27698.63175                 9619.7135            21719.63825      3715.73725
+geo                  114.551031                         /                      /               /
+profile               47.951189               1147.525703                      /               /
+rate                1627.517477                         /                      /               /
+reservation        20391.019322                         /           20978.824552               /
+search              2907.473048                         /                      /               /
+recommendation                /                 67.401928                      /               /
+user                          /                         /               19.24867       17.471306
+ave_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend            2787.143817               7834.641131           -7282.288527     2733.208556
+geo                 2787.143817                         /                      /               /
+profile             2787.143817               7834.641131                      /               /
+rate                2787.143817                         /                      /               /
+reservation         2787.143817                         /           -7282.288527               /
+search              2787.143817                         /                      /               /
+recommendation                /               7834.641131                      /               /
+user                          /                         /           -7282.288527     2733.208556
+tail_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend          -13600.287387              42060.966184          -61702.563537    19912.729339
+geo               -13600.287387                         /                      /               /
+profile           -13600.287387              42060.966184                      /               /
+rate              -13600.287387                         /                      /               /
+recommendation                /              42060.966184                      /               /
+reservation       -13600.287387                         /          -61702.563537               /
+search            -13600.287387                         /                      /               /
+user                          /                         /          -61702.563537    19912.729339
+2024-01-16 15:55:32.362548 [Algorithm Output]
+        Deployment  number
+0        frontend      10
+1             geo       0
+2         profile       0
+3            rate       0
+4     reservation       6
+5          search       0
+6  recommendation       0
+7            user       0
+2024-01-16 15:55:35.453516 [K8sManager Scale] Scale frontend-hotel-hotelres to 11 pods.
+2024-01-16 15:55:37.979206 [K8sManager Scale] Keep mongodb-geo-hotel-hotelres have 1 pods.
+2024-01-16 15:55:38.003063 [K8sManager Scale] Keep geo-hotel-hotelres have 1 pods.
+2024-01-16 15:55:38.029986 [K8sManager Scale] Keep memcached-profile-1-hotel-hotelres have 1 pods.
+2024-01-16 15:55:38.045772 [K8sManager Scale] Keep mongodb-profile-hotel-hotelres have 1 pods.
+2024-01-16 15:55:38.061692 [K8sManager Scale] Keep profile-hotel-hotelres have 1 pods.
+2024-01-16 15:55:38.342138 [K8sManager Scale] Scale memcached-rate-1-hotel-hotelres to 1 pods.
+2024-01-16 15:55:41.026126 [K8sManager Scale] Scale mongodb-rate-hotel-hotelres to 1 pods.
+2024-01-16 15:55:43.786582 [K8sManager Scale] Scale rate-hotel-hotelres to 1 pods.
+2024-01-16 15:55:47.560151 [K8sManager Scale] Scale memcached-reserve-1-hotel-hotelres to 7 pods.
+2024-01-16 15:55:51.414187 [K8sManager Scale] Scale mongodb-reservation-hotel-hotelres to 7 pods.
+2024-01-16 15:55:55.373529 [K8sManager Scale] Scale reservation-hotel-hotelres to 7 pods.
+2024-01-16 15:55:58.175076 [K8sManager Scale] Scale search-hotel-hotelres to 1 pods.
+2024-01-16 15:56:00.685755 [K8sManager Scale] Keep mongodb-recommendation-hotel-hotelres have 1 pods.
+2024-01-16 15:56:00.695795 [K8sManager Scale] Keep recommendation-hotel-hotelres have 1 pods.
+2024-01-16 15:56:00.725968 [K8sManager Scale] Keep mongodb-user-hotel-hotelres have 1 pods.
+2024-01-16 15:56:00.742334 [K8sManager Scale] Keep user-hotel-hotelres have 1 pods.
+====================6 Finish:2024-01-16 15:56:00.742496====================
+
+====================7 Start:2024-01-16 15:57:30.828641====================
+2024-01-16 15:57:45.678678 [Jaeger Collector] HTTP GET /hotels:
+2024-01-16 15:57:45.694825 [Jaeger] 4000 Average latency is 100885.9205 ns.
+2024-01-16 15:57:45.694869 [Jaeger] 3600 Normal<90\% latency is 84506.43583333334 ns.
+2024-01-16 15:57:45.694878 [Jaeger] 400 Tail>90\% latency is 248301.2825 ns.
+2024-01-16 15:57:52.284466 [Jaeger Collector] HTTP GET /recommendations:
+2024-01-16 15:57:52.296308 [Jaeger] 4000 Average latency is 5696.4335 ns.
+2024-01-16 15:57:52.296356 [Jaeger] 3600 Normal<90\% latency is 3601.277777777778 ns.
+2024-01-16 15:57:52.296365 [Jaeger] 400 Tail>90\% latency is 24552.835 ns.
+2024-01-16 15:57:59.049881 [Jaeger Collector] HTTP POST /reservation:
+2024-01-16 15:57:59.060238 [Jaeger] 4000 Average latency is 15391.7615 ns.
+2024-01-16 15:57:59.060283 [Jaeger] 3600 Normal<90\% latency is 10458.951388888889 ns.
+2024-01-16 15:57:59.060293 [Jaeger] 400 Tail>90\% latency is 59787.0525 ns.
+2024-01-16 15:58:03.711339 [Jaeger Collector] HTTP POST /user:
+2024-01-16 15:58:03.723315 [Jaeger] 4000 Average latency is 2138.2405 ns.
+2024-01-16 15:58:03.723376 [Jaeger] 3600 Normal<90\% latency is 1141.8069444444445 ns.
+2024-01-16 15:58:03.723393 [Jaeger] 400 Tail>90\% latency is 11106.1425 ns.
+2024-01-16 15:58:03.758613 [Algorithm Input]
+queues_estimation:
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend              10023.805                 4607.0565              7385.7475       2121.3675
+geo                  117.789259                         /                      /               /
+profile               32.751819               1037.516291                      /               /
+rate               24847.479581                         /                      /               /
+reservation         9847.719586                         /            8155.463247               /
+search              56623.30075                         /                      /               /
+recommendation                /                  55.10344                      /               /
+user                          /                         /              18.109212       17.060667
+ave_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend           51492.845996                2699.67623          -34440.680042     1138.428167
+geo                51492.845996                         /                      /               /
+profile            51492.845996                2699.67623                      /               /
+rate               51492.845996                         /                      /               /
+reservation        51492.845996                         /          -34440.680042               /
+search             51492.845996                         /                      /               /
+recommendation                /                2699.67623                      /               /
+user                          /                         /          -34440.680042     1138.428167
+tail_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend          111823.287426              12581.452797         -173202.135819     6164.269819
+geo               111823.287426                         /                      /               /
+profile           111823.287426              12581.452797                      /               /
+rate              111823.287426                         /                      /               /
+recommendation                /              12581.452797                      /               /
+reservation       111823.287426                         /         -173202.135819               /
+search            111823.287426                         /                      /               /
+user                          /                         /         -173202.135819     6164.269819
+2024-01-16 15:58:03.778132 [Algorithm Output]
+        Deployment  number
+0        frontend       4
+1             geo       0
+2         profile       0
+3            rate       3
+4     reservation       2
+5          search       7
+6  recommendation       0
+7            user       0
+2024-01-16 15:58:04.264708 [K8sManager Scale] Scale frontend-hotel-hotelres to 5 pods.
+2024-01-16 15:58:06.781906 [K8sManager Scale] Keep mongodb-geo-hotel-hotelres have 1 pods.
+2024-01-16 15:58:06.792341 [K8sManager Scale] Keep geo-hotel-hotelres have 1 pods.
+2024-01-16 15:58:06.802690 [K8sManager Scale] Keep memcached-profile-1-hotel-hotelres have 1 pods.
+2024-01-16 15:58:06.815750 [K8sManager Scale] Keep mongodb-profile-hotel-hotelres have 1 pods.
+2024-01-16 15:58:06.833891 [K8sManager Scale] Keep profile-hotel-hotelres have 1 pods.
+2024-01-16 15:58:10.041227 [K8sManager Scale] Scale memcached-rate-1-hotel-hotelres to 4 pods.
+2024-01-16 15:58:15.285266 [K8sManager Scale] Scale mongodb-rate-hotel-hotelres to 4 pods.
+2024-01-16 15:58:23.852245 [K8sManager Scale] Scale rate-hotel-hotelres to 4 pods.
+2024-01-16 15:58:26.635857 [K8sManager Scale] Scale memcached-reserve-1-hotel-hotelres to 3 pods.
+2024-01-16 15:58:29.436233 [K8sManager Scale] Scale mongodb-reservation-hotel-hotelres to 3 pods.
+2024-01-16 15:58:42.312653 [K8sManager Scale] Scale reservation-hotel-hotelres to 3 pods.
+2024-01-16 15:58:47.572204 [K8sManager Scale] Scale search-hotel-hotelres to 8 pods.
+2024-01-16 15:58:50.095359 [K8sManager Scale] Keep mongodb-recommendation-hotel-hotelres have 1 pods.
+2024-01-16 15:58:50.106200 [K8sManager Scale] Keep recommendation-hotel-hotelres have 1 pods.
+2024-01-16 15:58:50.131994 [K8sManager Scale] Keep mongodb-user-hotel-hotelres have 1 pods.
+2024-01-16 15:58:50.145825 [K8sManager Scale] Keep user-hotel-hotelres have 1 pods.
+====================7 Finish:2024-01-16 15:58:50.146037====================
+
+====================8 Start:2024-01-16 16:00:20.232602====================
+2024-01-16 16:00:34.806200 [Jaeger Collector] HTTP GET /hotels:
+2024-01-16 16:00:34.820948 [Jaeger] 4000 Average latency is 94283.8785 ns.
+2024-01-16 16:00:34.820986 [Jaeger] 3600 Normal<90\% latency is 53228.37805555556 ns.
+2024-01-16 16:00:34.820993 [Jaeger] 400 Tail>90\% latency is 463783.3825 ns.
+2024-01-16 16:00:41.198928 [Jaeger Collector] HTTP GET /recommendations:
+2024-01-16 16:00:41.212818 [Jaeger] 4000 Average latency is 3496.15975 ns.
+2024-01-16 16:00:41.212896 [Jaeger] 3600 Normal<90\% latency is 2479.326666666667 ns.
+2024-01-16 16:00:41.212908 [Jaeger] 400 Tail>90\% latency is 12647.6575 ns.
+2024-01-16 16:00:47.211973 [Jaeger Collector] HTTP POST /reservation:
+2024-01-16 16:00:47.220127 [Jaeger] 4000 Average latency is 130552.34275 ns.
+2024-01-16 16:00:47.220187 [Jaeger] 3600 Normal<90\% latency is 63272.54861111111 ns.
+2024-01-16 16:00:47.220197 [Jaeger] 400 Tail>90\% latency is 736070.49 ns.
+2024-01-16 16:00:51.611155 [Jaeger Collector] HTTP POST /user:
+2024-01-16 16:00:51.616534 [Jaeger] 4000 Average latency is 974.5925 ns.
+2024-01-16 16:00:51.616576 [Jaeger] 3600 Normal<90\% latency is 651.8197222222223 ns.
+2024-01-16 16:00:51.616585 [Jaeger] 400 Tail>90\% latency is 3879.5475 ns.
+2024-01-16 16:00:51.643849 [Algorithm Input]
+queues_estimation:
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend              24768.926                2703.07175             23771.9015       957.26525
+geo                    118.9495                         /                      /               /
+profile               94.397639                749.484234                      /               /
+rate                1591.874499                         /                      /               /
+reservation        65446.491873                         /          107542.269957               /
+search              2352.644668                         /                      /               /
+recommendation                /                 44.688413                      /               /
+user                          /                         /              17.864682       17.497854
+ave_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend           44373.284178                497.244397            81332.03614      -25.236896
+geo                44373.284178                         /                      /               /
+profile            44373.284178                497.244397                      /               /
+rate               44373.284178                         /                      /               /
+reservation        44373.284178                         /            81332.03614               /
+search             44373.284178                         /                      /               /
+recommendation                /                497.244397                      /               /
+user                          /                         /            81332.03614      -25.236896
+tail_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend           270681.16603               -465.491017          544033.920138    -1070.083025
+geo                270681.16603                         /                      /               /
+profile            270681.16603               -465.491017                      /               /
+rate               270681.16603                         /                      /               /
+recommendation                /               -465.491017                      /               /
+reservation        270681.16603                         /          544033.920138               /
+search             270681.16603                         /                      /               /
+user                          /                         /          544033.920138    -1070.083025
+2024-01-16 16:00:51.674247 [Algorithm Output]
+        Deployment  number
+0        frontend       3
+1             geo       0
+2         profile       0
+3            rate       0
+4     reservation      13
+5          search       0
+6  recommendation       0
+7            user       0
+2024-01-16 16:00:51.801776 [K8sManager Scale] Scale frontend-hotel-hotelres to 4 pods.
+2024-01-16 16:00:54.315359 [K8sManager Scale] Keep mongodb-geo-hotel-hotelres have 1 pods.
+2024-01-16 16:00:54.322177 [K8sManager Scale] Keep geo-hotel-hotelres have 1 pods.
+2024-01-16 16:00:54.330114 [K8sManager Scale] Keep memcached-profile-1-hotel-hotelres have 1 pods.
+2024-01-16 16:00:54.337220 [K8sManager Scale] Keep mongodb-profile-hotel-hotelres have 1 pods.
+2024-01-16 16:00:54.349205 [K8sManager Scale] Keep profile-hotel-hotelres have 1 pods.
+2024-01-16 16:00:54.478609 [K8sManager Scale] Scale memcached-rate-1-hotel-hotelres to 1 pods.
+2024-01-16 16:00:57.090457 [K8sManager Scale] Scale mongodb-rate-hotel-hotelres to 1 pods.
+2024-01-16 16:00:59.727038 [K8sManager Scale] Scale rate-hotel-hotelres to 1 pods.
+2024-01-16 16:01:04.712403 [K8sManager Scale] Scale memcached-reserve-1-hotel-hotelres to 14 pods.
+2024-01-16 16:01:10.090581 [K8sManager Scale] Scale mongodb-reservation-hotel-hotelres to 14 pods.
+2024-01-16 16:01:16.346083 [K8sManager Scale] Scale reservation-hotel-hotelres to 14 pods.
+2024-01-16 16:01:19.074420 [K8sManager Scale] Scale search-hotel-hotelres to 1 pods.
+2024-01-16 16:01:21.590621 [K8sManager Scale] Keep mongodb-recommendation-hotel-hotelres have 1 pods.
+2024-01-16 16:01:21.597732 [K8sManager Scale] Keep recommendation-hotel-hotelres have 1 pods.
+2024-01-16 16:01:21.614882 [K8sManager Scale] Keep mongodb-user-hotel-hotelres have 1 pods.
+2024-01-16 16:01:21.642512 [K8sManager Scale] Keep user-hotel-hotelres have 1 pods.
+====================8 Finish:2024-01-16 16:01:21.642696====================
+
+====================9 Start:2024-01-16 16:02:51.732624====================
+2024-01-16 16:03:06.725686 [Jaeger Collector] HTTP GET /hotels:
+2024-01-16 16:03:06.747087 [Jaeger] 4000 Average latency is 126069.63775 ns.
+2024-01-16 16:03:06.747161 [Jaeger] 3600 Normal<90\% latency is 103186.38833333334 ns.
+2024-01-16 16:03:06.747177 [Jaeger] 400 Tail>90\% latency is 332018.8825 ns.
+2024-01-16 16:03:14.101539 [Jaeger Collector] HTTP GET /recommendations:
+2024-01-16 16:03:14.112144 [Jaeger] 4000 Average latency is 4682.45825 ns.
+2024-01-16 16:03:14.112212 [Jaeger] 3600 Normal<90\% latency is 3228.6344444444444 ns.
+2024-01-16 16:03:14.112225 [Jaeger] 400 Tail>90\% latency is 17766.8725 ns.
+2024-01-16 16:03:21.120991 [Jaeger Collector] HTTP POST /reservation:
+2024-01-16 16:03:21.135201 [Jaeger] 4000 Average latency is 20214.249 ns.
+2024-01-16 16:03:21.135271 [Jaeger] 3600 Normal<90\% latency is 10653.238055555556 ns.
+2024-01-16 16:03:21.135284 [Jaeger] 400 Tail>90\% latency is 106263.3475 ns.
+2024-01-16 16:03:25.940783 [Jaeger Collector] HTTP POST /user:
+2024-01-16 16:03:25.950264 [Jaeger] 4000 Average latency is 1739.64375 ns.
+2024-01-16 16:03:25.950358 [Jaeger] 3600 Normal<90\% latency is 1010.2336111111111 ns.
+2024-01-16 16:03:25.950376 [Jaeger] 400 Tail>90\% latency is 8304.335 ns.
+2024-01-16 16:03:25.990710 [Algorithm Input]
+queues_estimation:
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend              11645.759                3557.71725             5318.28025      1721.87275
+geo                  141.663319                         /                      /               /
+profile               237.29575               1085.223813                      /               /
+rate               38679.328058                         /                      /               /
+reservation         9917.925898                         /           15230.221454               /
+search             66373.562138                         /                      /               /
+recommendation                /                 45.146033                      /               /
+user                          /                         /              23.981247       17.959576
+ave_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend           76995.534163               1688.087096          -29427.517049      739.832326
+geo                76995.534163                         /                      /               /
+profile            76995.534163               1688.087096                      /               /
+rate               76995.534163                         /                      /               /
+reservation        76995.534163                         /          -29427.517049               /
+search             76995.534163                         /                      /               /
+recommendation                /               1688.087096                      /               /
+user                          /                         /          -29427.517049      739.832326
+tail_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend          231956.321003                5478.98115         -130501.458396     3364.324348
+geo               231956.321003                         /                      /               /
+profile           231956.321003                5478.98115                      /               /
+rate              231956.321003                         /                      /               /
+recommendation                /                5478.98115                      /               /
+reservation       231956.321003                         /         -130501.458396               /
+search            231956.321003                         /                      /               /
+user                          /                         /         -130501.458396     3364.324348
+2024-01-16 16:03:26.022389 [Algorithm Output]
+        Deployment  number
+0        frontend       3
+1             geo       0
+2         profile       0
+3            rate       4
+4     reservation       2
+5          search       7
+6  recommendation       0
+7            user       0
+2024-01-16 16:03:26.077055 [K8sManager Scale] Keep frontend-hotel-hotelres have 4 pods.
+2024-01-16 16:03:26.087668 [K8sManager Scale] Keep mongodb-geo-hotel-hotelres have 1 pods.
+2024-01-16 16:03:26.094147 [K8sManager Scale] Keep geo-hotel-hotelres have 1 pods.
+2024-01-16 16:03:26.100302 [K8sManager Scale] Keep memcached-profile-1-hotel-hotelres have 1 pods.
+2024-01-16 16:03:26.107316 [K8sManager Scale] Keep mongodb-profile-hotel-hotelres have 1 pods.
+2024-01-16 16:03:26.121414 [K8sManager Scale] Keep profile-hotel-hotelres have 1 pods.
+2024-01-16 16:03:28.468486 [K8sManager Scale] Scale memcached-rate-1-hotel-hotelres to 5 pods.
+2024-01-16 16:03:33.441259 [K8sManager Scale] Scale mongodb-rate-hotel-hotelres to 5 pods.
+2024-01-16 16:03:38.740092 [K8sManager Scale] Scale rate-hotel-hotelres to 5 pods.
+2024-01-16 16:03:41.557362 [K8sManager Scale] Scale memcached-reserve-1-hotel-hotelres to 3 pods.
+2024-01-16 16:03:44.263674 [K8sManager Scale] Scale mongodb-reservation-hotel-hotelres to 3 pods.
+2024-01-16 16:03:46.918181 [K8sManager Scale] Scale reservation-hotel-hotelres to 3 pods.
+2024-01-16 16:03:51.494618 [K8sManager Scale] Scale search-hotel-hotelres to 8 pods.
+2024-01-16 16:03:54.015370 [K8sManager Scale] Keep mongodb-recommendation-hotel-hotelres have 1 pods.
+2024-01-16 16:03:54.030164 [K8sManager Scale] Keep recommendation-hotel-hotelres have 1 pods.
+2024-01-16 16:03:54.043182 [K8sManager Scale] Keep mongodb-user-hotel-hotelres have 1 pods.
+2024-01-16 16:03:54.050942 [K8sManager Scale] Keep user-hotel-hotelres have 1 pods.
+====================9 Finish:2024-01-16 16:03:54.051012====================
+
+====================10 Start:2024-01-16 16:05:24.140630====================
+2024-01-16 16:05:37.439268 [Jaeger Collector] HTTP GET /hotels:
+2024-01-16 16:05:37.455506 [Jaeger] 4000 Average latency is 171598.41975 ns.
+2024-01-16 16:05:37.455543 [Jaeger] 3600 Normal<90\% latency is 94059.45805555556 ns.
+2024-01-16 16:05:37.455549 [Jaeger] 400 Tail>90\% latency is 869449.075 ns.
+2024-01-16 16:05:43.407700 [Jaeger Collector] HTTP GET /recommendations:
+2024-01-16 16:05:43.418328 [Jaeger] 4000 Average latency is 10394.7875 ns.
+2024-01-16 16:05:43.418374 [Jaeger] 3600 Normal<90\% latency is 4026.9866666666667 ns.
+2024-01-16 16:05:43.418383 [Jaeger] 400 Tail>90\% latency is 67704.995 ns.
+2024-01-16 16:05:48.556952 [Jaeger Collector] HTTP POST /reservation:
+2024-01-16 16:05:48.564477 [Jaeger] 4000 Average latency is 126513.58125 ns.
+2024-01-16 16:05:48.564511 [Jaeger] 3600 Normal<90\% latency is 89753.06194444445 ns.
+2024-01-16 16:05:48.564519 [Jaeger] 400 Tail>90\% latency is 457358.255 ns.
+2024-01-16 16:05:52.035090 [Jaeger Collector] HTTP POST /user:
+2024-01-16 16:05:52.041132 [Jaeger] 4000 Average latency is 4931.82 ns.
+2024-01-16 16:05:52.041170 [Jaeger] 3600 Normal<90\% latency is 1259.8791666666666 ns.
+2024-01-16 16:05:52.041178 [Jaeger] 400 Tail>90\% latency is 37979.2875 ns.
+2024-01-16 16:05:52.064396 [Algorithm Input]
+queues_estimation:
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend            47602.93325                9383.52675              43530.313      4914.42375
+geo                       118.5                         /                      /               /
+profile               43.557947                972.513295                      /               /
+rate                1832.409705                         /                      /               /
+reservation       121111.563889                         /           85114.790203               /
+search              2648.448448                         /                      /               /
+recommendation                /                 51.446568                      /               /
+user                          /                         /               17.62825        17.39625
+ave_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend           123357.41324               7407.486612           78662.731453         3931.82
+geo                123357.41324                         /                      /               /
+profile            123357.41324               7407.486612                      /               /
+rate               123357.41324                         /                      /               /
+reservation        123357.41324                         /           78662.731453               /
+search             123357.41324                         /                      /               /
+recommendation                /               7407.486612                      /               /
+user                          /                         /           78662.731453         3931.82
+tail_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend          727839.832499              55834.458419          308584.883994    33053.290458
+geo               727839.832499                         /                      /               /
+profile           727839.832499              55834.458419                      /               /
+rate              727839.832499                         /                      /               /
+recommendation                /              55834.458419                      /               /
+reservation       727839.832499                         /          308584.883994               /
+search            727839.832499                         /                      /               /
+user                          /                         /          308584.883994    33053.290458
+2024-01-16 16:05:52.091504 [Algorithm Output]
+        Deployment  number
+0        frontend       6
+1             geo       0
+2         profile       0
+3            rate       0
+4     reservation      10
+5          search       0
+6  recommendation       0
+7            user       0
+2024-01-16 16:05:53.836679 [K8sManager Scale] Scale frontend-hotel-hotelres to 7 pods.
+2024-01-16 16:05:56.351525 [K8sManager Scale] Keep mongodb-geo-hotel-hotelres have 1 pods.
+2024-01-16 16:05:56.359466 [K8sManager Scale] Keep geo-hotel-hotelres have 1 pods.
+2024-01-16 16:05:56.366639 [K8sManager Scale] Keep memcached-profile-1-hotel-hotelres have 1 pods.
+2024-01-16 16:05:56.383170 [K8sManager Scale] Keep mongodb-profile-hotel-hotelres have 1 pods.
+2024-01-16 16:05:56.393343 [K8sManager Scale] Keep profile-hotel-hotelres have 1 pods.
+2024-01-16 16:05:56.557521 [K8sManager Scale] Scale memcached-rate-1-hotel-hotelres to 1 pods.
+2024-01-16 16:05:59.203212 [K8sManager Scale] Scale mongodb-rate-hotel-hotelres to 1 pods.
+2024-01-16 16:06:01.827261 [K8sManager Scale] Scale rate-hotel-hotelres to 1 pods.
+2024-01-16 16:06:06.399902 [K8sManager Scale] Scale memcached-reserve-1-hotel-hotelres to 11 pods.
+2024-01-16 16:06:10.630738 [K8sManager Scale] Scale mongodb-reservation-hotel-hotelres to 11 pods.
+2024-01-16 16:07:06.438161 [K8sManager Scale] Scale reservation-hotel-hotelres to 11 pods.
+2024-01-16 16:07:09.291523 [K8sManager Scale] Scale search-hotel-hotelres to 1 pods.
+2024-01-16 16:07:11.808122 [K8sManager Scale] Keep mongodb-recommendation-hotel-hotelres have 1 pods.
+2024-01-16 16:07:11.816205 [K8sManager Scale] Keep recommendation-hotel-hotelres have 1 pods.
+2024-01-16 16:07:11.859006 [K8sManager Scale] Keep mongodb-user-hotel-hotelres have 1 pods.
+2024-01-16 16:07:11.871580 [K8sManager Scale] Keep user-hotel-hotelres have 1 pods.
+====================10 Finish:2024-01-16 16:07:11.871898====================
+
+====================11 Start:2024-01-16 16:08:41.960604====================
+2024-01-16 16:09:02.059136 [Jaeger Collector] HTTP GET /hotels:
+2024-01-16 16:09:02.078304 [Jaeger] 4000 Average latency is 103928.8265 ns.
+2024-01-16 16:09:02.078370 [Jaeger] 3600 Normal<90\% latency is 85479.2825 ns.
+2024-01-16 16:09:02.078384 [Jaeger] 400 Tail>90\% latency is 269974.7225 ns.
+2024-01-16 16:09:11.529572 [Jaeger Collector] HTTP GET /recommendations:
+2024-01-16 16:09:11.544166 [Jaeger] 4000 Average latency is 6105.28425 ns.
+2024-01-16 16:09:11.544237 [Jaeger] 3600 Normal<90\% latency is 3909.268611111111 ns.
+2024-01-16 16:09:11.544252 [Jaeger] 400 Tail>90\% latency is 25869.425 ns.
+2024-01-16 16:09:18.948514 [Jaeger Collector] HTTP POST /reservation:
+2024-01-16 16:09:18.963705 [Jaeger] 4000 Average latency is 22224.629 ns.
+2024-01-16 16:09:18.963775 [Jaeger] 3600 Normal<90\% latency is 13760.201388888889 ns.
+2024-01-16 16:09:18.963793 [Jaeger] 400 Tail>90\% latency is 98404.4775 ns.
+2024-01-16 16:09:24.100588 [Jaeger Collector] HTTP POST /user:
+2024-01-16 16:09:24.106511 [Jaeger] 4000 Average latency is 2416.43025 ns.
+2024-01-16 16:09:24.106551 [Jaeger] 3600 Normal<90\% latency is 1215.565 ns.
+2024-01-16 16:09:24.106558 [Jaeger] 400 Tail>90\% latency is 13224.2175 ns.
+2024-01-16 16:09:24.140650 [Algorithm Input]
+queues_estimation:
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend              9578.8955                4949.26475              7460.7225        2392.362
+geo                     137.045                         /                      /               /
+profile              119.362767               1114.535858                      /               /
+rate                28902.73375                         /                      /               /
+reservation         9076.005557                         /           15045.544643               /
+search             56361.834209                         /                      /               /
+recommendation                /                 45.291488                      /               /
+user                          /                         /              19.683686       24.244019
+ave_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend           54175.876783               3109.092095          -27474.049171     1416.606019
+geo                54175.876783                         /                      /               /
+profile            54175.876783               3109.092095                      /               /
+rate               54175.876783                         /                      /               /
+reservation        54175.876783                         /          -27474.049171               /
+search             54175.876783                         /                      /               /
+recommendation                /               3109.092095                      /               /
+user                          /                         /          -27474.049171     1416.606019
+tail_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend          126342.680337              14036.857515         -125582.077348     8342.030303
+geo               126342.680337                         /                      /               /
+profile           126342.680337              14036.857515                      /               /
+rate              126342.680337                         /                      /               /
+recommendation                /              14036.857515                      /               /
+reservation       126342.680337                         /         -125582.077348               /
+search            126342.680337                         /                      /               /
+user                          /                         /         -125582.077348     8342.030303
+2024-01-16 16:09:24.171465 [Algorithm Output]
+        Deployment  number
+0        frontend       2
+1             geo       0
+2         profile       0
+3            rate       5
+4     reservation       3
+5          search       6
+6  recommendation       0
+7            user       0
+2024-01-16 16:09:24.325289 [K8sManager Scale] Scale frontend-hotel-hotelres to 3 pods.
+2024-01-16 16:09:26.854294 [K8sManager Scale] Keep mongodb-geo-hotel-hotelres have 1 pods.
+2024-01-16 16:09:26.867750 [K8sManager Scale] Keep geo-hotel-hotelres have 1 pods.
+2024-01-16 16:09:26.883907 [K8sManager Scale] Keep memcached-profile-1-hotel-hotelres have 1 pods.
+2024-01-16 16:09:26.894119 [K8sManager Scale] Keep mongodb-profile-hotel-hotelres have 1 pods.
+2024-01-16 16:09:26.901613 [K8sManager Scale] Keep profile-hotel-hotelres have 1 pods.
+2024-01-16 16:09:29.276275 [K8sManager Scale] Scale memcached-rate-1-hotel-hotelres to 6 pods.
+2024-01-16 16:09:34.096277 [K8sManager Scale] Scale mongodb-rate-hotel-hotelres to 6 pods.
+2024-01-16 16:09:42.389115 [K8sManager Scale] Scale rate-hotel-hotelres to 6 pods.
+2024-01-16 16:09:45.287522 [K8sManager Scale] Scale memcached-reserve-1-hotel-hotelres to 4 pods.
+2024-01-16 16:09:48.243957 [K8sManager Scale] Scale mongodb-reservation-hotel-hotelres to 4 pods.
+2024-01-16 16:10:04.094990 [K8sManager Scale] Scale reservation-hotel-hotelres to 4 pods.
+2024-01-16 16:10:12.272364 [K8sManager Scale] Scale search-hotel-hotelres to 7 pods.
+2024-01-16 16:10:14.785103 [K8sManager Scale] Keep mongodb-recommendation-hotel-hotelres have 1 pods.
+2024-01-16 16:10:14.793804 [K8sManager Scale] Keep recommendation-hotel-hotelres have 1 pods.
+2024-01-16 16:10:14.804301 [K8sManager Scale] Keep mongodb-user-hotel-hotelres have 1 pods.
+2024-01-16 16:10:14.810996 [K8sManager Scale] Keep user-hotel-hotelres have 1 pods.
+====================11 Finish:2024-01-16 16:10:14.811093====================
+
+====================12 Start:2024-01-16 16:11:44.900651====================
+2024-01-16 16:11:58.646381 [Jaeger Collector] HTTP GET /hotels:
+2024-01-16 16:11:58.663823 [Jaeger] 4000 Average latency is 180631.0435 ns.
+2024-01-16 16:11:58.663864 [Jaeger] 3600 Normal<90\% latency is 90560.82333333333 ns.
+2024-01-16 16:11:58.663874 [Jaeger] 400 Tail>90\% latency is 991263.025 ns.
+2024-01-16 16:12:06.788161 [Jaeger Collector] HTTP GET /recommendations:
+2024-01-16 16:12:06.801384 [Jaeger] 4000 Average latency is 17236.2335 ns.
+2024-01-16 16:12:06.801443 [Jaeger] 3600 Normal<90\% latency is 9575.624722222223 ns.
+2024-01-16 16:12:06.801459 [Jaeger] 400 Tail>90\% latency is 86181.7125 ns.
+2024-01-16 16:12:16.369817 [Jaeger Collector] HTTP POST /reservation:
+2024-01-16 16:12:16.382504 [Jaeger] 4000 Average latency is 103779.68325 ns.
+2024-01-16 16:12:16.382570 [Jaeger] 3600 Normal<90\% latency is 68193.91527777778 ns.
+2024-01-16 16:12:16.382584 [Jaeger] 400 Tail>90\% latency is 424051.595 ns.
+2024-01-16 16:12:24.914510 [Jaeger Collector] HTTP POST /user:
+2024-01-16 16:12:24.922505 [Jaeger] 4000 Average latency is 9004.7835 ns.
+2024-01-16 16:12:24.922553 [Jaeger] 3600 Normal<90\% latency is 2538.5202777777777 ns.
+2024-01-16 16:12:24.922563 [Jaeger] 400 Tail>90\% latency is 67201.1525 ns.
+2024-01-16 16:12:24.945506 [Algorithm Input]
+queues_estimation:
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend            40315.70525               16151.93275              38836.047      8984.27825
+geo                     108.282                         /                      /               /
+profile                  23.311                1038.45986                      /               /
+rate                   2155.953                         /                      /               /
+reservation        136503.78852                         /           66316.775792               /
+search               2814.59325                         /                      /               /
+recommendation                /                 50.089091                      /               /
+user                          /                         /              19.620387       21.020246
+ave_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend           131921.63302              14240.481701           55172.443178     8005.298496
+geo                131921.63302                         /                      /               /
+profile            131921.63302              14240.481701                      /               /
+rate               131921.63302                         /                      /               /
+reservation        131921.63302                         /           55172.443178               /
+search             131921.63302                         /                      /               /
+recommendation                /              14240.481701                      /               /
+user                          /                         /           55172.443178     8005.298496
+tail_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend          834543.886604              74245.848676           240475.14052    62329.164674
+geo               834543.886604                         /                      /               /
+profile           834543.886604              74245.848676                      /               /
+rate              834543.886604                         /                      /               /
+recommendation                /              74245.848676                      /               /
+reservation       834543.886604                         /           240475.14052               /
+search            834543.886604                         /                      /               /
+user                          /                         /           240475.14052    62329.164674
+2024-01-16 16:12:24.968319 [Algorithm Output]
+        Deployment  number
+0        frontend       6
+1             geo       0
+2         profile       0
+3            rate       0
+4     reservation      10
+5          search       0
+6  recommendation       0
+7            user       0
+2024-01-16 16:12:27.481569 [K8sManager Scale] Scale frontend-hotel-hotelres to 7 pods.
+2024-01-16 16:12:30.001011 [K8sManager Scale] Keep mongodb-geo-hotel-hotelres have 1 pods.
+2024-01-16 16:12:30.010966 [K8sManager Scale] Keep geo-hotel-hotelres have 1 pods.
+2024-01-16 16:12:30.017763 [K8sManager Scale] Keep memcached-profile-1-hotel-hotelres have 1 pods.
+2024-01-16 16:12:30.024766 [K8sManager Scale] Keep mongodb-profile-hotel-hotelres have 1 pods.
+2024-01-16 16:12:30.033901 [K8sManager Scale] Keep profile-hotel-hotelres have 1 pods.
+2024-01-16 16:12:30.159669 [K8sManager Scale] Scale memcached-rate-1-hotel-hotelres to 1 pods.
+2024-01-16 16:12:32.784743 [K8sManager Scale] Scale mongodb-rate-hotel-hotelres to 1 pods.
+2024-01-16 16:12:35.468752 [K8sManager Scale] Scale rate-hotel-hotelres to 1 pods.
+2024-01-16 16:12:40.274711 [K8sManager Scale] Scale memcached-reserve-1-hotel-hotelres to 11 pods.
+2024-01-16 16:12:45.047739 [K8sManager Scale] Scale mongodb-reservation-hotel-hotelres to 11 pods.
+2024-01-16 16:14:08.485016 [K8sManager Scale] Scale reservation-hotel-hotelres to 11 pods.
+2024-01-16 16:14:11.444027 [K8sManager Scale] Scale search-hotel-hotelres to 1 pods.
+2024-01-16 16:14:13.970656 [K8sManager Scale] Keep mongodb-recommendation-hotel-hotelres have 1 pods.
+2024-01-16 16:14:13.985616 [K8sManager Scale] Keep recommendation-hotel-hotelres have 1 pods.
+2024-01-16 16:14:14.002787 [K8sManager Scale] Keep mongodb-user-hotel-hotelres have 1 pods.
+2024-01-16 16:14:14.011352 [K8sManager Scale] Keep user-hotel-hotelres have 1 pods.
+====================12 Finish:2024-01-16 16:14:14.011484====================
+
+====================13 Start:2024-01-16 16:15:44.100610====================
+2024-01-16 16:16:21.733872 [Jaeger Collector] HTTP GET /hotels:
+2024-01-16 16:16:21.762208 [Jaeger] 4000 Average latency is 195419.4475 ns.
+2024-01-16 16:16:21.762303 [Jaeger] 3600 Normal<90\% latency is 154091.95194444444 ns.
+2024-01-16 16:16:21.762320 [Jaeger] 400 Tail>90\% latency is 567366.9075 ns.
+2024-01-16 16:16:37.943181 [Jaeger Collector] HTTP GET /recommendations:
+2024-01-16 16:16:37.956578 [Jaeger] 4000 Average latency is 3131.14125 ns.
+2024-01-16 16:16:37.956634 [Jaeger] 3600 Normal<90\% latency is 2263.157222222222 ns.
+2024-01-16 16:16:37.956651 [Jaeger] 400 Tail>90\% latency is 10942.9975 ns.
+2024-01-16 16:16:58.290239 [Jaeger Collector] HTTP POST /reservation:
+2024-01-16 16:16:58.298339 [Jaeger] 4000 Average latency is 17250.94 ns.
+2024-01-16 16:16:58.298378 [Jaeger] 3600 Normal<90\% latency is 8040.457222222222 ns.
+2024-01-16 16:16:58.298386 [Jaeger] 400 Tail>90\% latency is 100145.285 ns.
+2024-01-16 16:17:13.257614 [Jaeger Collector] HTTP POST /user:
+2024-01-16 16:17:13.267847 [Jaeger] 4000 Average latency is 1003.5445 ns.
+2024-01-16 16:17:13.267908 [Jaeger] 3600 Normal<90\% latency is 630.2247222222222 ns.
+2024-01-16 16:17:13.267921 [Jaeger] 400 Tail>90\% latency is 4363.4225 ns.
+2024-01-16 16:17:13.300839 [Algorithm Input]
+queues_estimation:
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend               9386.774                  2416.364               3744.187         987.885
+geo                    102.7455                         /                      /               /
+profile                100.4435                675.127387                      /               /
+rate                 77958.2005                         /                      /               /
+reservation        16299.096298                         /            13689.89244               /
+search             91641.942236                         /                      /               /
+recommendation                /                  43.63641                      /               /
+user                          /                         /              15.487903       15.769889
+ave_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend          145489.202034                135.127797          -32550.432656        3.654889
+geo               145489.202034                         /                      /               /
+profile           145489.202034                135.127797                      /               /
+rate              145489.202034                         /                      /               /
+reservation       145489.202034                         /          -32550.432656               /
+search            145489.202034                         /                      /               /
+recommendation                /                135.127797                      /               /
+user                          /                         /          -32550.432656        3.654889
+tail_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend          552259.125069              -2319.100586         -140301.628092     -612.467579
+geo               552259.125069                         /                      /               /
+profile           552259.125069              -2319.100586                      /               /
+rate              552259.125069                         /                      /               /
+recommendation                /              -2319.100586                      /               /
+reservation       552259.125069                         /         -140301.628092               /
+search            552259.125069                         /                      /               /
+user                          /                         /         -140301.628092     -612.467579
+2024-01-16 16:17:13.318143 [Algorithm Output]
+        Deployment  number
+0        frontend       2
+1             geo       0
+2         profile       0
+3            rate       5
+4     reservation       3
+5          search       6
+6  recommendation       0
+7            user       0
+2024-01-16 16:17:13.511090 [K8sManager Scale] Scale frontend-hotel-hotelres to 3 pods.
+2024-01-16 16:17:16.033472 [K8sManager Scale] Keep mongodb-geo-hotel-hotelres have 1 pods.
+2024-01-16 16:17:16.039929 [K8sManager Scale] Keep geo-hotel-hotelres have 1 pods.
+2024-01-16 16:17:16.047400 [K8sManager Scale] Keep memcached-profile-1-hotel-hotelres have 1 pods.
+2024-01-16 16:17:16.062779 [K8sManager Scale] Keep mongodb-profile-hotel-hotelres have 1 pods.
+2024-01-16 16:17:16.082854 [K8sManager Scale] Keep profile-hotel-hotelres have 1 pods.
+2024-01-16 16:17:18.678723 [K8sManager Scale] Scale memcached-rate-1-hotel-hotelres to 6 pods.
+2024-01-16 16:17:23.534754 [K8sManager Scale] Scale mongodb-rate-hotel-hotelres to 6 pods.
+2024-01-16 16:17:28.241454 [K8sManager Scale] Scale rate-hotel-hotelres to 6 pods.
+2024-01-16 16:17:30.950725 [K8sManager Scale] Scale memcached-reserve-1-hotel-hotelres to 4 pods.
+2024-01-16 16:17:33.551837 [K8sManager Scale] Scale mongodb-reservation-hotel-hotelres to 4 pods.
+2024-01-16 16:17:49.713396 [K8sManager Scale] Scale reservation-hotel-hotelres to 4 pods.
+2024-01-16 16:17:54.784514 [K8sManager Scale] Scale search-hotel-hotelres to 7 pods.
+2024-01-16 16:17:57.323559 [K8sManager Scale] Keep mongodb-recommendation-hotel-hotelres have 1 pods.
+2024-01-16 16:17:57.334392 [K8sManager Scale] Keep recommendation-hotel-hotelres have 1 pods.
+2024-01-16 16:17:57.352576 [K8sManager Scale] Keep mongodb-user-hotel-hotelres have 1 pods.
+2024-01-16 16:17:57.364363 [K8sManager Scale] Keep user-hotel-hotelres have 1 pods.
+====================13 Finish:2024-01-16 16:17:57.364480====================
+
+====================14 Start:2024-01-16 16:19:27.452605====================
+2024-01-16 16:20:01.527379 [Jaeger Collector] HTTP GET /hotels:
+2024-01-16 16:20:01.554513 [Jaeger] 4000 Average latency is 105505.42625 ns.
+2024-01-16 16:20:01.554612 [Jaeger] 3600 Normal<90\% latency is 61277.98777777778 ns.
+2024-01-16 16:20:01.554626 [Jaeger] 400 Tail>90\% latency is 503552.3725 ns.
+2024-01-16 16:20:28.129559 [Jaeger Collector] HTTP GET /recommendations:
+2024-01-16 16:20:28.145432 [Jaeger] 4000 Average latency is 4208.37875 ns.
+2024-01-16 16:20:28.145483 [Jaeger] 3600 Normal<90\% latency is 3060.3405555555555 ns.
+2024-01-16 16:20:28.145497 [Jaeger] 400 Tail>90\% latency is 14540.7225 ns.
+2024-01-16 16:20:50.025241 [Jaeger Collector] HTTP POST /reservation:
+2024-01-16 16:20:50.038170 [Jaeger] 4000 Average latency is 68951.61925 ns.
+2024-01-16 16:20:50.038252 [Jaeger] 3600 Normal<90\% latency is 49555.44055555556 ns.
+2024-01-16 16:20:50.038267 [Jaeger] 400 Tail>90\% latency is 243517.2275 ns.
+2024-01-16 16:21:09.920083 [Jaeger Collector] HTTP POST /user:
+2024-01-16 16:21:09.926535 [Jaeger] 4000 Average latency is 1154.3665 ns.
+2024-01-16 16:21:09.926575 [Jaeger] 3600 Normal<90\% latency is 719.2436111111111 ns.
+2024-01-16 16:21:09.926582 [Jaeger] 400 Tail>90\% latency is 5070.4725 ns.
+2024-01-16 16:21:09.974286 [Algorithm Input]
+queues_estimation:
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend            30008.07025                3464.37675            28168.22025       1138.4395
+geo                   95.339196                         /                      /               /
+profile               50.107943                696.467526                      /               /
+rate                1614.754954                         /                      /               /
+reservation        72282.675935                         /           41804.140477               /
+search              2353.233113                         /                      /               /
+recommendation                /                 55.355634                      /               /
+user                          /                         /              14.214906       16.253571
+ave_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend           56404.181391                1216.19991           19986.575632      154.693071
+geo                56404.181391                         /                      /               /
+profile            56404.181391                1216.19991                      /               /
+rate               56404.181391                         /                      /               /
+reservation        56404.181391                         /           19986.575632               /
+search             56404.181391                         /                      /               /
+recommendation                /                1216.19991                      /               /
+user                          /                         /           19986.575632      154.693071
+tail_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend          315683.179287               1605.977177            33688.22584      103.855824
+geo               315683.179287                         /                      /               /
+profile           315683.179287               1605.977177                      /               /
+rate              315683.179287                         /                      /               /
+recommendation                /               1605.977177                      /               /
+reservation       315683.179287                         /            33688.22584               /
+search            315683.179287                         /                      /               /
+user                          /                         /            33688.22584      103.855824
+2024-01-16 16:21:09.996351 [Algorithm Output]
+        Deployment  number
+0        frontend       6
+1             geo       0
+2         profile       0
+3            rate       0
+4     reservation      10
+5          search       0
+6  recommendation       0
+7            user       0
+2024-01-16 16:21:12.229575 [K8sManager Scale] Scale frontend-hotel-hotelres to 7 pods.
+2024-01-16 16:21:14.753498 [K8sManager Scale] Keep mongodb-geo-hotel-hotelres have 1 pods.
+2024-01-16 16:21:14.771551 [K8sManager Scale] Keep geo-hotel-hotelres have 1 pods.
+2024-01-16 16:21:14.782896 [K8sManager Scale] Keep memcached-profile-1-hotel-hotelres have 1 pods.
+2024-01-16 16:21:14.791016 [K8sManager Scale] Keep mongodb-profile-hotel-hotelres have 1 pods.
+2024-01-16 16:21:14.798599 [K8sManager Scale] Keep profile-hotel-hotelres have 1 pods.
+2024-01-16 16:21:14.975126 [K8sManager Scale] Scale memcached-rate-1-hotel-hotelres to 1 pods.
+2024-01-16 16:21:17.664377 [K8sManager Scale] Scale mongodb-rate-hotel-hotelres to 1 pods.
+2024-01-16 16:21:20.342739 [K8sManager Scale] Scale rate-hotel-hotelres to 1 pods.
+2024-01-16 16:21:25.540692 [K8sManager Scale] Scale memcached-reserve-1-hotel-hotelres to 11 pods.
+2024-01-16 16:21:30.624533 [K8sManager Scale] Scale mongodb-reservation-hotel-hotelres to 11 pods.
+2024-01-16 16:21:55.858844 [K8sManager Scale] Scale reservation-hotel-hotelres to 11 pods.
+2024-01-16 16:21:58.695375 [K8sManager Scale] Scale search-hotel-hotelres to 1 pods.
+2024-01-16 16:22:01.220330 [K8sManager Scale] Keep mongodb-recommendation-hotel-hotelres have 1 pods.
+2024-01-16 16:22:01.234432 [K8sManager Scale] Keep recommendation-hotel-hotelres have 1 pods.
+2024-01-16 16:22:01.251163 [K8sManager Scale] Keep mongodb-user-hotel-hotelres have 1 pods.
+2024-01-16 16:22:01.261042 [K8sManager Scale] Keep user-hotel-hotelres have 1 pods.
+====================14 Finish:2024-01-16 16:22:01.261201====================
+
+====================15 Start:2024-01-16 16:23:31.350504====================
+2024-01-16 16:26:44.434397 [Jaeger Collector] HTTP GET /hotels:
+2024-01-16 16:26:44.456360 [Jaeger] 4000 Average latency is 83744.52375 ns.
+2024-01-16 16:26:44.456410 [Jaeger] 3600 Normal<90\% latency is 71560.33444444444 ns.
+2024-01-16 16:26:44.456419 [Jaeger] 400 Tail>90\% latency is 193402.2275 ns.
+2024-01-16 16:27:19.447177 [Jaeger Collector] HTTP GET /recommendations:
+2024-01-16 16:27:19.462887 [Jaeger] 4000 Average latency is 6979.084 ns.
+2024-01-16 16:27:19.462936 [Jaeger] 3600 Normal<90\% latency is 3969.3819444444443 ns.
+2024-01-16 16:27:19.462947 [Jaeger] 400 Tail>90\% latency is 34066.4025 ns.
+2024-01-16 16:28:27.575637 [Jaeger Collector] HTTP POST /reservation:
+2024-01-16 16:28:27.590345 [Jaeger] 4000 Average latency is 30707.26475 ns.
+2024-01-16 16:28:27.590418 [Jaeger] 3600 Normal<90\% latency is 14927.251666666667 ns.
+2024-01-16 16:28:27.590435 [Jaeger] 400 Tail>90\% latency is 172727.3825 ns.
+2024-01-16 16:29:17.628544 [Jaeger Collector] HTTP POST /user:
+2024-01-16 16:29:17.636072 [Jaeger] 4000 Average latency is 2499.09325 ns.
+2024-01-16 16:29:17.636132 [Jaeger] 3600 Normal<90\% latency is 986.9580555555556 ns.
+2024-01-16 16:29:17.636141 [Jaeger] 400 Tail>90\% latency is 16108.31 ns.
+2024-01-16 16:29:17.656210 [Algorithm Input]
+queues_estimation:
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend              24004.339                 6022.9825             8039.49075      2482.29775
+geo                  100.734268                         /                      /               /
+profile               80.574037                906.555304                      /               /
+rate               15628.506643                         /                      /               /
+reservation         6355.458862                         /           23163.288599               /
+search             39297.430995                         /                      /               /
+recommendation                /                 57.800255                      /               /
+user                          /                         /              14.261387       17.274878
+ave_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend           35467.043804               3987.338059          -18782.959264     1499.572628
+geo                35467.043804                         /                      /               /
+profile            35467.043804               3987.338059                      /               /
+rate               35467.043804                         /                      /               /
+reservation        35467.043804                         /          -18782.959264               /
+search             35467.043804                         /                      /               /
+recommendation                /               3987.338059                      /               /
+user                          /                         /          -18782.959264     1499.572628
+tail_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend           50343.403501              21812.408812          -44528.154621    11153.900983
+geo                50343.403501                         /                      /               /
+profile            50343.403501              21812.408812                      /               /
+rate               50343.403501                         /                      /               /
+recommendation                /              21812.408812                      /               /
+reservation        50343.403501                         /          -44528.154621               /
+search             50343.403501                         /                      /               /
+user                          /                         /          -44528.154621    11153.900983
+2024-01-16 16:29:17.669317 [Algorithm Output]
+        Deployment  number
+0        frontend       5
+1             geo       0
+2         profile       0
+3            rate       1
+4     reservation       5
+5          search       5
+6  recommendation       0
+7            user       0
+2024-01-16 16:29:18.184114 [K8sManager Scale] Scale frontend-hotel-hotelres to 6 pods.
+2024-01-16 16:29:20.702708 [K8sManager Scale] Keep mongodb-geo-hotel-hotelres have 1 pods.
+2024-01-16 16:29:20.716190 [K8sManager Scale] Keep geo-hotel-hotelres have 1 pods.
+2024-01-16 16:29:20.728197 [K8sManager Scale] Keep memcached-profile-1-hotel-hotelres have 1 pods.
+2024-01-16 16:29:20.743113 [K8sManager Scale] Keep mongodb-profile-hotel-hotelres have 1 pods.
+2024-01-16 16:29:20.754168 [K8sManager Scale] Keep profile-hotel-hotelres have 1 pods.
+2024-01-16 16:29:24.877954 [K8sManager Scale] Scale memcached-rate-1-hotel-hotelres to 2 pods.
+2024-01-16 16:29:36.684281 [K8sManager Scale] Scale mongodb-rate-hotel-hotelres to 2 pods.
+2024-01-16 16:29:41.200001 [K8sManager Scale] Scale rate-hotel-hotelres to 2 pods.
+2024-01-16 16:29:43.846010 [K8sManager Scale] Scale memcached-reserve-1-hotel-hotelres to 6 pods.
+2024-01-16 16:29:46.422809 [K8sManager Scale] Scale mongodb-reservation-hotel-hotelres to 6 pods.
+2024-01-16 16:30:15.665131 [K8sManager Scale] Scale reservation-hotel-hotelres to 6 pods.
+2024-01-16 16:30:20.733089 [K8sManager Scale] Scale search-hotel-hotelres to 6 pods.
+2024-01-16 16:30:23.244944 [K8sManager Scale] Keep mongodb-recommendation-hotel-hotelres have 1 pods.
+2024-01-16 16:30:23.251259 [K8sManager Scale] Keep recommendation-hotel-hotelres have 1 pods.
+2024-01-16 16:30:23.259587 [K8sManager Scale] Keep mongodb-user-hotel-hotelres have 1 pods.
+2024-01-16 16:30:23.275433 [K8sManager Scale] Keep user-hotel-hotelres have 1 pods.
+====================15 Finish:2024-01-16 16:30:23.275607====================
+
+====================16 Start:2024-01-16 16:31:53.364606====================
+2024-01-16 16:35:53.940054 [Jaeger Collector] HTTP GET /hotels:
+2024-01-16 16:35:53.966577 [Jaeger] 4000 Average latency is 78380.9325 ns.
+2024-01-16 16:35:53.966650 [Jaeger] 3600 Normal<90\% latency is 46030.65083333333 ns.
+2024-01-16 16:35:53.966666 [Jaeger] 400 Tail>90\% latency is 369533.4675 ns.
+2024-01-16 16:38:16.908095 [Jaeger Collector] HTTP GET /recommendations:
+2024-01-16 16:38:16.918836 [Jaeger] 4000 Average latency is 6376.32925 ns.
+2024-01-16 16:38:16.918883 [Jaeger] 3600 Normal<90\% latency is 3770.597222222222 ns.
+2024-01-16 16:38:16.918891 [Jaeger] 400 Tail>90\% latency is 29827.9175 ns.
+2024-01-16 16:40:33.134944 [Jaeger Collector] HTTP POST /reservation:
+2024-01-16 16:40:33.147828 [Jaeger] 4000 Average latency is 49852.979 ns.
+2024-01-16 16:40:33.147893 [Jaeger] 3600 Normal<90\% latency is 33400.11138888889 ns.
+2024-01-16 16:40:33.147907 [Jaeger] 400 Tail>90\% latency is 197928.7875 ns.
+2024-01-16 16:41:57.789017 [Jaeger Collector] HTTP POST /user:
+2024-01-16 16:41:57.797633 [Jaeger] 4000 Average latency is 2295.20225 ns.
+2024-01-16 16:41:57.797682 [Jaeger] 3600 Normal<90\% latency is 931.4283333333333 ns.
+2024-01-16 16:41:57.797691 [Jaeger] 400 Tail>90\% latency is 14569.1675 ns.
+2024-01-16 16:41:57.825082 [Algorithm Input]
+queues_estimation:
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend             27128.2935                 5507.0665            22121.05275        2278.631
+geo                    106.7145                         /                      /               /
+profile               30.857252                817.645582                      /               /
+rate                  3343.7557                         /                      /               /
+reservation        44525.023327                         /           28080.121581               /
+search              3905.934603                         /                      /               /
+recommendation                /                 54.997745                      /               /
+user                          /                         /              17.020712       16.781013
+ave_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend           29040.578882               3379.709828             218.195043     1295.412013
+geo                29040.578882                         /                      /               /
+profile            29040.578882               3379.709828                      /               /
+rate               29040.578882                         /                      /               /
+reservation        29040.578882                         /             218.195043               /
+search             29040.578882                         /                      /               /
+recommendation                /               3379.709828                      /               /
+user                          /                         /             218.195043     1295.412013
+tail_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend           186524.22643              17287.047694          -16018.799383     9607.885259
+geo                186524.22643                         /                      /               /
+profile            186524.22643              17287.047694                      /               /
+rate               186524.22643                         /                      /               /
+recommendation                /              17287.047694                      /               /
+reservation        186524.22643                         /          -16018.799383               /
+search             186524.22643                         /                      /               /
+user                          /                         /          -16018.799383     9607.885259
+2024-01-16 16:41:57.854281 [Algorithm Output]
+        Deployment  number
+0        frontend       7
+1             geo       0
+2         profile       0
+3            rate       0
+4     reservation       8
+5          search       1
+6  recommendation       0
+7            user       0
+2024-01-16 16:42:00.170217 [K8sManager Scale] Scale frontend-hotel-hotelres to 8 pods.
+2024-01-16 16:42:02.689140 [K8sManager Scale] Keep mongodb-geo-hotel-hotelres have 1 pods.
+2024-01-16 16:42:02.696993 [K8sManager Scale] Keep geo-hotel-hotelres have 1 pods.
+2024-01-16 16:42:02.705603 [K8sManager Scale] Keep memcached-profile-1-hotel-hotelres have 1 pods.
+2024-01-16 16:42:02.713776 [K8sManager Scale] Keep mongodb-profile-hotel-hotelres have 1 pods.
+2024-01-16 16:42:02.722198 [K8sManager Scale] Keep profile-hotel-hotelres have 1 pods.
+2024-01-16 16:42:02.871867 [K8sManager Scale] Scale memcached-rate-1-hotel-hotelres to 1 pods.
+2024-01-16 16:42:05.488389 [K8sManager Scale] Scale mongodb-rate-hotel-hotelres to 1 pods.
+2024-01-16 16:42:08.118252 [K8sManager Scale] Scale rate-hotel-hotelres to 1 pods.
+2024-01-16 16:42:12.176785 [K8sManager Scale] Scale memcached-reserve-1-hotel-hotelres to 9 pods.
+2024-01-16 16:42:16.246727 [K8sManager Scale] Scale mongodb-reservation-hotel-hotelres to 9 pods.
+2024-01-16 16:42:20.597429 [K8sManager Scale] Scale reservation-hotel-hotelres to 9 pods.
+2024-01-16 16:42:23.288229 [K8sManager Scale] Scale search-hotel-hotelres to 2 pods.
+2024-01-16 16:42:25.807352 [K8sManager Scale] Keep mongodb-recommendation-hotel-hotelres have 1 pods.
+2024-01-16 16:42:25.824828 [K8sManager Scale] Keep recommendation-hotel-hotelres have 1 pods.
+2024-01-16 16:42:25.854041 [K8sManager Scale] Keep mongodb-user-hotel-hotelres have 1 pods.
+2024-01-16 16:42:25.868442 [K8sManager Scale] Keep user-hotel-hotelres have 1 pods.
+====================16 Finish:2024-01-16 16:42:25.868623====================
+
+====================17 Start:2024-01-16 16:43:55.956591====================
+2024-01-16 16:49:11.819959 [Jaeger Collector] HTTP GET /hotels:
+2024-01-16 16:49:11.846449 [Jaeger] 4000 Average latency is 140002.0945 ns.
+2024-01-16 16:49:11.846519 [Jaeger] 3600 Normal<90\% latency is 113691.35472222223 ns.
+2024-01-16 16:49:11.846537 [Jaeger] 400 Tail>90\% latency is 376798.7525 ns.
+2024-01-16 16:51:37.613387 [Jaeger Collector] HTTP GET /recommendations:
+2024-01-16 16:51:37.630484 [Jaeger] 4000 Average latency is 4867.14075 ns.
+2024-01-16 16:51:37.630565 [Jaeger] 3600 Normal<90\% latency is 3283.1730555555555 ns.
+2024-01-16 16:51:37.630582 [Jaeger] 400 Tail>90\% latency is 19122.85 ns.
+2024-01-16 16:55:11.817944 [Jaeger Collector] HTTP POST /reservation:
+2024-01-16 16:55:11.831095 [Jaeger] 4000 Average latency is 10785.47925 ns.
+2024-01-16 16:55:11.831163 [Jaeger] 3600 Normal<90\% latency is 6870.0361111111115 ns.
+2024-01-16 16:55:11.831178 [Jaeger] 400 Tail>90\% latency is 46024.4675 ns.
+2024-01-16 16:58:11.895125 [Jaeger Collector] HTTP POST /user:
+2024-01-16 16:58:11.902090 [Jaeger] 4000 Average latency is 1524.1995 ns.
+2024-01-16 16:58:11.902131 [Jaeger] 3600 Normal<90\% latency is 779.6183333333333 ns.
+2024-01-16 16:58:11.902139 [Jaeger] 400 Tail>90\% latency is 8225.43 ns.
+2024-01-16 16:58:11.938102 [Algorithm Input]
+queues_estimation:
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend              13007.566                4072.10475              4661.2195      1509.18775
+geo                   97.767794                         /                      /               /
+profile               51.242356                 749.53168                      /               /
+rate               48197.280213                         /                      /               /
+reservation        10304.822491                         /            6185.679069               /
+search             69220.448785                         /                      /               /
+recommendation                /                 47.396608                      /               /
+user                          /                         /              14.567732       15.197925
+ave_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend           90879.127639               1869.033039          -39138.533699      524.385675
+geo                90879.127639                         /                      /               /
+profile            90879.127639               1869.033039                      /               /
+rate               90879.127639                         /                      /               /
+reservation        90879.127639                         /          -39138.533699               /
+search             90879.127639                         /                      /               /
+recommendation                /               1869.033039                      /               /
+user                          /                         /          -39138.533699      524.385675
+tail_delay_vio_estimation
+                HTTP GET /hotels HTTP GET /recommendations HTTP POST /reservation HTTP POST /user
+frontend          280228.853919               6259.229337         -196162.392854         3263.16
+geo               280228.853919                         /                      /               /
+profile           280228.853919               6259.229337                      /               /
+rate              280228.853919                         /                      /               /
+recommendation                /               6259.229337                      /               /
+reservation       280228.853919                         /         -196162.392854               /
+search            280228.853919                         /                      /               /
+user                          /                         /         -196162.392854         3263.16
+2024-01-16 16:58:11.963409 [Algorithm Output]
+        Deployment  number
+0        frontend       2
+1             geo       0
+2         profile       0
+3            rate       4
+4     reservation       1
+5          search       9
+6  recommendation       0
+7            user       0
+2024-01-16 16:58:12.198253 [K8sManager Scale] Scale frontend-hotel-hotelres to 3 pods.
+2024-01-16 16:58:14.711283 [K8sManager Scale] Keep mongodb-geo-hotel-hotelres have 1 pods.
+2024-01-16 16:58:14.720529 [K8sManager Scale] Keep geo-hotel-hotelres have 1 pods.
+2024-01-16 16:58:14.732694 [K8sManager Scale] Keep memcached-profile-1-hotel-hotelres have 1 pods.
+2024-01-16 16:58:14.744597 [K8sManager Scale] Keep mongodb-profile-hotel-hotelres have 1 pods.
+2024-01-16 16:58:14.755475 [K8sManager Scale] Keep profile-hotel-hotelres have 1 pods.
+2024-01-16 16:58:17.207916 [K8sManager Scale] Scale memcached-rate-1-hotel-hotelres to 5 pods.
+2024-01-16 16:58:22.127956 [K8sManager Scale] Scale mongodb-rate-hotel-hotelres to 5 pods.
+2024-01-16 16:58:26.760996 [K8sManager Scale] Scale rate-hotel-hotelres to 5 pods.
+2024-01-16 16:58:29.498976 [K8sManager Scale] Scale memcached-reserve-1-hotel-hotelres to 2 pods.
+2024-01-16 16:58:32.138526 [K8sManager Scale] Scale mongodb-reservation-hotel-hotelres to 2 pods.
+2024-01-16 16:58:34.786319 [K8sManager Scale] Scale reservation-hotel-hotelres to 2 pods.
+2024-01-16 16:58:40.617076 [K8sManager Scale] Scale search-hotel-hotelres to 10 pods.
+2024-01-16 16:58:43.128362 [K8sManager Scale] Keep mongodb-recommendation-hotel-hotelres have 1 pods.
+2024-01-16 16:58:43.135362 [K8sManager Scale] Keep recommendation-hotel-hotelres have 1 pods.
+2024-01-16 16:58:43.145921 [K8sManager Scale] Keep mongodb-user-hotel-hotelres have 1 pods.
+2024-01-16 16:58:43.151965 [K8sManager Scale] Keep user-hotel-hotelres have 1 pods.
+====================17 Finish:2024-01-16 16:58:43.152066====================

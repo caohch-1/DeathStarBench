@@ -20,7 +20,7 @@ class JaegerCollector:
     # Collect traces from Jaeger
     def collect(self, end_time, duration, limit, service, task_type):
         request_data = {
-            "start": int((end_time - int(duration) * 1000) * 1000000),
+            "start": int((end_time - int(duration)) * 1000000),
             "end": int(end_time * 1000000),
             "operation": task_type,
             "limit": limit,

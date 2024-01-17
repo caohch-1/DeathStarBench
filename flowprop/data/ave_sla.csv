@@ -1,9 +1,9 @@
 ,HTTP GET /hotels,HTTP GET /recommendations,HTTP POST /reservation,HTTP POST /user
-frontend,300000,10000,100000,5000
-geo,300000,/,/,/
-profile,300000,10000,/,/
-rate,300000,/,/,/
-reservation,300000,/,100000,/
-search,300000,/,/,/
-recommendation,/,10000,/,/
-user,/,/,100000,5000
+frontend,50000,3000,50000,1000
+geo,50000,/,/,/
+profile,50000,3000,/,/
+rate,50000,/,/,/
+reservation,50000,/,50000,/
+search,50000,/,/,/
+recommendation,/,3000,/,/
+user,/,/,50000,1000

@@ -4,7 +4,7 @@ import json
 import seaborn as sns
 import numpy as np
 
-LOG_SCALE = None
+LOG_SCALE = 2
 
 def plot_queue(path: str=""):
     queues = list()
@@ -197,7 +197,7 @@ def plot_cost(path: str="", epcho: int=2):
 
     plt.show()
 
-def plot_dis_all(path: str="", epcho: int=2):
+def plot_dis_all(path: str="", path2: str="", epcho: int=2):
     datas = []
     epcho = epcho
     for i in range(epcho):
@@ -208,17 +208,30 @@ def plot_dis_all(path: str="", epcho: int=2):
     for data in datas:
         for task, _ in data.items():
             all_data += data[task]
-    sns.histplot(all_data, bins="auto", kde=False, label=f"Our", stat="probability", cumulative=True, log_scale=LOG_SCALE)
+    
+    datas2 = []
+    epcho2 = epcho
+    for i in range(epcho2):
+        with open(f"./data/result{path2}/epcho{i}-distribution.json", "r") as json_file:
+            datas2.append(json.loads(json_file.read()))
+    
+    all_data2 = []
+    for data in datas2:
+        for task, _ in data.items():
+            all_data2 += data[task]
+
+    sns.histplot(all_data, bins="auto", kde=False, label=f"Our", stat="probability", cumulative=False, log_scale=LOG_SCALE, color="red")
+    sns.histplot(all_data2, bins="auto", kde=False, label=f"Avg", stat="probability", cumulative=False, log_scale=LOG_SCALE, color="green")
     plt.title(f"Distribution for all tasks")
     plt.xlabel("Latency (ns)")
     plt.ylabel("Probability")
     plt.legend(loc="upper right")
     plt.grid(True)
     plt.ticklabel_format(style='plain', axis='y')
-    plt.ticklabel_format(style='plain', axis='x')
+    # plt.ticklabel_format(style='plain', axis='x')
     plt.show() 
 
-def plot_dis_each(path: str="", epcho: int=2):
+def plot_dis_each(path: str="", path2: str="", epcho: int=2):
     datas = []
     epcho = epcho
     for i in range(epcho):
@@ -229,26 +242,47 @@ def plot_dis_each(path: str="", epcho: int=2):
     for task, _ in datas[0].items():
         for data in datas:
             all_data[task] += data[task]
+    
+    datas2 = []
+    epcho2 = epcho
+    for i in range(epcho2):
+        with open(f"./data/result{path2}/epcho{i}-distribution.json", "r") as json_file:
+            datas2.append(json.loads(json_file.read()))
+    
+    all_data2 = {task:[] for task, _ in datas2[0].items()}
+    for task, _ in datas2[0].items():
+        for data in datas2:
+            all_data2[task] += data[task]
 
     for task, _ in datas[0].items():
-        sns.histplot(all_data[task], bins="auto", kde=False, label=f"Our", stat="probability", cumulative=True, log_scale=LOG_SCALE)
+        sns.histplot(all_data[task], bins="auto", kde=False, label=f"Our", stat="probability", cumulative=False, log_scale=LOG_SCALE, color="red")
+        sns.histplot(all_data2[task], bins="auto", kde=False, label=f"Avg", stat="probability", cumulative=False, log_scale=LOG_SCALE, color="green")
         plt.title(f"Distribution for {task}")
         plt.xlabel("Latency (ns)")
         plt.ylabel("Probability")
         plt.legend(loc="upper right")
         plt.grid(True)
         plt.ticklabel_format(style='plain', axis='y')
-        plt.ticklabel_format(style='plain', axis='x')
+        # plt.ticklabel_format(style='plain', axis='x')
         plt.show()
 
-def plot_delay_each(path: str=""):
+
+def plot_delay_each(path: str="", path2: str=""):
     with open(f"./data/result{path}/latency.json", "r") as json_file:
         data = json.loads(json_file.read())
     average_latency, tail_latency = {}, {}
 
+    with open(f"./data/result{path2}/latency.json", "r") as json_file:
+        data2 = json.loads(json_file.read())
+    average_latency2, tail_latency2 = {}, {}
+
     for task, latency_dict in data.items():
         average_latency[task] = latency_dict["average"]
+        average_latency2[task] = data2[task]["average"]
+
         plt.plot(latency_dict["average"], marker='o', linestyle='-', label=f"Our")
+        plt.plot(data2[task]["average"], marker='.', linestyle='--', label=f"Avg")
+
         plt.title(f"{task} Average Latency")
         plt.xlabel("Epchos")
         plt.ylabel("latency (ns)")
@@ -256,9 +290,14 @@ def plot_delay_each(path: str=""):
         plt.grid(True)
         plt.ticklabel_format(style='plain', axis='y')
         plt.show()
+
     for task, latency_dict in data.items():
         tail_latency[task] = latency_dict["tail"]
+        tail_latency2[task] = data2[task]["tail"]
+
         plt.plot(latency_dict["tail"], marker='o', linestyle='-', label=f"Our")
+        plt.plot(data2[task]["tail"], marker='.', linestyle='--', label=f"Avg")
+
         plt.title(f"{task} Tail Latency")
         plt.xlabel("Epchos")
         plt.ylabel("latency (ns)")
@@ -267,21 +306,41 @@ def plot_delay_each(path: str=""):
         plt.ticklabel_format(style='plain', axis='y')
         plt.show()   
 
-def plot_delay_all(path: str=""):
+def plot_delay_all(path: str="", path2: str="", epchos: int=15):
     with open(f"./data/result{path}/latency.json", "r") as json_file:
         data = json.loads(json_file.read())
     average_latency, tail_latency = {}, {}
 
     for task, latency_dict in data.items():
-        average_latency[task] = latency_dict["average"]
-    for task, latency_dict in data.items():
-        tail_latency[task] = latency_dict["tail"]
+        average_latency[task] = latency_dict["average"][:epchos+1]
 
-    average_latency = 0.25*np.array(average_latency["HTTP GET /hotels"]) + \
-                      0.25*np.array(average_latency["HTTP GET /recommendations"]) + \
-                      0.35*np.array(average_latency["HTTP POST /reservation"]) + \
-                      0.15*np.array(average_latency["HTTP POST /user"])
+    for task, latency_dict in data.items():
+        tail_latency[task] = latency_dict["tail"][:epchos+1]
+
+    average_latency = 0.35*np.array(average_latency["HTTP GET /hotels"]) + \
+                      0.15*np.array(average_latency["HTTP GET /recommendations"]) + \
+                      0.3*np.array(average_latency["HTTP POST /reservation"]) + \
+                      0.2*np.array(average_latency["HTTP POST /user"])
+    
+
+    with open(f"./data/result{path2}/latency.json", "r") as json_file:
+        data2 = json.loads(json_file.read())
+    average_latency2, tail_latency2 = {}, {}
+
+    for task, latency_dict in data2.items():
+        average_latency2[task] = latency_dict["average"][:epchos+1]
+
+    for task, latency_dict in data2.items():
+        tail_latency2[task] = latency_dict["tail"][:epchos+1]
+
+    average_latency2 = 0.35*np.array(average_latency2["HTTP GET /hotels"]) + \
+                      0.15*np.array(average_latency2["HTTP GET /recommendations"]) + \
+                      0.3*np.array(average_latency2["HTTP POST /reservation"]) + \
+                      0.2*np.array(average_latency2["HTTP POST /user"])
+    
+
     plt.plot(average_latency, marker='o', linestyle='-', label=f"Our")
+    plt.plot(average_latency2, marker='.', linestyle='--', label=f"Avg")
     plt.title(f"All Average Latency")
     plt.xlabel("Epchos")
     plt.ylabel("latency (ns)")
@@ -290,11 +349,16 @@ def plot_delay_all(path: str=""):
     plt.ticklabel_format(style='plain', axis='y')
     plt.show()   
 
-    tail_latency = 0.25*np.array(tail_latency["HTTP GET /hotels"]) + \
-                      0.25*np.array(tail_latency["HTTP GET /recommendations"]) + \
-                      0.35*np.array(tail_latency["HTTP POST /reservation"]) + \
-                      0.15*np.array(tail_latency["HTTP POST /user"])
+    tail_latency = 0.35*np.array(tail_latency["HTTP GET /hotels"]) + \
+                      0.15*np.array(tail_latency["HTTP GET /recommendations"]) + \
+                      0.3*np.array(tail_latency["HTTP POST /reservation"]) + \
+                      0.2*np.array(tail_latency["HTTP POST /user"])
+    tail_latency2 = 0.35*np.array(tail_latency2["HTTP GET /hotels"]) + \
+                      0.15*np.array(tail_latency2["HTTP GET /recommendations"]) + \
+                      0.3*np.array(tail_latency2["HTTP POST /reservation"]) + \
+                      0.2*np.array(tail_latency2["HTTP POST /user"])
     plt.plot(tail_latency, marker='o', linestyle='-', label=f"Our")
+    plt.plot(tail_latency2, marker='.', linestyle='--', label=f"Avg")
     plt.title(f"All Tail Latency")
     plt.xlabel("Epchos")
     plt.ylabel("latency (ns)")
@@ -323,8 +387,28 @@ def plot_delay_all(path: str=""):
 # plot_neigh_distribution(epcho=0, neighbour=3)
 # plot_neigh_distribution(epcho=0, neighbour=1)
     
-# plot_cost(path="531-rateDynamic-limit500",epcho=20)
-plot_dis_all(path="531-rateDynamic-limit500",epcho=20)
-# plot_dis_each(path="531-rateDynamic-limit500",epcho=20)
-# plot_delay_each(path="531-rateDynamic-limit500")
-# plot_delay_all(path="531-rateDynamic-limit500")
+# plot_cost(path="",epcho=19)
+# plot_dis_all(path="532-rate1500-our",epcho=14)
+# plot_dis_all(path="",epcho=14)
+# plot_dis_each(path="",epcho=20)
+# plot_delay_each(path="")
+
+    
+
+# plot_delay_all(path="_rate500_AVG", epchos=15)
+    
+# plot_dis_all(path="_rate500_OUR",  path2="_rate500_AVG", epcho=15)
+# plot_dis_each(path="_rate500_OUR",  path2="_rate500_AVG", epcho=15)
+# plot_delay_all(path="_rate500_OUR", path2="_rate500_AVG", epchos=15)
+# plot_delay_each(path="_rate500_OUR", path2="_rate500_AVG")
+    
+# plot_dis_all(path="_rate500_OUR",  path2="_rate500_HPA", epcho=15)
+# plot_dis_each(path="_rate500_OUR",  path2="_rate500_HPA", epcho=15)
+# plot_delay_all(path="_rate500_OUR", path2="_rate500_HPA", epchos=15)
+# plot_delay_each(path="_rate500_OUR", path2="_rate500_HPA")
+
+# plot_dis_each(path="_rate500_OUR",epcho=15)
+# plot_dis_each(path="_rate500_AVG",epcho=15)
+
+
+# plot_delay_all(path="", epchos=15)

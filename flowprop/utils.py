@@ -48,11 +48,10 @@ def init_env(manager: K8sManager, cpu: int=500, mem: int=500):
             continue
         else:
             sleep(2)
-            if "mongodb" not in deployment.metadata.name and "memcached" not in deployment.metadata.name:
-                manager.set_limit(deployment.metadata.name, cpu, mem)
-                manager.set_request(deployment.metadata.name, cpu/5, mem/5)
-                manager.scale_deployment(deployment.metadata.name, 1+2)
-                manager.set_restart(deployment.metadata.name)
+            manager.set_limit(deployment.metadata.name, cpu, mem)
+            manager.set_request(deployment.metadata.name, cpu/5, mem/5)
+            manager.scale_deployment(deployment.metadata.name, 1+2)
+            manager.set_restart(deployment.metadata.name)
 
 def save_dict_to_json(data: dict, path):
     with open(path, "w") as json_file:
@@ -89,4 +88,54 @@ def prepare_dynamic_workload():
     with open("./data/pattern.csv", "r") as f:
         pattern = [("2m", int(int(row[1])/2)) for row in csv.reader(f) if row[1] != "job_name"]
     return pattern
+
+def scale_checkpoint(manager: K8sManager):
+    for deployment in manager.deployment_list.items:
+        if deployment.metadata.name == "consul-hotel-hotelres":
+            manager.scale_deployment(deployment.metadata.name, 1)
+        elif deployment.metadata.name == "jaeger-hotel-hotelres":
+            continue
+
+        elif deployment.metadata.name == "frontend-hotel-hotelres":
+            manager.scale_deployment(deployment.metadata.name, 2)
+
+        elif deployment.metadata.name == "geo-hotel-hotelres ":
+            manager.scale_deployment(deployment.metadata.name, 1)
+        elif deployment.metadata.name == "mongodb-geo-hotel-hotelres":
+            manager.scale_deployment(deployment.metadata.name, 1)
+
+        elif deployment.metadata.name == "profile-hotel-hotelres ":
+            manager.scale_deployment(deployment.metadata.name, 1)
+        elif deployment.metadata.name == "memcached-profile-1-hotel-hotelres":
+            manager.scale_deployment(deployment.metadata.name, 1)
+        elif deployment.metadata.name == "mongodb-profile-hotel-hotelres":
+            manager.scale_deployment(deployment.metadata.name, 1)
+        
+        elif deployment.metadata.name == "rate-hotel-hotelres":
+            manager.scale_deployment(deployment.metadata.name, 2)
+        elif deployment.metadata.name == "memcached-rate-1-hotel-hotelres":
+            manager.scale_deployment(deployment.metadata.name, 1)
+        elif deployment.metadata.name == "mongodb-rate-hotel-hotelres":
+            manager.scale_deployment(deployment.metadata.name, 1)
+
+        elif deployment.metadata.name == "reservation-hotel-hotelres":
+            manager.scale_deployment(deployment.metadata.name, 3)
+        elif deployment.metadata.name == "memcached-reserve-1-hotel-hotelres":
+            manager.scale_deployment(deployment.metadata.name, 1)
+        elif deployment.metadata.name == "mongodb-reservation-hotel-hotelres":
+            manager.scale_deployment(deployment.metadata.name, 1)
+
+        elif deployment.metadata.name == "search-hotel-hotelres":
+            manager.scale_deployment(deployment.metadata.name, 2)
+
+        elif deployment.metadata.name == "recommendation-hotel-hotelres":
+            manager.scale_deployment(deployment.metadata.name, 1)
+        elif deployment.metadata.name == "mongodb-recommendation-hotel-hotelres":
+            manager.scale_deployment(deployment.metadata.name, 1)
+
+        elif deployment.metadata.name == "user-hotel-hotelres":
+            manager.scale_deployment(deployment.metadata.name, 1)
+        elif deployment.metadata.name == "mongodb-user-hotel-hotelres":
+            manager.scale_deployment(deployment.metadata.name, 1)
+        
         

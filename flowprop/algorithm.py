@@ -147,15 +147,20 @@ def prop_schedule_sla2(queues_estimation, ave_delay_vio_estimation, tail_delay_v
 """
    HAB algorithm
 """
-def vs_schedule(queues_estimation, service_time, total_capacity, lambda_):
+from k8sManager import K8sManager
+from jaegerCollector import JaegerCollector
+from time import sleep, time
+import datetime
+import pandas as pd
+def vs_schedule(queues_estimation, service_time, total_capacity, lambda_, collector: JaegerCollector, k8sManager: K8sManager):
   """
     :param service_time: a dict that denotes the processing time for load of each node, can be average time  {"Node1":0.0003, "Node2":0.0002,...}
     :param total_capacity: total number of pods we use
     :param lambda_: an integer that represents the expectation of the total request rate 
   """
   R_low = 0
-  R_up = 3
-  threshold = 0.015 
+  R_up = 200000
+  threshold = 50000
   lambda_base = 2
   phi_lambda_base = 0
   phi_left = lambda_base
@@ -170,6 +175,37 @@ def vs_schedule(queues_estimation, service_time, total_capacity, lambda_):
       pod_on_node[node_name] = math.floor(total_capacity * pod_on_node[node_name] / sum(pod_on_node.values()))
       # Here we have a pod num. To learn the parameter, we get a latency of the network now, we denote it by R_lambda_base.
       # At the same time, new requests with total rate lambda_ come into the system, this updates the latency information. 
+    for deployment_name, pod_num in pod_on_node.items():
+            pod_num += 1
+            try:
+                if deployment_name == "reservation":
+                    k8sManager.scale_deployment("memcached-reserve-1-hotel-hotelres", max(1, int(pod_num/3)))
+                else:
+                    k8sManager.scale_deployment("memcached-"+deployment_name+"-1-hotel-hotelres", max(1, int(pod_num/3)))
+            except:
+                pass
+
+            try:
+                k8sManager.scale_deployment("mongodb-"+deployment_name+"-hotel-hotelres", max(1, int(pod_num/3)))
+            except:
+                pass
+
+            k8sManager.scale_deployment(deployment_name+"-hotel-hotelres", pod_num)
+
+    sleep(10)
+    duration = 10 # Look backward
+    limit = 200 # Trace number limit
+    R_lambda_base = 0
+    tasks = ["HTTP GET /hotels", "HTTP GET /recommendations", "HTTP POST /reservation", "HTTP POST /user"]
+    for task in tasks:
+            collector.clear()
+            # Step1. Collect and process data
+            end_time = time()
+            _ = collector.collect(end_time=end_time, duration=duration, limit=limit, service="frontend", task_type=task)
+            avg_lat, _, _ = collector.calculate_average_latency()
+            R_lambda_base += avg_lat
+    print(datetime.datetime.now(), f"[HAB Algorithm Output] {R_lambda_base}\n", pd.DataFrame(list(pod_on_node.items()), columns=['Deployment', 'number']))
+    
     if R_lambda_base > (R_up + R_low) / 2 + threshold:
         phi_left = phi_lambda_base
     elif R_lambda_base < (R_up + R_low) / 2 - threshold:
