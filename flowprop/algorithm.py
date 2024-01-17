@@ -214,6 +214,10 @@ def vs_schedule(queues_estimation, service_time, total_capacity, lambda_, collec
     else:
       for node_name in pod_on_node:
         pod_on_node[node_name] = math.floor(lambda_ * phi_lambda_base * lambda_ * service_time[node_name]/lambda_base)
+      for node_name in pod_on_node:
+        pod_on_node[node_name] = math.floor(pod_on_node[node_name]/sum(pod_on_node.values()))
+        if pod_on_node[node_name] < 1:
+            pod_on_node[node_name] = 1
       return pod_on_node
 
 
