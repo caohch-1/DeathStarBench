@@ -1,9 +1,9 @@
 Deployment,number
-frontend,49500000000
-geo,2475000000
-profile,6187500000
-rate,61875000000
-reservation,247500000000
-search,86625000000
-recommendation,1237500000
-user,309375000
+frontend,1
+geo,0
+profile,0
+rate,2
+reservation,11
+search,15
+recommendation,12
+user,15
