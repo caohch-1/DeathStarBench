@@ -170,11 +170,11 @@ def vs_schedule(queues_estimation, service_time, total_capacity, lambda_, collec
   while phi_left < phi_right:
     phi_lambda_base = (phi_left + phi_right)/2
     for node_name in queues_estimation:
-      pod_on_node[node_name] = phi_lambda_base * lambda_base * service_time[node_name]
+        pod_on_node[node_name] = phi_lambda_base * lambda_base * service_time[node_name]
     for node_name in queues_estimation:
-      pod_on_node[node_name] = math.floor(total_capacity * pod_on_node[node_name] / sum(pod_on_node.values()))
-      # Here we have a pod num. To learn the parameter, we get a latency of the network now, we denote it by R_lambda_base.
-      # At the same time, new requests with total rate lambda_ come into the system, this updates the latency information. 
+        pod_on_node[node_name] = math.floor(total_capacity * pod_on_node[node_name] / sum(pod_on_node.values()))
+        # Here we have a pod num. To learn the parameter, we get a latency of the network now, we denote it by R_lambda_base.
+        # At the same time, new requests with total rate lambda_ come into the system, this updates the latency information. 
     for deployment_name, pod_num in pod_on_node.items():
             pod_num += 1
             try:
@@ -212,13 +212,18 @@ def vs_schedule(queues_estimation, service_time, total_capacity, lambda_, collec
         phi_right = phi_lambda_base
       # Pod_on_node is continuously updated when R_lambda_base > (R_up + R_low) / 2 + threshold or R_lambda_base < (R_up + R_low) / 2 - threshold. Otherwise it's fixed.
     else:
-      for node_name in pod_on_node:
-        pod_on_node[node_name] = math.floor(lambda_ * phi_lambda_base * lambda_ * service_time[node_name]/lambda_base)
-      for node_name in pod_on_node:
-        pod_on_node[node_name] = math.floor(total_capacity * pod_on_node[node_name]/sum(pod_on_node.values()))
-        if pod_on_node[node_name] < 1:
-            pod_on_node[node_name] = 1
-      return pod_on_node
+        for node_name in pod_on_node:
+            if pod_on_node[node_name] < 1:
+                pod_on_node[node_name] = 1
+
+        if sum(pod_on_node.values()) > total_capacity:
+            for node_name in pod_on_node:
+                pod_on_node[node_name] = math.floor(lambda_ * phi_lambda_base * lambda_ * service_time[node_name]/lambda_base)
+            for node_name in pod_on_node:
+                pod_on_node[node_name] = math.floor(total_capacity * pod_on_node[node_name]/sum(pod_on_node.values()))
+            if pod_on_node[node_name] < 1:
+                pod_on_node[node_name] = 1
+        return pod_on_node
 
 
 # 1. stationary pod(cost, bar plot, delay CDF), baseline(hpa, average, autosclaer) 
