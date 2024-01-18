@@ -11,8 +11,8 @@ import asyncio
 
 def main():
     k8sManager = K8sManager("hotel")
-    init_env(k8sManager)
-    exit()
+    # init_env(k8sManager)
+    # exit()
     # scale_checkpoint(k8sManager)
     # exit()
 
@@ -30,7 +30,7 @@ def main():
     total_capacity = 8*3 - 8
     # tasks = ["/wrk2-api/user-timeline/read", "/wrk2-api/post/compose", "/wrk2-api/home-timeline/read"]
     tasks = ["HTTP GET /hotels", "HTTP GET /recommendations", "HTTP POST /reservation", "HTTP POST /user"]
-    collector = JaegerCollector(endpoint="37181")
+    collector = JaegerCollector(endpoint="45079")
     counter = 0
     result = {task:{"average":[], "normal":[], "tail":[]} for task in tasks}
     while(counter < epcho):
@@ -91,6 +91,28 @@ def main():
         }, total_capacity, 500, collector, k8sManager)
         print(datetime.datetime.now(), "[HAB Algorithm Final Output]\n", pd.DataFrame(list(pod_on_node.items()), columns=['Deployment', 'number']))
         pd.DataFrame(list(pod_on_node.items()), columns=['Deployment', 'number']).to_csv(f"./data/result/epcho{counter}-pod.csv", index=False) # Save
+
+
+        # Step5. Adjust
+        if counter == epcho:
+            print("="*20+f"{counter} Finish:"+str(datetime.datetime.now())+"="*20, end="\n\n")
+            break
+        for deployment_name, pod_num in pod_on_node.items():
+            pod_num += 1
+            try:
+                if deployment_name == "reservation":
+                    k8sManager.scale_deployment("memcached-reserve-1-hotel-hotelres", max(1, int(pod_num/3)))
+                else:
+                    k8sManager.scale_deployment("memcached-"+deployment_name+"-1-hotel-hotelres", max(1, int(pod_num/3)))
+            except:
+                pass
+
+            try:
+                k8sManager.scale_deployment("mongodb-"+deployment_name+"-hotel-hotelres", max(1, int(pod_num/3)))
+            except:
+                pass
+
+            k8sManager.scale_deployment(deployment_name+"-hotel-hotelres", pod_num)
 
         print("="*20+f"{counter} Finish:"+str(datetime.datetime.now())+"="*20, end="\n\n")
         counter += 1
