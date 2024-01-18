@@ -11,8 +11,8 @@ import asyncio
 
 def main():
     k8sManager = K8sManager("hotel")
-    # init_env(k8sManager)
-    # exit()
+    init_env(k8sManager)
+    exit()
     # scale_checkpoint(k8sManager)
     # exit()
 
@@ -30,7 +30,7 @@ def main():
     total_capacity = 8*3 - 8
     # tasks = ["/wrk2-api/user-timeline/read", "/wrk2-api/post/compose", "/wrk2-api/home-timeline/read"]
     tasks = ["HTTP GET /hotels", "HTTP GET /recommendations", "HTTP POST /reservation", "HTTP POST /user"]
-    collector = JaegerCollector(endpoint="41683")
+    collector = JaegerCollector(endpoint="37181")
     counter = 0
     result = {task:{"average":[], "normal":[], "tail":[]} for task in tasks}
     while(counter < epcho):
