@@ -172,7 +172,7 @@ def vs_schedule(queues_estimation, service_time, total_capacity, lambda_, collec
     for node_name in queues_estimation:
         pod_on_node[node_name] = phi_lambda_base * lambda_base * service_time[node_name]
     temp_total = sum(pod_on_node.values())
-    if sum(pod_on_node.values()) > total_capacity:
+    if temp_total > total_capacity:
         for node_name in queues_estimation:
             pod_on_node[node_name] = math.floor(total_capacity * pod_on_node[node_name] / temp_total)
             # Here we have a pod num. To learn the parameter, we get a latency of the network now, we denote it by R_lambda_base.
