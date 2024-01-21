@@ -221,10 +221,10 @@ def plot_dis_all(path: str="", path2: str="", path3: str="", path4: str="", epch
         for task, _ in data.items():
             all_data4 += data[task]
 
-    sns.histplot(np.array(all_data)/1000, bins=100, kde=True, label=f"Our", stat="probability", cumulative=True, log_scale=LOG_SCALE, color="red")
-    sns.histplot(np.array(all_data2)/1000, bins=100, kde=True, label=f"Avg", stat="probability", cumulative=True, log_scale=LOG_SCALE, color="green")
-    sns.histplot(np.array(all_data3)/1000, bins=100, kde=True, label=f"HPA", stat="probability", cumulative=True, log_scale=LOG_SCALE, color="blue")
-    sns.histplot(np.array(all_data4)/1000, bins=100, kde=True, label=f"HAB", stat="probability", cumulative=True, log_scale=LOG_SCALE, color="pink")
+    sns.histplot(np.array(all_data)/1000, bins=100, kde=False, label=f"Our", stat="probability", cumulative=True, log_scale=LOG_SCALE, color="red")
+    sns.histplot(np.array(all_data2)/1000, bins=100, kde=False, label=f"Avg", stat="probability", cumulative=True, log_scale=LOG_SCALE, color="green")
+    sns.histplot(np.array(all_data3)/1000, bins=100, kde=False, label=f"HPA", stat="probability", cumulative=True, log_scale=LOG_SCALE, color="blue")
+    sns.histplot(np.array(all_data4)/1000, bins=100, kde=False, label=f"HAB", stat="probability", cumulative=True, log_scale=LOG_SCALE, color="pink")
     
     plt.title(f"Distribution for all tasks")
     plt.xlabel("Latency (ms)")
@@ -661,7 +661,7 @@ def plot_sla_violation_all(path: str="", path2: str="", path3: str="", path4: st
 # plot_dis_each(path="_rate500_OUR", path2="_rate500_AVG", path3="_rate500_HPA", path4="_rate500_HAB", epcho=15)
     
 
-plot_delay_all(path="_rateDyn_OUR", path2="_rateDyn_AVG", path3="_rateDyn_HPA", path4="_rateDyn_HAB", epchos=25)
+# plot_delay_all(path="_rateDyn_OUR", path2="_rateDyn_AVG", path3="_rateDyn_HPA", path4="_rateDyn_HAB", epchos=25)
 # plot_delay_each(path="_rateDyn_OUR", path2="_rateDyn_AVG", path3="_rateDyn_HPA", path4="_rateDyn_HAB",)
 
 # plot_sla_violation_all(path="_rateDyn_OUR", path2="_rateDyn_AVG", path3="_rateDyn_HPA", path4="_rateDyn_HAB", epchos=25)
