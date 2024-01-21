@@ -112,21 +112,21 @@ def scale_checkpoint(manager: K8sManager):
             manager.scale_deployment(deployment.metadata.name, 1)
         
         elif deployment.metadata.name == "rate-hotel-hotelres":
-            manager.scale_deployment(deployment.metadata.name, 2)
+            manager.scale_deployment(deployment.metadata.name, 1)
         elif deployment.metadata.name == "memcached-rate-1-hotel-hotelres":
             manager.scale_deployment(deployment.metadata.name, 1)
         elif deployment.metadata.name == "mongodb-rate-hotel-hotelres":
             manager.scale_deployment(deployment.metadata.name, 1)
 
         elif deployment.metadata.name == "reservation-hotel-hotelres":
-            manager.scale_deployment(deployment.metadata.name, 3)
+            manager.scale_deployment(deployment.metadata.name, 1)
         elif deployment.metadata.name == "memcached-reserve-1-hotel-hotelres":
             manager.scale_deployment(deployment.metadata.name, 1)
         elif deployment.metadata.name == "mongodb-reservation-hotel-hotelres":
             manager.scale_deployment(deployment.metadata.name, 1)
 
         elif deployment.metadata.name == "search-hotel-hotelres":
-            manager.scale_deployment(deployment.metadata.name, 2)
+            manager.scale_deployment(deployment.metadata.name, 1)
 
         elif deployment.metadata.name == "recommendation-hotel-hotelres":
             manager.scale_deployment(deployment.metadata.name, 1)

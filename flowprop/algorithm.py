@@ -159,7 +159,7 @@ def vs_schedule(queues_estimation, service_time, total_capacity, lambda_, collec
     :param lambda_: an integer that represents the expectation of the total request rate 
   """
   R_low = 0
-  R_up = 200000
+  R_up = 300000
   threshold = 50000
   lambda_base = 2
   phi_lambda_base = 0
@@ -167,6 +167,7 @@ def vs_schedule(queues_estimation, service_time, total_capacity, lambda_, collec
   phi_right = lambda_base * 10
   pod_on_node = {}
 
+#   counter = 0
   while phi_left < phi_right:
     phi_lambda_base = (phi_left + phi_right)/2
     for node_name in queues_estimation:
@@ -191,6 +192,10 @@ def vs_schedule(queues_estimation, service_time, total_capacity, lambda_, collec
                 k8sManager.scale_deployment("mongodb-"+deployment_name+"-hotel-hotelres", max(1, int(pod_num/3)))
             except:
                 pass
+            
+            # # Test, comment it
+            # if deployment_name == "reservation" or deployment_name == "search":
+            #     pod_num = min(2, pod_num)
 
             k8sManager.scale_deployment(deployment_name+"-hotel-hotelres", pod_num)
 
@@ -207,7 +212,10 @@ def vs_schedule(queues_estimation, service_time, total_capacity, lambda_, collec
             avg_lat, _, _ = collector.calculate_average_latency()
             R_lambda_base += avg_lat
     print(datetime.datetime.now(), f"[HAB Algorithm Output] {R_lambda_base}\n", pd.DataFrame(list(pod_on_node.items()), columns=['Deployment', 'number']))
-    
+    # counter += 1
+    # if counter == 1:
+    #     return pod_on_node
+
     if R_lambda_base > (R_up + R_low) / 2 + threshold:
         phi_left = phi_lambda_base
     elif R_lambda_base < (R_up + R_low) / 2 - threshold:
@@ -226,8 +234,3 @@ def vs_schedule(queues_estimation, service_time, total_capacity, lambda_, collec
                 pod_on_node[node_name] = math.floor(total_capacity * pod_on_node[node_name]/temp_total)
         return pod_on_node
 
-
-# 1. stationary pod(cost, bar plot, delay CDF), baseline(hpa, average, autosclaer) 
-# average delay, P90 4 methods, SLA Vio with epchos
-# 2. non-stationary
-# sla, delay

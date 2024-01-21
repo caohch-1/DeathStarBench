@@ -24,13 +24,13 @@ def main():
 
 
     # Tracing and Adjusting
-    epcho = 15
+    epcho = 25
     duration = 90*1 # Look backward
     limit = 1500 # Trace number limit
-    total_capacity = 8*3 - 8
+    total_capacity = 8*2 - 8
     # tasks = ["/wrk2-api/user-timeline/read", "/wrk2-api/post/compose", "/wrk2-api/home-timeline/read"]
     tasks = ["HTTP GET /hotels", "HTTP GET /recommendations", "HTTP POST /reservation", "HTTP POST /user"]
-    collector = JaegerCollector(endpoint="45079")
+    collector = JaegerCollector(endpoint="43909")
     counter = 0
     result = {task:{"average":[], "normal":[], "tail":[]} for task in tasks}
     while(counter < epcho):
@@ -111,6 +111,10 @@ def main():
                 k8sManager.scale_deployment("mongodb-"+deployment_name+"-hotel-hotelres", max(1, int(pod_num/3)))
             except:
                 pass
+                
+            # # Test, comment it
+            # if deployment_name == "reservation" or deployment_name == "search":
+            #     pod_num = min(2, pod_num)
 
             k8sManager.scale_deployment(deployment_name+"-hotel-hotelres", pod_num)
 

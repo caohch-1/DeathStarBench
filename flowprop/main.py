@@ -11,8 +11,8 @@ import asyncio
 
 def main():
     k8sManager = K8sManager("hotel")
-    init_env(k8sManager)
-    exit()
+    # init_env(k8sManager)
+    # exit()
     # scale_checkpoint(k8sManager)
     # exit()
 
@@ -24,15 +24,15 @@ def main():
 
 
     # Tracing and Adjusting
-    epcho = 15
+    epcho = 25
     duration = 90*1 # Look backward
     limit = 1500 # Trace number limit
     total_capacity = 8*3 - 8
     weight= [0.5, 0.3, 0.2]
     # tasks = ["/wrk2-api/user-timeline/read", "/wrk2-api/post/compose", "/wrk2-api/home-timeline/read"]
     tasks = ["HTTP GET /hotels", "HTTP GET /recommendations", "HTTP POST /reservation", "HTTP POST /user"]
-    collector = JaegerCollector(endpoint="44299")
-    counter = 13
+    collector = JaegerCollector(endpoint="35155")
+    counter = 0
     result = {task:{"average":[], "normal":[], "tail":[]} for task in tasks}
     while(counter < epcho):
         sleep(duration) # Time window
@@ -84,7 +84,7 @@ def main():
         print(datetime.datetime.now(), "[Algorithm Output]\n", pd.DataFrame(list(pod_on_node.items()), columns=['Deployment', 'number']))
         pd.DataFrame(list(pod_on_node.items()), columns=['Deployment', 'number']).to_csv(f"./data/result/epcho{counter}-pod.csv", index=False) # Save
 
-        # Step5. Adjust
+        # #Step5. Adjust
         # if counter == epcho:
         #     print("="*20+f"{counter} Finish:"+str(datetime.datetime.now())+"="*20, end="\n\n")
         #     break
@@ -104,6 +104,8 @@ def main():
         #         pass
 
         #     k8sManager.scale_deployment(deployment_name+"-hotel-hotelres", pod_num)
+
+        # sleep(10)
 
         print("="*20+f"{counter} Finish:"+str(datetime.datetime.now())+"="*20, end="\n\n")
         counter += 1

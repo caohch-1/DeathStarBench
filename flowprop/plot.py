@@ -224,7 +224,7 @@ def plot_dis_all(path: str="", path2: str="", path3: str="", path4: str="", epch
     sns.histplot(np.array(all_data)/1000, bins=100, kde=True, label=f"Our", stat="probability", cumulative=True, log_scale=LOG_SCALE, color="red")
     sns.histplot(np.array(all_data2)/1000, bins=100, kde=True, label=f"Avg", stat="probability", cumulative=True, log_scale=LOG_SCALE, color="green")
     sns.histplot(np.array(all_data3)/1000, bins=100, kde=True, label=f"HPA", stat="probability", cumulative=True, log_scale=LOG_SCALE, color="blue")
-    sns.histplot(np.array(all_data4)/1000, bins=100, kde=True, label=f"HAB", stat="probability", cumulative=True, log_scale=LOG_SCALE, color="purple")
+    sns.histplot(np.array(all_data4)/1000, bins=100, kde=True, label=f"HAB", stat="probability", cumulative=True, log_scale=LOG_SCALE, color="pink")
     
     plt.title(f"Distribution for all tasks")
     plt.xlabel("Latency (ms)")
@@ -284,7 +284,7 @@ def plot_dis_each(path: str="", path2: str="", path3: str="", path4: str="", epc
         sns.histplot(np.array(all_data[task])/1000, bins=100, kde=True, label=f"Our", stat="probability", cumulative=False, log_scale=LOG_SCALE, color="red")
         sns.histplot(np.array(all_data2[task])/1000, bins=100, kde=True, label=f"Avg", stat="probability", cumulative=False, log_scale=LOG_SCALE, color="green")
         sns.histplot(np.array(all_data3[task])/1000, bins=100, kde=True, label=f"HPA", stat="probability", cumulative=False, log_scale=LOG_SCALE, color="blue")
-        sns.histplot(np.array(all_data4[task])/1000, bins=100, kde=True, label=f"HAB", stat="probability", cumulative=False, log_scale=LOG_SCALE, color="purple")
+        sns.histplot(np.array(all_data4[task])/1000, bins=100, kde=True, label=f"HAB", stat="probability", cumulative=False, log_scale=LOG_SCALE, color="pink")
         plt.title(f"Distribution for {task}")
         plt.xlabel("Latency (ms)")
         plt.ylabel("Probability")
@@ -346,7 +346,7 @@ def plot_delay_all(path: str="", path2: str="", path3: str="", path4: str="", ep
 
     for task, latency_dict in data4.items():
         average_latency4[task] = latency_dict["average"][:epchos+1]
-
+        
     for task, latency_dict in data4.items():
         tail_latency4[task] = latency_dict["tail"][:epchos+1]
 
@@ -421,7 +421,7 @@ def plot_delay_each(path: str="", path2: str="", path3: str="", path4: str=""):
         plt.plot(np.array(latency_dict["average"])/1000, marker='o', linestyle='-', label=f"Our")
         plt.plot(np.array(data2[task]["average"])/1000, marker='.', linestyle='--', label=f"Avg")
         plt.plot(np.array(data3[task]["average"])/1000, marker='*', linestyle='-.', label=f"HPA")
-        plt.plot(np.array(data4[task]["average"])/1000, marker='^', linestyle=':', label=f"Path4")
+        plt.plot(np.array(data4[task]["average"])/1000, marker='^', linestyle=':', label=f"HAB")
 
         plt.title(f"{task} Average Latency")
         plt.xlabel("Epchos")
@@ -440,7 +440,7 @@ def plot_delay_each(path: str="", path2: str="", path3: str="", path4: str=""):
         plt.plot(np.array(latency_dict["tail"])/1000, marker='o', linestyle='-', label=f"Our")
         plt.plot(np.array(data2[task]["tail"])/1000, marker='.', linestyle='--', label=f"Avg")
         plt.plot(np.array(data3[task]["tail"])/1000, marker='*', linestyle='-.', label=f"HPA")
-        plt.plot(np.array(data4[task]["tail"])/1000, marker='^', linestyle=':', label=f"Path4")
+        plt.plot(np.array(data4[task]["tail"])/1000, marker='^', linestyle=':', label=f"HAB")
 
         plt.title(f"{task} Tail Latency")
         plt.xlabel("Epchos")
@@ -449,6 +449,177 @@ def plot_delay_each(path: str="", path2: str="", path3: str="", path4: str=""):
         plt.grid(True)
         plt.ticklabel_format(style='plain', axis='y')
         plt.show()
+
+def plot_sla_violation_each(path: str="", path2: str="", path3: str="", path4: str="", epchos: int=15):
+    sla = {"HTTP GET /hotels":50000, 
+           "HTTP GET /recommendations": 3000,
+           "HTTP POST /reservation": 50000,
+           "HTTP POST /user": 1000}
+    
+    datas = []
+    epcho = epchos
+    for i in range(epcho):
+        with open(f"./data/result{path}/epcho{i}-distribution.json", "r") as json_file:
+            datas.append(json.loads(json_file.read()))
+
+    all_data = {task:[] for task, _ in datas[0].items()}
+    for task, _ in datas[0].items():
+        for data in datas:
+            all_len = len(data[task])
+            sla_len = len([delay for delay in data[task] if delay > sla[task]])
+            
+            all_data[task].append(sla_len/all_len)
+
+    datas2 = []
+    epcho2 = epchos
+    for i in range(epcho2):
+        with open(f"./data/result{path2}/epcho{i}-distribution.json", "r") as json_file:
+            datas2.append(json.loads(json_file.read()))
+
+    all_data2 = {task:[] for task, _ in datas2[0].items()}
+    for task, _ in datas2[0].items():
+        for data in datas2:
+            all_len = len(data[task])
+            sla_len = len([delay for delay in data[task] if delay <= sla[task]])
+            
+            all_data2[task].append(sla_len/all_len)
+
+    datas3 = []
+    epcho3 = epchos
+    for i in range(epcho3):
+        with open(f"./data/result{path3}/epcho{i}-distribution.json", "r") as json_file:
+            datas3.append(json.loads(json_file.read()))
+
+    all_data3 = {task:[] for task, _ in datas3[0].items()}
+    for task, _ in datas3[0].items():
+        for data in datas3:
+            all_len = len(data[task])
+            sla_len = len([delay for delay in data[task] if delay <= sla[task]])
+            
+            all_data3[task].append(sla_len/all_len)
+
+    datas4 = []
+    epcho4 = epchos
+    for i in range(epcho4):
+        with open(f"./data/result{path4}/epcho{i}-distribution.json", "r") as json_file:
+            datas4.append(json.loads(json_file.read()))
+
+    all_data4 = {task:[] for task, _ in datas4[0].items()}
+    for task, _ in datas4[0].items():
+        for data in datas4:
+            all_len = len(data[task])
+            sla_len = len([delay for delay in data[task] if delay <= sla[task]])
+            
+            all_data4[task].append(sla_len/all_len)
+    
+    for task, _ in data.items():
+        plt.plot(np.array(all_data[task]), marker='o', linestyle='-', label=f"Our")
+        plt.plot(np.array(all_data2[task]), marker='.', linestyle='--', label=f"Avg")
+        plt.plot(np.array(all_data3[task]), marker='*', linestyle='-.', label=f"HPA")
+        plt.plot(np.array(all_data4[task]), marker='^', linestyle=':', label=f"HAB")
+
+        plt.title(f"{task} SLA violation")
+        plt.xlabel("Epchos")
+        plt.ylabel("Percentage (%)")
+        plt.legend(loc="upper right")
+        plt.grid(True)
+        plt.ticklabel_format(style='plain', axis='y')
+        plt.show()
+
+def plot_sla_violation_all(path: str="", path2: str="", path3: str="", path4: str="", epchos: int=15):
+    sla = {"HTTP GET /hotels":50000, 
+           "HTTP GET /recommendations": 3000,
+           "HTTP POST /reservation": 50000,
+           "HTTP POST /user": 1000}
+    
+    datas = []
+    epcho = epchos
+    for i in range(epcho):
+        with open(f"./data/result{path}/epcho{i}-distribution.json", "r") as json_file:
+            datas.append(json.loads(json_file.read()))
+
+    all_data = {task:[] for task, _ in datas[0].items()}
+    for task, _ in datas[0].items():
+        for data in datas:
+            all_len = len(data[task])
+            sla_len = len([delay for delay in data[task] if delay > sla[task]])
+            
+            all_data[task].append(sla_len/all_len)
+
+    average_sla = 0.35*np.array(all_data["HTTP GET /hotels"]) + \
+                      0.15*np.array(all_data["HTTP GET /recommendations"]) + \
+                      0.3*np.array(all_data["HTTP POST /reservation"]) + \
+                      0.2*np.array(all_data["HTTP POST /user"])
+
+    datas2 = []
+    epcho2 = epchos
+    for i in range(epcho2):
+        with open(f"./data/result{path2}/epcho{i}-distribution.json", "r") as json_file:
+            datas2.append(json.loads(json_file.read()))
+
+    all_data2 = {task:[] for task, _ in datas2[0].items()}
+    for task, _ in datas2[0].items():
+        for data in datas2:
+            all_len = len(data[task])
+            sla_len = len([delay for delay in data[task] if delay <= sla[task]])
+            
+            all_data2[task].append(sla_len/all_len)
+
+    average_sla2 = 0.35*np.array(all_data2["HTTP GET /hotels"]) + \
+                      0.15*np.array(all_data2["HTTP GET /recommendations"]) + \
+                      0.3*np.array(all_data2["HTTP POST /reservation"]) + \
+                      0.2*np.array(all_data2["HTTP POST /user"])
+
+    datas3 = []
+    epcho3 = epchos
+    for i in range(epcho3):
+        with open(f"./data/result{path3}/epcho{i}-distribution.json", "r") as json_file:
+            datas3.append(json.loads(json_file.read()))
+
+    all_data3 = {task:[] for task, _ in datas3[0].items()}
+    for task, _ in datas3[0].items():
+        for data in datas3:
+            all_len = len(data[task])
+            sla_len = len([delay for delay in data[task] if delay <= sla[task]])
+            
+            all_data3[task].append(sla_len/all_len)
+
+    average_sla3 = 0.35*np.array(all_data3["HTTP GET /hotels"]) + \
+                      0.15*np.array(all_data3["HTTP GET /recommendations"]) + \
+                      0.3*np.array(all_data3["HTTP POST /reservation"]) + \
+                      0.2*np.array(all_data3["HTTP POST /user"])
+
+    datas4 = []
+    epcho4 = epchos
+    for i in range(epcho4):
+        with open(f"./data/result{path4}/epcho{i}-distribution.json", "r") as json_file:
+            datas4.append(json.loads(json_file.read()))
+
+    all_data4 = {task:[] for task, _ in datas4[0].items()}
+    for task, _ in datas4[0].items():
+        for data in datas4:
+            all_len = len(data[task])
+            sla_len = len([delay for delay in data[task] if delay <= sla[task]])
+            
+            all_data4[task].append(sla_len/all_len)
+
+    average_sla4 = 0.35*np.array(all_data4["HTTP GET /hotels"]) + \
+                      0.15*np.array(all_data4["HTTP GET /recommendations"]) + \
+                      0.3*np.array(all_data4["HTTP POST /reservation"]) + \
+                      0.2*np.array(all_data4["HTTP POST /user"])
+
+    plt.plot(average_sla, marker='o', linestyle='-', label=f"Our")
+    plt.plot(average_sla2, marker='.', linestyle='--', label=f"Avg")
+    plt.plot(average_sla3, marker='*', linestyle='-.', label=f"HPA")
+    plt.plot(average_sla4, marker='^', linestyle=':', label=f"HAB")
+    plt.title(f"All SLA violation")
+    plt.xlabel("Epchos")
+    plt.ylabel("Percentage (%)")
+    plt.legend(loc="upper right")
+    plt.grid(True)
+    plt.ticklabel_format(style='plain', axis='y')
+    plt.show()
+
 
 # plot_latency("_old")
 # plot_pod_num("_old")
@@ -473,24 +644,32 @@ def plot_delay_each(path: str="", path2: str="", path3: str="", path4: str=""):
 # plot_dis_each(path="",epcho=20)
 # plot_delay_each(path="")
 
-    
-
-
-    
 # plot_dis_all(path="_rate500_OUR",  path2="_rate500_AVG", epcho=15)
 # plot_dis_each(path="_rate500_OUR",  path2="_rate500_AVG", epcho=15)
 # plot_delay_all(path="_rate500_OUR", path2="_rate500_AVG", epchos=15)
 # plot_delay_each(path="_rate500_OUR", path2="_rate500_AVG")
     
+# plot_delay_all(path="_rate500_OUR", path2="_rate500_AVG", path3="_rate500_HPA", path4="_rate500_HAB", epchos=15)
+# plot_delay_each(path="_rate500_OUR", path2="_rate500_AVG", path3="_rate500_HPA", path4="_rate500_HAB",)
+
+# plot_sla_violation_each(path="_rate500_OUR", path2="_rate500_AVG", path3="_rate500_HPA", path4="_rate500_HAB", epchos=15)
+# plot_sla_violation_all(path="_rate500_OUR", path2="_rate500_AVG", path3="_rate500_HPA", path4="_rate500_HAB", epchos=15)
+
 # LOG_SCALE = None
-# plot_dis_all(path="_rate500_OUR", path2="_rate500_AVG", path3="_rate500_HPA", epcho=15)
-LOG_SCALE = 2
-plot_dis_each(path="_rate500_OUR", path2="_rate500_AVG", path3="_rate500_HPA", epcho=15)
+# plot_dis_all(path="_rate500_OUR", path2="_rate500_AVG", path3="_rate500_HPA", path4="_rate500_HAB", epcho=15)
+# LOG_SCALE = 2
+# plot_dis_each(path="_rate500_OUR", path2="_rate500_AVG", path3="_rate500_HPA", path4="_rate500_HAB", epcho=15)
     
-# plot_delay_all(path="_rate500_OUR", path2="_rate500_AVG", path3="_rate500_HPA", epchos=15)
-# plot_delay_each(path="_rate500_OUR", path2="_rate500_AVG", path3="_rate500_HPA")
+
+plot_delay_all(path="_rateDyn_OUR", path2="_rateDyn_AVG", path3="_rateDyn_HPA", path4="_rateDyn_HAB", epchos=25)
+# plot_delay_each(path="_rateDyn_OUR", path2="_rateDyn_AVG", path3="_rateDyn_HPA", path4="_rateDyn_HAB",)
+
+# plot_sla_violation_all(path="_rateDyn_OUR", path2="_rateDyn_AVG", path3="_rateDyn_HPA", path4="_rateDyn_HAB", epchos=25)
+# plot_sla_violation_each(path="_rateDyn_OUR", path2="_rateDyn_AVG", path3="_rateDyn_HPA", path4="_rateDyn_HAB", epchos=25)
 
 
-
-
-# plot_delay_all(path="", epchos=15)
+# LOG_SCALE = None
+# plot_dis_all(path="_rateDyn_OUR", path2="_rateDyn_AVG", path3="_rateDyn_HPA", path4="_rateDyn_HAB", epcho=25)
+# LOG_SCALE = 2
+# plot_dis_each(path="_rateDyn_OUR", path2="_rateDyn_AVG", path3="_rateDyn_HPA", path4="_rateDyn_HAB", epcho=25)
+    
